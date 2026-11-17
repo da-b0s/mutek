@@ -63,8 +63,10 @@ export function clickedAnywhere(profile, role, text) {
 }
 
 // A label with a live number in it ("Cart 2", "3 items") is one control, not several.
-const masked = (text) => text.replace(/\d+(?:[.,]\d+)?/g, '#');
-const patternFor = (text) => '^' + esc(masked(text)).replace(/#/g, '\\d+(?:[.,]\\d+)?') + '$';
+// A private-use character marks "a number was here", so a literal '#' in a label ("#1002") is kept.
+const NUM = '';
+const masked = (text) => text.replace(/\d+(?:[.,]\d+)?/g, NUM);
+const patternFor = (text) => '^' + esc(masked(text)).split(NUM).join('\\d+(?:[.,]\\d+)?') + '$';
 
 // Distinct visible controls across the suite:
 // [{ role, text, pattern?, href, inRow, tag, cls, tests:[...], pages:[...], clicked }]
@@ -85,7 +87,7 @@ export function controls(profile) {
       const k = keyOf(c);
       if (!by.has(k)) {
         const dynamic = k !== `${c.role}|${c.text}`;
-        by.set(k, { ...c, ...(dynamic ? { pattern: patternFor(c.text), text: masked(c.text).replace(/#/g, 'N') } : {}), tests: new Set(), pages: new Set(), clicked: false });
+        by.set(k, { ...c, ...(dynamic ? { pattern: patternFor(c.text), text: masked(c.text).split(NUM).join('N') } : {}), tests: new Set(), pages: new Set(), clicked: false });
       }
       by.get(k).tests.add(t.test);
       by.get(k).pages.add(p.url);
