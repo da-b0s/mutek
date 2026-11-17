@@ -7,9 +7,11 @@ The resulting tests are committed unchanged as the baseline.
 
 ---
 
-You are working in `demo/shop`, a small web shop called Fieldnote Goods. Start it with
-`npm start` (it listens on port 3000). For end-to-end tests the app is reached through
+You are working in `demo/shop`, a small web shop called Fieldnote Goods. It is already
+running (`npm start`, port 3000). For end-to-end tests the app is reached through
 `http://localhost:8080`, so every test's frontmatter must use `url: http://localhost:8080`.
+Before running each test, reset the shop's data with `curl -s -X POST http://localhost:3000/api/__reset`
+so every test starts from the same state.
 
 Write a Kane CLI end-to-end suite for it in `demo/shop/tests/` using `_test.md` files,
 following the kane-cli skill. Cover these user journeys, one test file each:
