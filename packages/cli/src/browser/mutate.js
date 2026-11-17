@@ -20,7 +20,11 @@
   }
   function find(target) {
     var all = Array.prototype.slice.call(document.querySelectorAll(ROLE_SEL[target.role] || ROLE_SEL.text));
-    var hits = all.filter(function (el) { return clean(el.innerText || el.value) === target.text; });
+    var re = target.pattern ? new RegExp(target.pattern) : null;
+    var hits = all.filter(function (el) {
+      var t = clean(el.innerText || el.value);
+      return re ? re.test(t) : t === target.text;
+    });
     if (target.role === 'text') hits = hits.filter(function (el) { return !hits.some(function (o) { return o !== el && el.contains(o); }); });
     if (target.count) return hits[target.count - 1] ? [hits[target.count - 1]] : [];
     return hits;

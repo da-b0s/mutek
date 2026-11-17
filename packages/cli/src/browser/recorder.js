@@ -25,6 +25,7 @@
       label: clean(el.getAttribute('aria-label')),
       href: el.getAttribute('href') || undefined,
       inRow: !!el.closest('tr, li'),
+      tag: el.tagName.toLowerCase(),
       cls: (el.className && typeof el.className === 'string') ? el.className.slice(0, 60) : undefined
     };
   };

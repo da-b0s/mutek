@@ -1,0 +1,1076 @@
+{
+ "traffic": [
+  {
+   "seq": 2,
+   "test": "manual_cart",
+   "method": "GET",
+   "path": "/",
+   "status": 200,
+   "type": "html",
+   "mutated": false,
+   "document": true
+  },
+  {
+   "seq": 3,
+   "test": "manual_cart",
+   "method": "GET",
+   "path": "/api/products",
+   "status": 200,
+   "type": "json",
+   "mutated": false,
+   "json": {
+    "products": [
+     {
+      "id": "p1",
+      "name": "Canvas Tote Bag",
+      "price": 18,
+      "category": "Bags",
+      "stock": 12,
+      "description": "Heavy cotton tote with an inside pocket.",
+      "inStock": true
+     },
+     {
+      "id": "p2",
+      "name": "Ceramic Pour-Over Set",
+      "price": 34.5,
+      "category": "Kitchen",
+      "stock": 5,
+      "description": "Dripper, carafe and 40 paper filters.",
+      "inStock": true
+     },
+     {
+      "id": "p3",
+      "name": "Wool Beanie",
+      "price": 22,
+      "category": "Apparel",
+      "stock": 20,
+      "description": "Merino wool, one size.",
+      "inStock": true
+     },
+     {
+      "id": "p4",
+      "name": "Desk Plant (Pothos)",
+      "price": 15.75,
+      "category": "Home",
+      "stock": 8,
+      "description": "Easy-care trailing plant in a 12 cm pot.",
+      "inStock": true
+     },
+     {
+      "id": "p5",
+      "name": "Notebook, Dot Grid",
+      "price": 9.5,
+      "category": "Stationery",
+      "stock": 40,
+      "description": "A5, 160 pages, lay-flat binding.",
+      "inStock": true
+     },
+     {
+      "id": "p6",
+      "name": "Insulated Bottle",
+      "price": 27,
+      "category": "Kitchen",
+      "stock": 0,
+      "description": "750 ml, keeps drinks cold for 24 hours.",
+      "inStock": false
+     }
+    ]
+   }
+  },
+  {
+   "seq": 4,
+   "test": "manual_cart",
+   "method": "GET",
+   "path": "/api/cart",
+   "status": 200,
+   "type": "json",
+   "mutated": false,
+   "json": {
+    "items": [],
+    "count": 0,
+    "subtotal": 0,
+    "coupon": null,
+    "discount": 0,
+    "shipping": 0,
+    "freeShippingFrom": 50,
+    "total": 0
+   }
+  },
+  {
+   "seq": 5,
+   "test": "manual_cart",
+   "method": "POST",
+   "path": "/api/cart/items",
+   "status": 200,
+   "type": "json",
+   "mutated": false,
+   "req": {
+    "productId": "p2",
+    "qty": 1
+   },
+   "json": {
+    "items": [
+     {
+      "productId": "p2",
+      "name": "Ceramic Pour-Over Set",
+      "price": 34.5,
+      "qty": 1,
+      "lineTotal": 34.5
+     }
+    ],
+    "count": 1,
+    "subtotal": 34.5,
+    "coupon": null,
+    "discount": 0,
+    "shipping": 4.99,
+    "freeShippingFrom": 50,
+    "total": 39.49
+   }
+  },
+  {
+   "seq": 6,
+   "test": "manual_cart",
+   "method": "GET",
+   "path": "/api/cart",
+   "status": 200,
+   "type": "json",
+   "mutated": false,
+   "json": {
+    "items": [
+     {
+      "productId": "p2",
+      "name": "Ceramic Pour-Over Set",
+      "price": 34.5,
+      "qty": 1,
+      "lineTotal": 34.5
+     }
+    ],
+    "count": 1,
+    "subtotal": 34.5,
+    "coupon": null,
+    "discount": 0,
+    "shipping": 4.99,
+    "freeShippingFrom": 50,
+    "total": 39.49
+   }
+  },
+  {
+   "seq": 7,
+   "test": "manual_cart",
+   "method": "PUT",
+   "path": "/api/cart/items/p2",
+   "status": 200,
+   "type": "json",
+   "mutated": false,
+   "req": {
+    "qty": 2
+   },
+   "json": {
+    "items": [
+     {
+      "productId": "p2",
+      "name": "Ceramic Pour-Over Set",
+      "price": 34.5,
+      "qty": 2,
+      "lineTotal": 69
+     }
+    ],
+    "count": 2,
+    "subtotal": 69,
+    "coupon": null,
+    "discount": 0,
+    "shipping": 0,
+    "freeShippingFrom": 50,
+    "total": 69
+   }
+  },
+  {
+   "seq": 8,
+   "test": "manual_cart",
+   "method": "GET",
+   "path": "/api/cart",
+   "status": 200,
+   "type": "json",
+   "mutated": false,
+   "json": {
+    "items": [
+     {
+      "productId": "p2",
+      "name": "Ceramic Pour-Over Set",
+      "price": 34.5,
+      "qty": 2,
+      "lineTotal": 69
+     }
+    ],
+    "count": 2,
+    "subtotal": 69,
+    "coupon": null,
+    "discount": 0,
+    "shipping": 0,
+    "freeShippingFrom": 50,
+    "total": 69
+   }
+  },
+  {
+   "seq": 9,
+   "test": "manual_cart",
+   "method": "POST",
+   "path": "/api/cart/coupon",
+   "status": 200,
+   "type": "json",
+   "mutated": false,
+   "req": {
+    "code": "SAVE10"
+   },
+   "json": {
+    "items": [
+     {
+      "productId": "p2",
+      "name": "Ceramic Pour-Over Set",
+      "price": 34.5,
+      "qty": 2,
+      "lineTotal": 69
+     }
+    ],
+    "count": 2,
+    "subtotal": 69,
+    "coupon": {
+     "code": "SAVE10",
+     "kind": "percent",
+     "amount": 10,
+     "label": "10% off your order"
+    },
+    "discount": 6.9,
+    "shipping": 0,
+    "freeShippingFrom": 50,
+    "total": 62.1
+   }
+  },
+  {
+   "seq": 10,
+   "test": "manual_cart",
+   "method": "GET",
+   "path": "/api/cart",
+   "status": 200,
+   "type": "json",
+   "mutated": false,
+   "json": {
+    "items": [
+     {
+      "productId": "p2",
+      "name": "Ceramic Pour-Over Set",
+      "price": 34.5,
+      "qty": 2,
+      "lineTotal": 69
+     }
+    ],
+    "count": 2,
+    "subtotal": 69,
+    "coupon": {
+     "code": "SAVE10",
+     "kind": "percent",
+     "amount": 10,
+     "label": "10% off your order"
+    },
+    "discount": 6.9,
+    "shipping": 0,
+    "freeShippingFrom": 50,
+    "total": 62.1
+   }
+  }
+ ],
+ "dom": [
+  {
+   "test": "manual_cart",
+   "kind": "page",
+   "url": "/",
+   "controls": [
+    {
+     "role": "link",
+     "text": "Fieldnote Goods",
+     "label": "",
+     "href": "#/",
+     "inRow": false,
+     "cls": "brand",
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Shop",
+     "label": "",
+     "href": "#/",
+     "inRow": false,
+     "cls": "active",
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "My orders",
+     "label": "",
+     "href": "#/orders",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Cart 0",
+     "label": "",
+     "href": "#/cart",
+     "inRow": false,
+     "cls": "cart-link",
+     "count": 1
+    },
+    {
+     "role": "text",
+     "text": "0",
+     "label": "items in cart",
+     "inRow": false,
+     "cls": "badge",
+     "count": 1
+    },
+    {
+     "role": "heading",
+     "text": "Shop",
+     "label": "",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "heading",
+     "text": "Canvas Tote Bag",
+     "label": "",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Canvas Tote Bag",
+     "label": "",
+     "href": "#/product/p1",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Add to cart",
+     "label": "",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "heading",
+     "text": "Ceramic Pour-Over Set",
+     "label": "",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Ceramic Pour-Over Set",
+     "label": "",
+     "href": "#/product/p2",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Add to cart",
+     "label": "",
+     "inRow": true,
+     "count": 2
+    },
+    {
+     "role": "heading",
+     "text": "Wool Beanie",
+     "label": "",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Wool Beanie",
+     "label": "",
+     "href": "#/product/p3",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Add to cart",
+     "label": "",
+     "inRow": true,
+     "count": 3
+    },
+    {
+     "role": "heading",
+     "text": "Desk Plant (Pothos)",
+     "label": "",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Desk Plant (Pothos)",
+     "label": "",
+     "href": "#/product/p4",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Add to cart",
+     "label": "",
+     "inRow": true,
+     "count": 4
+    },
+    {
+     "role": "heading",
+     "text": "Notebook, Dot Grid",
+     "label": "",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Notebook, Dot Grid",
+     "label": "",
+     "href": "#/product/p5",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Add to cart",
+     "label": "",
+     "inRow": true,
+     "count": 5
+    },
+    {
+     "role": "heading",
+     "text": "Insulated Bottle",
+     "label": "",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Insulated Bottle",
+     "label": "",
+     "href": "#/product/p6",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Add to cart",
+     "label": "",
+     "inRow": true,
+     "count": 6
+    }
+   ],
+   "text": "Fieldnote Goods\nShop\nMy orders\nCart 0\nShop\n\nFree shipping on orders of $50 or more.\n\nBAGS\nCanvas Tote Bag\n\n$18.00\n\nIn stock\n\nAdd to cart\nKITCHEN\nCeramic Pour-Over Set\n\n$34.50\n\nIn stock\n\nAdd to cart\nAPPAREL\nWool Beanie\n\n$22.00\n\nIn stock\n\nAdd to cart\nHOME\nDesk Plant (Pothos)\n\n$15.75\n\nIn stock\n\nAdd to cart\nSTATIONERY\nNotebook, Dot Grid\n\n$9.50\n\nIn stock\n\nAdd to cart\nKITCHEN\nInsulated Bottle\n\n$27.00\n\nOut of stock\n\nAdd to cart"
+  },
+  {
+   "test": "manual_cart",
+   "kind": "click",
+   "url": "/",
+   "control": {
+    "role": "button",
+    "text": "Add to cart",
+    "label": "",
+    "inRow": true
+   }
+  },
+  {
+   "test": "manual_cart",
+   "kind": "page",
+   "url": "/",
+   "controls": [
+    {
+     "role": "link",
+     "text": "Fieldnote Goods",
+     "label": "",
+     "href": "#/",
+     "inRow": false,
+     "cls": "brand",
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Shop",
+     "label": "",
+     "href": "#/",
+     "inRow": false,
+     "cls": "active",
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "My orders",
+     "label": "",
+     "href": "#/orders",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Cart 1",
+     "label": "",
+     "href": "#/cart",
+     "inRow": false,
+     "cls": "cart-link",
+     "count": 1
+    },
+    {
+     "role": "text",
+     "text": "1",
+     "label": "items in cart",
+     "inRow": false,
+     "cls": "badge",
+     "count": 1
+    },
+    {
+     "role": "heading",
+     "text": "Shop",
+     "label": "",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "heading",
+     "text": "Canvas Tote Bag",
+     "label": "",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Canvas Tote Bag",
+     "label": "",
+     "href": "#/product/p1",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Add to cart",
+     "label": "",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "heading",
+     "text": "Ceramic Pour-Over Set",
+     "label": "",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Ceramic Pour-Over Set",
+     "label": "",
+     "href": "#/product/p2",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Add to cart",
+     "label": "",
+     "inRow": true,
+     "count": 2
+    },
+    {
+     "role": "heading",
+     "text": "Wool Beanie",
+     "label": "",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Wool Beanie",
+     "label": "",
+     "href": "#/product/p3",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Add to cart",
+     "label": "",
+     "inRow": true,
+     "count": 3
+    },
+    {
+     "role": "heading",
+     "text": "Desk Plant (Pothos)",
+     "label": "",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Desk Plant (Pothos)",
+     "label": "",
+     "href": "#/product/p4",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Add to cart",
+     "label": "",
+     "inRow": true,
+     "count": 4
+    },
+    {
+     "role": "heading",
+     "text": "Notebook, Dot Grid",
+     "label": "",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Notebook, Dot Grid",
+     "label": "",
+     "href": "#/product/p5",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Add to cart",
+     "label": "",
+     "inRow": true,
+     "count": 5
+    },
+    {
+     "role": "heading",
+     "text": "Insulated Bottle",
+     "label": "",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Insulated Bottle",
+     "label": "",
+     "href": "#/product/p6",
+     "inRow": true,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Add to cart",
+     "label": "",
+     "inRow": true,
+     "count": 6
+    },
+    {
+     "role": "text",
+     "text": "Added Ceramic Pour-Over Set to your cart",
+     "label": "",
+     "inRow": false,
+     "cls": "show ok",
+     "count": 1
+    }
+   ],
+   "text": "Fieldnote Goods\nShop\nMy orders\nCart 1\nShop\n\nFree shipping on orders of $50 or more.\n\nBAGS\nCanvas Tote Bag\n\n$18.00\n\nIn stock\n\nAdd to cart\nKITCHEN\nCeramic Pour-Over Set\n\n$34.50\n\nIn stock\n\nAdd to cart\nAPPAREL\nWool Beanie\n\n$22.00\n\nIn stock\n\nAdd to cart\nHOME\nDesk Plant (Pothos)\n\n$15.75\n\nIn stock\n\nAdd to cart\nSTATIONERY\nNotebook, Dot Grid\n\n$9.50\n\nIn stock\n\nAdd to cart\nKITCHEN\nInsulated Bottle\n\n$27.00\n\nOut of stock\n\nAdd to cart\nAdded Ceramic Pour-Over Set to your cart"
+  },
+  {
+   "test": "manual_cart",
+   "kind": "page",
+   "url": "/#/cart",
+   "controls": [
+    {
+     "role": "link",
+     "text": "Fieldnote Goods",
+     "label": "",
+     "href": "#/",
+     "inRow": false,
+     "cls": "brand",
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Shop",
+     "label": "",
+     "href": "#/",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "My orders",
+     "label": "",
+     "href": "#/orders",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Cart 1",
+     "label": "",
+     "href": "#/cart",
+     "inRow": false,
+     "cls": "cart-link active",
+     "count": 1
+    },
+    {
+     "role": "text",
+     "text": "1",
+     "label": "items in cart",
+     "inRow": false,
+     "cls": "badge",
+     "count": 1
+    },
+    {
+     "role": "heading",
+     "text": "Your cart",
+     "label": "",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "−",
+     "label": "Decrease quantity of Ceramic Pour-Over Set",
+     "inRow": true,
+     "cls": "icon",
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "+",
+     "label": "Increase quantity of Ceramic Pour-Over Set",
+     "inRow": true,
+     "cls": "icon",
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Remove",
+     "label": "",
+     "inRow": true,
+     "cls": "link",
+     "count": 1
+    },
+    {
+     "role": "heading",
+     "text": "Coupon",
+     "label": "",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Apply coupon",
+     "label": "",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Go to checkout",
+     "label": "",
+     "href": "#/checkout",
+     "inRow": false,
+     "cls": "button",
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Continue shopping",
+     "label": "",
+     "href": "#/",
+     "inRow": false,
+     "cls": "back",
+     "count": 1
+    },
+    {
+     "role": "text",
+     "text": "Added Ceramic Pour-Over Set to your cart",
+     "label": "",
+     "inRow": false,
+     "cls": "show ok",
+     "count": 1
+    }
+   ],
+   "text": "Fieldnote Goods\nShop\nMy orders\nCart 1\nYour cart\nItem\tPrice\tQuantity\tTotal\t\nActions\n\nCeramic Pour-Over Set\t$34.50\t\n−\n1\n+\n$34.50\tRemove\nCoupon\nCoupon code\nApply coupon\nSubtotal\n$34.50\nShipping\n$4.99\nTotal\n$39.49\n\nAdd $15.50 more for free shipping.\n\nGo to checkout Continue shopping\nAdded Ceramic Pour-Over Set to your cart"
+  },
+  {
+   "test": "manual_cart",
+   "kind": "click",
+   "url": "/#/cart",
+   "control": {
+    "role": "button",
+    "text": "+",
+    "label": "Increase quantity of Ceramic Pour-Over Set",
+    "inRow": true,
+    "cls": "icon"
+   }
+  },
+  {
+   "test": "manual_cart",
+   "kind": "page",
+   "url": "/#/cart",
+   "controls": [
+    {
+     "role": "link",
+     "text": "Fieldnote Goods",
+     "label": "",
+     "href": "#/",
+     "inRow": false,
+     "cls": "brand",
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Shop",
+     "label": "",
+     "href": "#/",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "My orders",
+     "label": "",
+     "href": "#/orders",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Cart 2",
+     "label": "",
+     "href": "#/cart",
+     "inRow": false,
+     "cls": "cart-link active",
+     "count": 1
+    },
+    {
+     "role": "text",
+     "text": "2",
+     "label": "items in cart",
+     "inRow": false,
+     "cls": "badge",
+     "count": 1
+    },
+    {
+     "role": "heading",
+     "text": "Your cart",
+     "label": "",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "−",
+     "label": "Decrease quantity of Ceramic Pour-Over Set",
+     "inRow": true,
+     "cls": "icon",
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "+",
+     "label": "Increase quantity of Ceramic Pour-Over Set",
+     "inRow": true,
+     "cls": "icon",
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Remove",
+     "label": "",
+     "inRow": true,
+     "cls": "link",
+     "count": 1
+    },
+    {
+     "role": "heading",
+     "text": "Coupon",
+     "label": "",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Apply coupon",
+     "label": "",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Go to checkout",
+     "label": "",
+     "href": "#/checkout",
+     "inRow": false,
+     "cls": "button",
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Continue shopping",
+     "label": "",
+     "href": "#/",
+     "inRow": false,
+     "cls": "back",
+     "count": 1
+    },
+    {
+     "role": "text",
+     "text": "Added Ceramic Pour-Over Set to your cart",
+     "label": "",
+     "inRow": false,
+     "count": 1
+    }
+   ],
+   "text": "Fieldnote Goods\nShop\nMy orders\nCart 2\nYour cart\nItem\tPrice\tQuantity\tTotal\t\nActions\n\nCeramic Pour-Over Set\t$34.50\t\n−\n2\n+\n$69.00\tRemove\nCoupon\nCoupon code\nApply coupon\nSubtotal\n$69.00\nShipping\nFree\nTotal\n$69.00\nGo to checkout Continue shopping\nAdded Ceramic Pour-Over Set to your cart"
+  },
+  {
+   "test": "manual_cart",
+   "kind": "click",
+   "url": "/#/cart",
+   "control": {
+    "role": "button",
+    "text": "Apply coupon",
+    "label": "",
+    "inRow": false
+   }
+  },
+  {
+   "test": "manual_cart",
+   "kind": "page",
+   "url": "/#/cart",
+   "controls": [
+    {
+     "role": "link",
+     "text": "Fieldnote Goods",
+     "label": "",
+     "href": "#/",
+     "inRow": false,
+     "cls": "brand",
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Shop",
+     "label": "",
+     "href": "#/",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "My orders",
+     "label": "",
+     "href": "#/orders",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Cart 2",
+     "label": "",
+     "href": "#/cart",
+     "inRow": false,
+     "cls": "cart-link active",
+     "count": 1
+    },
+    {
+     "role": "text",
+     "text": "2",
+     "label": "items in cart",
+     "inRow": false,
+     "cls": "badge",
+     "count": 1
+    },
+    {
+     "role": "heading",
+     "text": "Your cart",
+     "label": "",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "−",
+     "label": "Decrease quantity of Ceramic Pour-Over Set",
+     "inRow": true,
+     "cls": "icon",
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "+",
+     "label": "Increase quantity of Ceramic Pour-Over Set",
+     "inRow": true,
+     "cls": "icon",
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Remove",
+     "label": "",
+     "inRow": true,
+     "cls": "link",
+     "count": 1
+    },
+    {
+     "role": "heading",
+     "text": "Coupon",
+     "label": "",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "text",
+     "text": "SAVE10",
+     "label": "",
+     "inRow": false,
+     "count": 1
+    },
+    {
+     "role": "button",
+     "text": "Remove coupon",
+     "label": "",
+     "inRow": false,
+     "cls": "link",
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Go to checkout",
+     "label": "",
+     "href": "#/checkout",
+     "inRow": false,
+     "cls": "button",
+     "count": 1
+    },
+    {
+     "role": "link",
+     "text": "Continue shopping",
+     "label": "",
+     "href": "#/",
+     "inRow": false,
+     "cls": "back",
+     "count": 1
+    },
+    {
+     "role": "text",
+     "text": "Coupon SAVE10 applied",
+     "label": "",
+     "inRow": false,
+     "cls": "show ok",
+     "count": 1
+    }
+   ],
+   "text": "Fieldnote Goods\nShop\nMy orders\nCart 2\nYour cart\nItem\tPrice\tQuantity\tTotal\t\nActions\n\nCeramic Pour-Over Set\t$34.50\t\n−\n2\n+\n$69.00\tRemove\nCoupon\n\nApplied: SAVE10 (10% off your order) Remove coupon\n\nSubtotal\n$69.00\nDiscount\n−$6.90\nShipping\nFree\nTotal\n$62.10\nGo to checkout Continue shopping\nCoupon SAVE10 applied"
+  }
+ ]
+}
