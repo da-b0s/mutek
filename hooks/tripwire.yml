@@ -1,0 +1,45 @@
+# GitHub Action: score the Kane suite on every pull request that touches tests or the app.
+# Copy to .github/workflows/tripwire.yml. Needs repository secrets LT_USERNAME and LT_ACCESS_KEY
+# (TestMu AI basic auth) and a script that starts your app (APP_START below).
+name: tripwire
+
+on:
+  pull_request:
+    paths: ['**/*_test.md', 'src/**', 'app/**', 'tripwire.config.json']
+
+jobs:
+  tripwire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      APP_START: npm start           # how to start the app under test
+      APP_PORT: 3000
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - uses: browser-actions/setup-chrome@v1
+      - run: npm ci
+      - run: npm install -g @testmuai/kane-cli tripwire-e2e
+      - name: Log in to Kane
+        run: kane-cli login --username "${{ secrets.LT_USERNAME }}" --access-key "${{ secrets.LT_ACCESS_KEY }}"
+      - name: Start the app
+        run: |
+          $APP_START &
+          npx --yes wait-on http://localhost:$APP_PORT
+      - name: Restore the previous ledger (incremental mode trusts earlier kills)
+        uses: actions/cache@v4
+        with:
+          path: .tripwire
+          key: tripwire-${{ github.base_ref }}-${{ github.sha }}
+          restore-keys: tripwire-${{ github.base_ref }}-
+      - name: Run Tripwire on what changed
+        run: tripwire run --since origin/${{ github.base_ref }}
+      - name: Gate on the score
+        run: tripwire check
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tripwire-report
+          path: .tripwire/report/
