@@ -222,7 +222,7 @@ export async function runMutant(m, { tw, cfg, base, runDir, healAllowed }) {
     const fired = hits > 0;
     row.fired = row.fired || fired;
     const v = r.code === 0 || r.code === 1 ? await verdict(r.pack, path.join(POLICY_DIR, 'tripwire.mutant.policy.yaml')) : { verdict: 'unknown' };
-    row.runs.push({ test: t, code: r.code, fired, hits, durationMs: r.durationMs, pack: r.pack, session: r.sessionId, policy: v.verdict, failure: r.failureReason, credits: r.credits || undefined });
+    row.runs.push({ test: t, code: r.code, fired, hits, durationMs: r.durationMs, pack: r.pack, session: r.sessionId, policy: v.verdict, failure: r.failureReason, failedStep: r.failedStep, kaneTriage: r.bugVerdict, credits: r.credits || undefined });
     if (r.code === 2 || r.code === 3) { infra++; continue; }
     if (r.code === 1 && fired) {
       row.status = 'killed';

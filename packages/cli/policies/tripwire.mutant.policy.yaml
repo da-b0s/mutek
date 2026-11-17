@@ -1,10 +1,13 @@
 # Judged against the evidence pack of a run made while one mutant was armed.
 # Inverted on purpose: a pack where every test passed means the suite walked past a real bug,
 # so Kane's own policy engine returns a failing verdict for it.
+#
+# "Noticed" counts failed AND broken tests. When a replay assertion fails, Kane triages it; if the
+# triage calls it an automation bug (e.g. "locator rot" because the page text changed), the pack
+# records the test as broken, not failed. For a mutant run that still means the suite noticed.
 policy: tripwire-mutant-must-be-caught
 gates:
   - id: someone-noticed
-    metric: totals.failed
-    min: 1
+    expr: "totals.failed + totals.broken >= 1"
     severity: blocking
     message: Every test passed while the app was broken.

@@ -6,6 +6,11 @@ gates:
     equals: 0
     severity: blocking
     message: The baseline must be green before mutants mean anything.
+  - id: no-broken
+    metric: totals.broken
+    equals: 0
+    severity: blocking
+    message: A broken test (its check could not be evaluated) cannot be trusted as a baseline.
   - id: every-test-checks
     metric: metrics.tests_without_checks
     equals: 0

@@ -65,8 +65,14 @@ export function summarizeEvents(events) {
   const text = JSON.stringify(events);
   const heal = events.filter((e) => /heal/i.test(e.type || e.event || '') || e.healed === true || e.heal);
   const credits = runEnds.reduce((s, e) => s + (Number(e.credits ?? e.credits_used ?? e.usage?.credits) || 0), 0);
-  const failure = runEnds.map((e) => e.failure_reason || e.reason || e.error).filter(Boolean)[0];
+  const failedEnds = runEnds.filter((e) => e.status === 'failed' || e.status === 'error');
+  const failure = failedEnds.map((e) => e.failure_reason || e.reason || e.error).filter(Boolean)[0];
+  // Kane triages every failed replay; keep its verdict (product bug vs automation bug)
+  const bug = events.filter((e) => e.type === 'test_md_bug_verdict').map((e) => ({ confirmed: e.confirmed, family: e.family, category: e.category, title: e.bug_title, oneLiner: e.one_liner, confidence: e.confidence }))[0];
+  const failedStep = events.filter((e) => e.type === 'test_md_step_end' && e.status === 'failed').map((e) => e.step_index)[0];
   return {
+    bugVerdict: bug,
+    failedStep,
     status: done?.overall_status ?? done?.status,
     sessionId: done?.session_id ?? runEnds.find((e) => e.session_id)?.session_id,
     shareUrl: done?.share_url,
