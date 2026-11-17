@@ -1,0 +1,18 @@
+# Judged against the clean (unmutated) baseline: the normal gate a healthy suite should clear.
+policy: tripwire-clean-suite
+gates:
+  - id: no-failed
+    metric: totals.failed
+    equals: 0
+    severity: blocking
+    message: The baseline must be green before mutants mean anything.
+  - id: every-test-checks
+    metric: metrics.tests_without_checks
+    equals: 0
+    severity: blocking
+    message: A test with no assertion cannot kill any mutant.
+  - id: no-healed
+    metric: metrics.heal.healed_tests
+    max: 0
+    severity: warning
+    message: A healed baseline test means the recording no longer matches the app.

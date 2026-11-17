@@ -1,0 +1,10 @@
+# Judged against the evidence pack of a run made while one mutant was armed.
+# Inverted on purpose: a pack where every test passed means the suite walked past a real bug,
+# so Kane's own policy engine returns a failing verdict for it.
+policy: tripwire-mutant-must-be-caught
+gates:
+  - id: someone-noticed
+    metric: totals.failed
+    min: 1
+    severity: blocking
+    message: Every test passed while the app was broken.

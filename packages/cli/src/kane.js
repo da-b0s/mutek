@@ -1,0 +1,129 @@
+// Thin wrapper around the kane-cli binary: run one test.md, collect NDJSON, find its evidence pack.
+import { spawn } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const isWin = process.platform === 'win32';
+const quote = (a) => (/^[\w./:=@-]+$/.test(a) ? a : `"${String(a).replace(/"/g, '\\"')}"`);
+
+export function kaneBin() {
+  return process.env.TRIPWIRE_KANE || 'kane-cli';
+}
+
+// Run kane-cli with stdin closed (non-TTY => NDJSON, no prompts). Our own kill timer guards against
+// runs that ignore --timeout (kane-cli issue #207).
+export function runKane(args, { cwd = process.cwd(), killAfterMs = 240000, logFile } = {}) {
+  return new Promise((resolve) => {
+    const started = Date.now();
+    const bin = kaneBin();
+    // TRIPWIRE_KANE may be a whole command ("node fake-kane.mjs"); then it is used as written.
+    const useShell = isWin || /\s/.test(bin);
+    const cmd = [/\s/.test(bin) ? bin : quote(bin), ...args.map(quote)].join(' ');
+    const child = useShell
+      ? spawn(cmd, { cwd, shell: true, stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true })
+      : spawn(bin, args, { cwd, stdio: ['ignore', 'pipe', 'pipe'] });
+    const events = [];
+    let out = '';
+    let err = '';
+    let buf = '';
+    const log = logFile ? fs.createWriteStream(logFile) : null;
+    child.stdout.on('data', (c) => {
+      const s = c.toString();
+      out += s;
+      log?.write(s);
+      buf += s;
+      let i;
+      while ((i = buf.indexOf('\n')) >= 0) {
+        const line = buf.slice(0, i).trim();
+        buf = buf.slice(i + 1);
+        if (line.startsWith('{')) { try { events.push(JSON.parse(line)); } catch { /* not json */ } }
+      }
+    });
+    child.stderr.on('data', (c) => { err += c.toString(); log?.write(c); });
+    let timedOut = false;
+    const timer = setTimeout(() => {
+      timedOut = true;
+      if (isWin) spawn('taskkill', ['/pid', String(child.pid), '/T', '/F'], { stdio: 'ignore' });
+      else child.kill('SIGKILL');
+    }, killAfterMs);
+    child.on('close', (code) => {
+      clearTimeout(timer);
+      log?.end();
+      resolve({ code: timedOut ? 3 : code ?? 2, timedOut, events, stdout: out, stderr: err, durationMs: Date.now() - started });
+    });
+    child.on('error', (e) => {
+      clearTimeout(timer);
+      resolve({ code: 2, events, stdout: out, stderr: String(e), durationMs: Date.now() - started, spawnError: true });
+    });
+  });
+}
+
+// Pull the useful bits out of a testmd run's NDJSON stream.
+export function summarizeEvents(events) {
+  const done = [...events].reverse().find((e) => e.type === 'test_md_done' || e.event === 'test_md_done');
+  const runEnds = events.filter((e) => e.type === 'run_end' || e.event === 'run_end');
+  const text = JSON.stringify(events);
+  const heal = events.filter((e) => /heal/i.test(e.type || e.event || '') || e.healed === true || e.heal);
+  const credits = runEnds.reduce((s, e) => s + (Number(e.credits ?? e.credits_used ?? e.usage?.credits) || 0), 0);
+  const failure = runEnds.map((e) => e.failure_reason || e.reason || e.error).filter(Boolean)[0];
+  return {
+    status: done?.overall_status ?? done?.status,
+    sessionId: done?.session_id ?? runEnds.find((e) => e.session_id)?.session_id,
+    shareUrl: done?.share_url,
+    credits,
+    healEvents: heal.length,
+    mentionsHeal: /"(healed|heal_applied|reauthor|re-author)/i.test(text),
+    failureReason: failure
+  };
+}
+
+export function newestPack(cwd, sinceMs) {
+  const dir = path.join(cwd, '.testmuai', 'evidence');
+  if (!fs.existsSync(dir)) return null;
+  const packs = fs.readdirSync(dir)
+    .filter((f) => f.endsWith('.evidence'))
+    .map((f) => ({ f: path.join(dir, f), t: fs.statSync(path.join(dir, f)).mtimeMs }))
+    .filter((p) => p.t >= sinceMs - 2000)
+    .sort((a, b) => b.t - a.t);
+  return packs[0]?.f ?? null;
+}
+
+// One test against whatever the proxy currently serves.
+export async function runTest(file, { heal = false, timeout = 180, cwd, logFile, extra = [] } = {}) {
+  const args = ['testmd', 'run', file, '--agent', '--headless', '--timeout', String(timeout)];
+  if (!heal) args.push('--no-adaptive-heal');
+  args.push(...extra);
+  const started = Date.now();
+  const r = await runKane(args, { cwd, killAfterMs: (timeout + 60) * 1000, logFile });
+  return { ...r, ...summarizeEvents(r.events), pack: newestPack(cwd || process.cwd(), started) };
+}
+
+// Judge a sealed pack against a policy file; returns { verdict: pass|fail|errored|unknown, file, raw }.
+export async function verdict(pack, policyFile, { cwd } = {}) {
+  if (!pack) return { verdict: 'unknown', reason: 'no evidence pack found' };
+  const r = await runKane(['evidence', 'verdict', pack, '--policy', policyFile], { cwd, killAfterMs: 60000 });
+  const v = r.code === 0 ? 'pass' : r.code === 1 ? 'fail' : r.code === 3 ? 'errored' : 'unknown';
+  const m = (r.stdout + r.stderr).match(/[^\s]+\.verdict\.json/);
+  let raw = null;
+  if (m && fs.existsSync(m[0])) { try { raw = JSON.parse(fs.readFileSync(m[0], 'utf8')); } catch { /* ignore */ } }
+  return { verdict: v, file: m?.[0], raw, output: (r.stdout + r.stderr).trim().split('\n').slice(-3).join('\n') };
+}
+
+// Read a numeric metric out of a verdict file, whatever its exact shape.
+export function metricFromVerdict(raw, metric) {
+  if (!raw) return undefined;
+  let found;
+  const visit = (o) => {
+    if (found !== undefined || !o || typeof o !== 'object') return;
+    if (o.metric === metric && (typeof o.value === 'number' || typeof o.actual === 'number')) { found = o.value ?? o.actual; return; }
+    for (const v of Object.values(o)) visit(v);
+  };
+  visit(raw);
+  return found;
+}
+
+export async function balance(cwd) {
+  const r = await runKane(['balance', '--json'], { cwd, killAfterMs: 30000 });
+  const m = (r.stdout || '').match(/"?(?:balance|credits|available)"?\s*[:=]\s*([\d.]+)/i) || (r.stdout || '').match(/([\d,]+(?:\.\d+)?)\s*credits/i);
+  return m ? Number(m[1].replace(/,/g, '')) : undefined;
+}
