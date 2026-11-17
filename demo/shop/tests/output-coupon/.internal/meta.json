@@ -1,0 +1,18 @@
+{
+  "commit_id": "4005cd21-edaa-4e26-b1e6-4698596edce0",
+  "test_id": "43db2631-b957-44e3-9d4e-59febc82c459",
+  "testcase_id": "01M7MWVSTC8JT3GQJTPRHN2CYM",
+  "project_id": "01M7M9W42DQ2WF7PHAFW4VB05W",
+  "folder_id": "01M7M9W8E2KAA4V24RB8CY2TYE",
+  "org_id": "3437033",
+  "session_name": "coupon",
+  "executions": [
+    {
+      "execution_id": "10078a8c-f661-4762-aa27-23f363c5c90a",
+      "run_kind": "author",
+      "status": "passed",
+      "valid": true,
+      "at": "2026-11-17T14:20:50.254Z"
+    }
+  ]
+}

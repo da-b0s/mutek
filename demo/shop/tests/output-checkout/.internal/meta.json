@@ -1,0 +1,18 @@
+{
+  "commit_id": "4f697bbf-519e-4675-ac74-6ee649cc5ad0",
+  "test_id": "37cbd84b-4971-4056-99af-2199444bfddf",
+  "testcase_id": "01M7MX21G6HRBMP5H6T775JN18",
+  "project_id": "01M7M9W42DQ2WF7PHAFW4VB05W",
+  "folder_id": "01M7M9W8E2KAA4V24RB8CY2TYE",
+  "org_id": "3437033",
+  "session_name": "checkout",
+  "executions": [
+    {
+      "execution_id": "af6d9f71-72cb-470f-86b5-fbc4a3a2309f",
+      "run_kind": "author",
+      "status": "passed",
+      "valid": true,
+      "at": "2026-11-17T14:08:13.164Z"
+    }
+  ]
+}
