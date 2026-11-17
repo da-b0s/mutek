@@ -1,0 +1,3814 @@
+{
+ "tests": [
+  {
+   "test": "tests/browse_test.md",
+   "traffic": [
+    {
+     "seq": 128,
+     "test": "tests/browse_test.md",
+     "method": "GET",
+     "path": "/",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": true
+    },
+    {
+     "seq": 129,
+     "test": "tests/browse_test.md",
+     "method": "GET",
+     "path": "/api/products",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "products": [
+       {
+        "id": "p1",
+        "name": "Canvas Tote Bag",
+        "price": 18,
+        "category": "Bags",
+        "stock": 12,
+        "description": "Heavy cotton tote with an inside pocket.",
+        "inStock": true
+       },
+       {
+        "id": "p2",
+        "name": "Ceramic Pour-Over Set",
+        "price": 34.5,
+        "category": "Kitchen",
+        "stock": 5,
+        "description": "Dripper, carafe and 40 paper filters.",
+        "inStock": true
+       },
+       {
+        "id": "p3",
+        "name": "Wool Beanie",
+        "price": 22,
+        "category": "Apparel",
+        "stock": 20,
+        "description": "Merino wool, one size.",
+        "inStock": true
+       },
+       {
+        "id": "p4",
+        "name": "Desk Plant (Pothos)",
+        "price": 15.75,
+        "category": "Home",
+        "stock": 8,
+        "description": "Easy-care trailing plant in a 12 cm pot.",
+        "inStock": true
+       },
+       {
+        "id": "p5",
+        "name": "Notebook, Dot Grid",
+        "price": 9.5,
+        "category": "Stationery",
+        "stock": 40,
+        "description": "A5, 160 pages, lay-flat binding.",
+        "inStock": true
+       },
+       {
+        "id": "p6",
+        "name": "Insulated Bottle",
+        "price": 27,
+        "category": "Kitchen",
+        "stock": 0,
+        "description": "750 ml, keeps drinks cold for 24 hours.",
+        "inStock": false
+       }
+      ]
+     }
+    },
+    {
+     "seq": 130,
+     "test": "tests/browse_test.md",
+     "method": "GET",
+     "path": "/api/cart",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "items": [],
+      "count": 0,
+      "subtotal": 0,
+      "coupon": null,
+      "discount": 0,
+      "shipping": 0,
+      "freeShippingFrom": 50,
+      "total": 0
+     }
+    },
+    {
+     "seq": 131,
+     "test": "tests/browse_test.md",
+     "method": "GET",
+     "path": "/api/products/p2",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "id": "p2",
+      "name": "Ceramic Pour-Over Set",
+      "price": 34.5,
+      "category": "Kitchen",
+      "stock": 5,
+      "description": "Dripper, carafe and 40 paper filters.",
+      "inStock": true
+     }
+    }
+   ],
+   "pages": [
+    {
+     "url": "/",
+     "controls": [
+      {
+       "role": "link",
+       "text": "Fieldnote Goods",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "brand",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Shop",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "active",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "My orders",
+       "label": "",
+       "href": "#/orders",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Cart 0",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "0",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Shop",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Canvas Tote Bag",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Canvas Tote Bag",
+       "label": "",
+       "href": "#/product/p1",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Ceramic Pour-Over Set",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Ceramic Pour-Over Set",
+       "label": "",
+       "href": "#/product/p2",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 2
+      },
+      {
+       "role": "heading",
+       "text": "Wool Beanie",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Wool Beanie",
+       "label": "",
+       "href": "#/product/p3",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 3
+      },
+      {
+       "role": "heading",
+       "text": "Desk Plant (Pothos)",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Desk Plant (Pothos)",
+       "label": "",
+       "href": "#/product/p4",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 4
+      },
+      {
+       "role": "heading",
+       "text": "Notebook, Dot Grid",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Notebook, Dot Grid",
+       "label": "",
+       "href": "#/product/p5",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 5
+      },
+      {
+       "role": "heading",
+       "text": "Insulated Bottle",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Insulated Bottle",
+       "label": "",
+       "href": "#/product/p6",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 6
+      }
+     ],
+     "text": "Fieldnote Goods\nShop\nMy orders\nCart 0\nShop\n\nFree shipping on orders of $50 or more.\n\nBAGS\nCanvas Tote Bag\n\n$18.00\n\nIn stock\n\nAdd to cart\nKITCHEN\nCeramic Pour-Over Set\n\n$34.50\n\nIn stock\n\nAdd to cart\nAPPAREL\nWool Beanie\n\n$22.00\n\nIn stock\n\nAdd to cart\nHOME\nDesk Plant (Pothos)\n\n$15.75\n\nIn stock\n\nAdd to cart\nSTATIONERY\nNotebook, Dot Grid\n\n$9.50\n\nIn stock\n\nAdd to cart\nKITCHEN\nInsulated Bottle\n\n$27.00\n\nOut of stock\n\nAdd to cart"
+    },
+    {
+     "url": "/#/product/p2",
+     "controls": [
+      {
+       "role": "link",
+       "text": "Fieldnote Goods",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "brand",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Shop",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "active",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "My orders",
+       "label": "",
+       "href": "#/orders",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Cart 0",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "0",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "← Back to shop",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "back",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Ceramic Pour-Over Set",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": false,
+       "tag": "button",
+       "count": 1
+      }
+     ],
+     "text": "Fieldnote Goods\nShop\nMy orders\nCart 0\n← Back to shop\nKITCHEN\nCeramic Pour-Over Set\n\n$34.50\n\nDripper, carafe and 40 paper filters.\n\n5 in stock\n\nQuantity\nAdd to cart"
+    }
+   ],
+   "clicks": [
+    {
+     "role": "link",
+     "text": "Ceramic Pour-Over Set",
+     "label": "",
+     "href": "#/product/p2",
+     "inRow": true,
+     "tag": "a"
+    }
+   ]
+  },
+  {
+   "test": "tests/cancel_order_test.md",
+   "traffic": [
+    {
+     "seq": 132,
+     "test": "tests/cancel_order_test.md",
+     "method": "GET",
+     "path": "/",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": true
+    },
+    {
+     "seq": 133,
+     "test": "tests/cancel_order_test.md",
+     "method": "GET",
+     "path": "/api/products",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "products": [
+       {
+        "id": "p1",
+        "name": "Canvas Tote Bag",
+        "price": 18,
+        "category": "Bags",
+        "stock": 12,
+        "description": "Heavy cotton tote with an inside pocket.",
+        "inStock": true
+       },
+       {
+        "id": "p2",
+        "name": "Ceramic Pour-Over Set",
+        "price": 34.5,
+        "category": "Kitchen",
+        "stock": 5,
+        "description": "Dripper, carafe and 40 paper filters.",
+        "inStock": true
+       },
+       {
+        "id": "p3",
+        "name": "Wool Beanie",
+        "price": 22,
+        "category": "Apparel",
+        "stock": 20,
+        "description": "Merino wool, one size.",
+        "inStock": true
+       },
+       {
+        "id": "p4",
+        "name": "Desk Plant (Pothos)",
+        "price": 15.75,
+        "category": "Home",
+        "stock": 8,
+        "description": "Easy-care trailing plant in a 12 cm pot.",
+        "inStock": true
+       },
+       {
+        "id": "p5",
+        "name": "Notebook, Dot Grid",
+        "price": 9.5,
+        "category": "Stationery",
+        "stock": 40,
+        "description": "A5, 160 pages, lay-flat binding.",
+        "inStock": true
+       },
+       {
+        "id": "p6",
+        "name": "Insulated Bottle",
+        "price": 27,
+        "category": "Kitchen",
+        "stock": 0,
+        "description": "750 ml, keeps drinks cold for 24 hours.",
+        "inStock": false
+       }
+      ]
+     }
+    },
+    {
+     "seq": 134,
+     "test": "tests/cancel_order_test.md",
+     "method": "GET",
+     "path": "/api/cart",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "items": [],
+      "count": 0,
+      "subtotal": 0,
+      "coupon": null,
+      "discount": 0,
+      "shipping": 0,
+      "freeShippingFrom": 50,
+      "total": 0
+     }
+    },
+    {
+     "seq": 135,
+     "test": "tests/cancel_order_test.md",
+     "method": "GET",
+     "path": "/api/orders",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "orders": [
+       {
+        "id": "1002",
+        "owner": "u1",
+        "ownerName": "Sam Rivera",
+        "status": "placed",
+        "createdAt": "2026-11-14T16:40:00Z",
+        "itemCount": 2,
+        "total": 38.74
+       },
+       {
+        "id": "1001",
+        "owner": "u1",
+        "ownerName": "Sam Rivera",
+        "status": "delivered",
+        "createdAt": "2026-11-02T10:15:00Z",
+        "itemCount": 2,
+        "total": 23.99
+       }
+      ]
+     }
+    },
+    {
+     "seq": 136,
+     "test": "tests/cancel_order_test.md",
+     "method": "POST",
+     "path": "/api/orders/1002/cancel",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "id": "1002",
+      "owner": "u1",
+      "ownerName": "Sam Rivera",
+      "email": "sam@example.com",
+      "address": "12 Harbour Road, Lagos",
+      "status": "cancelled",
+      "createdAt": "2026-11-14T16:40:00Z",
+      "coupon": null,
+      "items": [
+       {
+        "productId": "p1",
+        "name": "Canvas Tote Bag",
+        "price": 18,
+        "qty": 1,
+        "lineTotal": 18
+       },
+       {
+        "productId": "p4",
+        "name": "Desk Plant (Pothos)",
+        "price": 15.75,
+        "qty": 1,
+        "lineTotal": 15.75
+       }
+      ],
+      "subtotal": 33.75,
+      "discount": 0,
+      "shipping": 4.99,
+      "total": 38.74
+     }
+    },
+    {
+     "seq": 137,
+     "test": "tests/cancel_order_test.md",
+     "method": "GET",
+     "path": "/api/orders",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "orders": [
+       {
+        "id": "1002",
+        "owner": "u1",
+        "ownerName": "Sam Rivera",
+        "status": "cancelled",
+        "createdAt": "2026-11-14T16:40:00Z",
+        "itemCount": 2,
+        "total": 38.74
+       },
+       {
+        "id": "1001",
+        "owner": "u1",
+        "ownerName": "Sam Rivera",
+        "status": "delivered",
+        "createdAt": "2026-11-02T10:15:00Z",
+        "itemCount": 2,
+        "total": 23.99
+       }
+      ]
+     }
+    }
+   ],
+   "pages": [
+    {
+     "url": "/",
+     "controls": [
+      {
+       "role": "link",
+       "text": "Fieldnote Goods",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "brand",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Shop",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "active",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "My orders",
+       "label": "",
+       "href": "#/orders",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Cart 0",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "0",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Shop",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Canvas Tote Bag",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Canvas Tote Bag",
+       "label": "",
+       "href": "#/product/p1",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Ceramic Pour-Over Set",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Ceramic Pour-Over Set",
+       "label": "",
+       "href": "#/product/p2",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 2
+      },
+      {
+       "role": "heading",
+       "text": "Wool Beanie",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Wool Beanie",
+       "label": "",
+       "href": "#/product/p3",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 3
+      },
+      {
+       "role": "heading",
+       "text": "Desk Plant (Pothos)",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Desk Plant (Pothos)",
+       "label": "",
+       "href": "#/product/p4",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 4
+      },
+      {
+       "role": "heading",
+       "text": "Notebook, Dot Grid",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Notebook, Dot Grid",
+       "label": "",
+       "href": "#/product/p5",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 5
+      },
+      {
+       "role": "heading",
+       "text": "Insulated Bottle",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Insulated Bottle",
+       "label": "",
+       "href": "#/product/p6",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 6
+      }
+     ],
+     "text": "Fieldnote Goods\nShop\nMy orders\nCart 0\nShop\n\nFree shipping on orders of $50 or more.\n\nBAGS\nCanvas Tote Bag\n\n$18.00\n\nIn stock\n\nAdd to cart\nKITCHEN\nCeramic Pour-Over Set\n\n$34.50\n\nIn stock\n\nAdd to cart\nAPPAREL\nWool Beanie\n\n$22.00\n\nIn stock\n\nAdd to cart\nHOME\nDesk Plant (Pothos)\n\n$15.75\n\nIn stock\n\nAdd to cart\nSTATIONERY\nNotebook, Dot Grid\n\n$9.50\n\nIn stock\n\nAdd to cart\nKITCHEN\nInsulated Bottle\n\n$27.00\n\nOut of stock\n\nAdd to cart"
+    },
+    {
+     "url": "/#/orders",
+     "controls": [
+      {
+       "role": "link",
+       "text": "Fieldnote Goods",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "brand",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Shop",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "My orders",
+       "label": "",
+       "href": "#/orders",
+       "inRow": false,
+       "tag": "a",
+       "cls": "active",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Cart 0",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "0",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "My orders",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "#1002",
+       "label": "",
+       "href": "#/orders/1002",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Placed",
+       "label": "",
+       "inRow": true,
+       "tag": "span",
+       "cls": "status placed",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Cancel",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "cls": "link danger",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "#1001",
+       "label": "",
+       "href": "#/orders/1001",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Delivered",
+       "label": "",
+       "inRow": true,
+       "tag": "span",
+       "cls": "status delivered",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Cancel order #1002?",
+       "label": "",
+       "inRow": false,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Keep order",
+       "label": "",
+       "inRow": false,
+       "tag": "button",
+       "cls": "secondary",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Yes, cancel order",
+       "label": "",
+       "inRow": false,
+       "tag": "button",
+       "cls": "danger",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Cancelled",
+       "label": "",
+       "inRow": true,
+       "tag": "span",
+       "cls": "status cancelled",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Order #1002 cancelled",
+       "label": "",
+       "inRow": false,
+       "tag": "div",
+       "cls": "show ok",
+       "count": 1
+      }
+     ],
+     "text": "Fieldnote Goods\nShop\nMy orders\nCart 0\nMy orders\nOrder\tDate\tItems\tTotal\tStatus\t\nActions\n\n#1002\t14 Nov 2026\t2\t$38.74\tPlaced\tCancel\n#1001\t2 Nov 2026\t2\t$23.99\tDelivered\t\nFieldnote Goods\nShop\nMy orders\nCart 0\nMy orders\nOrder\tDate\tItems\tTotal\tStatus\t\nActions\n\n#1002\t14 Nov 2026\t2\t$38.74\tPlaced\tCancel\n#1001\t2 Nov 2026\t2\t$23.99\tDelivered\t\nCancel order #1002?\n\nThe $38.74 charge will be refunded to your card.\n\nKeep order\nYes, cancel order\nFieldnote Goods\nShop\nMy orders\nCart 0\nMy orders\nOrder\tDate\tItems\tTotal\tStatus\t\nActions\n\n#1002\t14 Nov 2026\t2\t$38.74\tCancelled\t\n#1001\t2 Nov 2026\t2\t$23.99\tDelivered\t\nOrder #1002 cancelled"
+    }
+   ],
+   "clicks": [
+    {
+     "role": "link",
+     "text": "My orders",
+     "label": "",
+     "href": "#/orders",
+     "inRow": false,
+     "tag": "a"
+    },
+    {
+     "role": "button",
+     "text": "Cancel",
+     "label": "",
+     "inRow": true,
+     "tag": "button",
+     "cls": "link danger"
+    },
+    {
+     "role": "button",
+     "text": "Yes, cancel order",
+     "label": "",
+     "inRow": false,
+     "tag": "button",
+     "cls": "danger"
+    }
+   ]
+  },
+  {
+   "test": "tests/cart_test.md",
+   "traffic": [
+    {
+     "seq": 138,
+     "test": "tests/cart_test.md",
+     "method": "GET",
+     "path": "/",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": true
+    },
+    {
+     "seq": 139,
+     "test": "tests/cart_test.md",
+     "method": "GET",
+     "path": "/api/products",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "products": [
+       {
+        "id": "p1",
+        "name": "Canvas Tote Bag",
+        "price": 18,
+        "category": "Bags",
+        "stock": 12,
+        "description": "Heavy cotton tote with an inside pocket.",
+        "inStock": true
+       },
+       {
+        "id": "p2",
+        "name": "Ceramic Pour-Over Set",
+        "price": 34.5,
+        "category": "Kitchen",
+        "stock": 5,
+        "description": "Dripper, carafe and 40 paper filters.",
+        "inStock": true
+       },
+       {
+        "id": "p3",
+        "name": "Wool Beanie",
+        "price": 22,
+        "category": "Apparel",
+        "stock": 20,
+        "description": "Merino wool, one size.",
+        "inStock": true
+       },
+       {
+        "id": "p4",
+        "name": "Desk Plant (Pothos)",
+        "price": 15.75,
+        "category": "Home",
+        "stock": 8,
+        "description": "Easy-care trailing plant in a 12 cm pot.",
+        "inStock": true
+       },
+       {
+        "id": "p5",
+        "name": "Notebook, Dot Grid",
+        "price": 9.5,
+        "category": "Stationery",
+        "stock": 40,
+        "description": "A5, 160 pages, lay-flat binding.",
+        "inStock": true
+       },
+       {
+        "id": "p6",
+        "name": "Insulated Bottle",
+        "price": 27,
+        "category": "Kitchen",
+        "stock": 0,
+        "description": "750 ml, keeps drinks cold for 24 hours.",
+        "inStock": false
+       }
+      ]
+     }
+    },
+    {
+     "seq": 140,
+     "test": "tests/cart_test.md",
+     "method": "GET",
+     "path": "/api/cart",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "items": [],
+      "count": 0,
+      "subtotal": 0,
+      "coupon": null,
+      "discount": 0,
+      "shipping": 0,
+      "freeShippingFrom": 50,
+      "total": 0
+     }
+    },
+    {
+     "seq": 141,
+     "test": "tests/cart_test.md",
+     "method": "POST",
+     "path": "/api/cart/items",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "req": {
+      "productId": "p3",
+      "qty": 1
+     },
+     "json": {
+      "items": [
+       {
+        "productId": "p3",
+        "name": "Wool Beanie",
+        "price": 22,
+        "qty": 1,
+        "lineTotal": 22
+       }
+      ],
+      "count": 1,
+      "subtotal": 22,
+      "coupon": null,
+      "discount": 0,
+      "shipping": 4.99,
+      "freeShippingFrom": 50,
+      "total": 26.99
+     }
+    },
+    {
+     "seq": 142,
+     "test": "tests/cart_test.md",
+     "method": "GET",
+     "path": "/api/cart",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "items": [
+       {
+        "productId": "p3",
+        "name": "Wool Beanie",
+        "price": 22,
+        "qty": 1,
+        "lineTotal": 22
+       }
+      ],
+      "count": 1,
+      "subtotal": 22,
+      "coupon": null,
+      "discount": 0,
+      "shipping": 4.99,
+      "freeShippingFrom": 50,
+      "total": 26.99
+     }
+    },
+    {
+     "seq": 143,
+     "test": "tests/cart_test.md",
+     "method": "PUT",
+     "path": "/api/cart/items/p3",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "req": {
+      "qty": 2
+     },
+     "json": {
+      "items": [
+       {
+        "productId": "p3",
+        "name": "Wool Beanie",
+        "price": 22,
+        "qty": 2,
+        "lineTotal": 44
+       }
+      ],
+      "count": 2,
+      "subtotal": 44,
+      "coupon": null,
+      "discount": 0,
+      "shipping": 4.99,
+      "freeShippingFrom": 50,
+      "total": 48.99
+     }
+    },
+    {
+     "seq": 144,
+     "test": "tests/cart_test.md",
+     "method": "GET",
+     "path": "/api/cart",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "items": [
+       {
+        "productId": "p3",
+        "name": "Wool Beanie",
+        "price": 22,
+        "qty": 2,
+        "lineTotal": 44
+       }
+      ],
+      "count": 2,
+      "subtotal": 44,
+      "coupon": null,
+      "discount": 0,
+      "shipping": 4.99,
+      "freeShippingFrom": 50,
+      "total": 48.99
+     }
+    },
+    {
+     "seq": 145,
+     "test": "tests/cart_test.md",
+     "method": "PUT",
+     "path": "/api/cart/items/p3",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "req": {
+      "qty": 1
+     },
+     "json": {
+      "items": [
+       {
+        "productId": "p3",
+        "name": "Wool Beanie",
+        "price": 22,
+        "qty": 1,
+        "lineTotal": 22
+       }
+      ],
+      "count": 1,
+      "subtotal": 22,
+      "coupon": null,
+      "discount": 0,
+      "shipping": 4.99,
+      "freeShippingFrom": 50,
+      "total": 26.99
+     }
+    },
+    {
+     "seq": 146,
+     "test": "tests/cart_test.md",
+     "method": "GET",
+     "path": "/api/cart",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "items": [
+       {
+        "productId": "p3",
+        "name": "Wool Beanie",
+        "price": 22,
+        "qty": 1,
+        "lineTotal": 22
+       }
+      ],
+      "count": 1,
+      "subtotal": 22,
+      "coupon": null,
+      "discount": 0,
+      "shipping": 4.99,
+      "freeShippingFrom": 50,
+      "total": 26.99
+     }
+    }
+   ],
+   "pages": [
+    {
+     "url": "/",
+     "controls": [
+      {
+       "role": "link",
+       "text": "Fieldnote Goods",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "brand",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Shop",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "active",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "My orders",
+       "label": "",
+       "href": "#/orders",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Cart 0",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "0",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Shop",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Canvas Tote Bag",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Canvas Tote Bag",
+       "label": "",
+       "href": "#/product/p1",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Ceramic Pour-Over Set",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Ceramic Pour-Over Set",
+       "label": "",
+       "href": "#/product/p2",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 2
+      },
+      {
+       "role": "heading",
+       "text": "Wool Beanie",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Wool Beanie",
+       "label": "",
+       "href": "#/product/p3",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 3
+      },
+      {
+       "role": "heading",
+       "text": "Desk Plant (Pothos)",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Desk Plant (Pothos)",
+       "label": "",
+       "href": "#/product/p4",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 4
+      },
+      {
+       "role": "heading",
+       "text": "Notebook, Dot Grid",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Notebook, Dot Grid",
+       "label": "",
+       "href": "#/product/p5",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 5
+      },
+      {
+       "role": "heading",
+       "text": "Insulated Bottle",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Insulated Bottle",
+       "label": "",
+       "href": "#/product/p6",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 6
+      },
+      {
+       "role": "link",
+       "text": "Cart 1",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "1",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Added Wool Beanie to your cart",
+       "label": "",
+       "inRow": false,
+       "tag": "div",
+       "cls": "show ok",
+       "count": 1
+      }
+     ],
+     "text": "Fieldnote Goods\nShop\nMy orders\nCart 0\nShop\n\nFree shipping on orders of $50 or more.\n\nBAGS\nCanvas Tote Bag\n\n$18.00\n\nIn stock\n\nAdd to cart\nKITCHEN\nCeramic Pour-Over Set\n\n$34.50\n\nIn stock\n\nAdd to cart\nAPPAREL\nWool Beanie\n\n$22.00\n\nIn stock\n\nAdd to cart\nHOME\nDesk Plant (Pothos)\n\n$15.75\n\nIn stock\n\nAdd to cart\nSTATIONERY\nNotebook, Dot Grid\n\n$9.50\n\nIn stock\n\nAdd to cart\nKITCHEN\nInsulated Bottle\n\n$27.00\n\nOut of stock\n\nAdd to cart\nFieldnote Goods\nShop\nMy orders\nCart 1\nShop\n\nFree shipping on orders of $50 or more.\n\nBAGS\nCanvas Tote Bag\n\n$18.00\n\nIn stock\n\nAdd to cart\nKITCHEN\nCeramic Pour-Over Set\n\n$34.50\n\nIn stock\n\nAdd to cart\nAPPAREL\nWool Beanie\n\n$22.00\n\nIn stock\n\nAdd to cart\nHOME\nDesk Plant (Pothos)\n\n$15.75\n\nIn stock\n\nAdd to cart\nSTATIONERY\nNotebook, Dot Grid\n\n$9.50\n\nIn stock\n\nAdd to cart\nKITCHEN\nInsulated Bottle\n\n$27.00\n\nOut of stock\n\nAdd to cart\nAdded Wool Beanie to your cart"
+    },
+    {
+     "url": "/#/cart",
+     "controls": [
+      {
+       "role": "link",
+       "text": "Fieldnote Goods",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "brand",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Shop",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "My orders",
+       "label": "",
+       "href": "#/orders",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Cart 1",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link active",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "1",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Your cart",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "−",
+       "label": "Decrease quantity of Wool Beanie",
+       "inRow": true,
+       "tag": "button",
+       "cls": "icon",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "+",
+       "label": "Increase quantity of Wool Beanie",
+       "inRow": true,
+       "tag": "button",
+       "cls": "icon",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Remove",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "cls": "link",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Coupon",
+       "label": "",
+       "inRow": false,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Apply coupon",
+       "label": "",
+       "inRow": false,
+       "tag": "button",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Go to checkout",
+       "label": "",
+       "href": "#/checkout",
+       "inRow": false,
+       "tag": "a",
+       "cls": "button",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Continue shopping",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "back",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Added Wool Beanie to your cart",
+       "label": "",
+       "inRow": false,
+       "tag": "div",
+       "cls": "show ok",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Cart 2",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link active",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "2",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      }
+     ],
+     "text": "Fieldnote Goods\nShop\nMy orders\nCart 1\nYour cart\nItem\tPrice\tQuantity\tTotal\t\nActions\n\nWool Beanie\t$22.00\t\n−\n1\n+\n$22.00\tRemove\nCoupon\nCoupon code\nApply coupon\nSubtotal\n$22.00\nShipping\n$4.99\nTotal\n$26.99\n\nAdd $28.00 more for free shipping.\n\nGo to checkout Continue shopping\nAdded Wool Beanie to your cart\nFieldnote Goods\nShop\nMy orders\nCart 2\nYour cart\nItem\tPrice\tQuantity\tTotal\t\nActions\n\nWool Beanie\t$22.00\t\n−\n2\n+\n$44.00\tRemove\nCoupon\nCoupon code\nApply coupon\nSubtotal\n$44.00\nShipping\n$4.99\nTotal\n$48.99\n\nAdd $6.00 more for free shipping.\n\nGo to checkout Continue shopping\nAdded Wool Beanie to your cart"
+    }
+   ],
+   "clicks": [
+    {
+     "role": "button",
+     "text": "Add to cart",
+     "label": "",
+     "inRow": true,
+     "tag": "button"
+    },
+    {
+     "role": "link",
+     "text": "Cart 1",
+     "label": "",
+     "href": "#/cart",
+     "inRow": false,
+     "tag": "a",
+     "cls": "cart-link"
+    },
+    {
+     "role": "button",
+     "text": "+",
+     "label": "Increase quantity of Wool Beanie",
+     "inRow": true,
+     "tag": "button",
+     "cls": "icon"
+    },
+    {
+     "role": "button",
+     "text": "−",
+     "label": "Decrease quantity of Wool Beanie",
+     "inRow": true,
+     "tag": "button",
+     "cls": "icon"
+    }
+   ]
+  },
+  {
+   "test": "tests/checkout_test.md",
+   "traffic": [
+    {
+     "seq": 147,
+     "test": "tests/checkout_test.md",
+     "method": "GET",
+     "path": "/",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": true
+    },
+    {
+     "seq": 148,
+     "test": "tests/checkout_test.md",
+     "method": "GET",
+     "path": "/api/products",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "products": [
+       {
+        "id": "p1",
+        "name": "Canvas Tote Bag",
+        "price": 18,
+        "category": "Bags",
+        "stock": 12,
+        "description": "Heavy cotton tote with an inside pocket.",
+        "inStock": true
+       },
+       {
+        "id": "p2",
+        "name": "Ceramic Pour-Over Set",
+        "price": 34.5,
+        "category": "Kitchen",
+        "stock": 5,
+        "description": "Dripper, carafe and 40 paper filters.",
+        "inStock": true
+       },
+       {
+        "id": "p3",
+        "name": "Wool Beanie",
+        "price": 22,
+        "category": "Apparel",
+        "stock": 20,
+        "description": "Merino wool, one size.",
+        "inStock": true
+       },
+       {
+        "id": "p4",
+        "name": "Desk Plant (Pothos)",
+        "price": 15.75,
+        "category": "Home",
+        "stock": 8,
+        "description": "Easy-care trailing plant in a 12 cm pot.",
+        "inStock": true
+       },
+       {
+        "id": "p5",
+        "name": "Notebook, Dot Grid",
+        "price": 9.5,
+        "category": "Stationery",
+        "stock": 40,
+        "description": "A5, 160 pages, lay-flat binding.",
+        "inStock": true
+       },
+       {
+        "id": "p6",
+        "name": "Insulated Bottle",
+        "price": 27,
+        "category": "Kitchen",
+        "stock": 0,
+        "description": "750 ml, keeps drinks cold for 24 hours.",
+        "inStock": false
+       }
+      ]
+     }
+    },
+    {
+     "seq": 149,
+     "test": "tests/checkout_test.md",
+     "method": "GET",
+     "path": "/api/cart",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "items": [],
+      "count": 0,
+      "subtotal": 0,
+      "coupon": null,
+      "discount": 0,
+      "shipping": 0,
+      "freeShippingFrom": 50,
+      "total": 0
+     }
+    },
+    {
+     "seq": 150,
+     "test": "tests/checkout_test.md",
+     "method": "POST",
+     "path": "/api/cart/items",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "req": {
+      "productId": "p1",
+      "qty": 1
+     },
+     "json": {
+      "items": [
+       {
+        "productId": "p1",
+        "name": "Canvas Tote Bag",
+        "price": 18,
+        "qty": 1,
+        "lineTotal": 18
+       }
+      ],
+      "count": 1,
+      "subtotal": 18,
+      "coupon": null,
+      "discount": 0,
+      "shipping": 4.99,
+      "freeShippingFrom": 50,
+      "total": 22.99
+     }
+    },
+    {
+     "seq": 151,
+     "test": "tests/checkout_test.md",
+     "method": "GET",
+     "path": "/api/cart",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "items": [
+       {
+        "productId": "p1",
+        "name": "Canvas Tote Bag",
+        "price": 18,
+        "qty": 1,
+        "lineTotal": 18
+       }
+      ],
+      "count": 1,
+      "subtotal": 18,
+      "coupon": null,
+      "discount": 0,
+      "shipping": 4.99,
+      "freeShippingFrom": 50,
+      "total": 22.99
+     }
+    },
+    {
+     "seq": 152,
+     "test": "tests/checkout_test.md",
+     "method": "GET",
+     "path": "/api/cart",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "items": [
+       {
+        "productId": "p1",
+        "name": "Canvas Tote Bag",
+        "price": 18,
+        "qty": 1,
+        "lineTotal": 18
+       }
+      ],
+      "count": 1,
+      "subtotal": 18,
+      "coupon": null,
+      "discount": 0,
+      "shipping": 4.99,
+      "freeShippingFrom": 50,
+      "total": 22.99
+     }
+    },
+    {
+     "seq": 153,
+     "test": "tests/checkout_test.md",
+     "method": "POST",
+     "path": "/api/orders",
+     "status": 201,
+     "type": "json",
+     "mutated": false,
+     "req": {
+      "name": "Ada Obi",
+      "email": "ada@example.com",
+      "address": "7 Marina Street, Lagos"
+     },
+     "json": {
+      "id": "1003",
+      "owner": "u1",
+      "ownerName": "Ada Obi",
+      "email": "ada@example.com",
+      "address": "7 Marina Street, Lagos",
+      "status": "placed",
+      "createdAt": "2026-11-17T14:24:42.454Z",
+      "coupon": null,
+      "items": [
+       {
+        "productId": "p1",
+        "name": "Canvas Tote Bag",
+        "price": 18,
+        "qty": 1,
+        "lineTotal": 18
+       }
+      ],
+      "subtotal": 18,
+      "discount": 0,
+      "shipping": 4.99,
+      "total": 22.99
+     }
+    },
+    {
+     "seq": 154,
+     "test": "tests/checkout_test.md",
+     "method": "GET",
+     "path": "/api/orders/1003",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "id": "1003",
+      "owner": "u1",
+      "ownerName": "Ada Obi",
+      "email": "ada@example.com",
+      "address": "7 Marina Street, Lagos",
+      "status": "placed",
+      "createdAt": "2026-11-17T14:24:42.454Z",
+      "coupon": null,
+      "items": [
+       {
+        "productId": "p1",
+        "name": "Canvas Tote Bag",
+        "price": 18,
+        "qty": 1,
+        "lineTotal": 18
+       }
+      ],
+      "subtotal": 18,
+      "discount": 0,
+      "shipping": 4.99,
+      "total": 22.99
+     }
+    }
+   ],
+   "pages": [
+    {
+     "url": "/",
+     "controls": [
+      {
+       "role": "link",
+       "text": "Fieldnote Goods",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "brand",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Shop",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "active",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "My orders",
+       "label": "",
+       "href": "#/orders",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Cart 0",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "0",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Shop",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Canvas Tote Bag",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Canvas Tote Bag",
+       "label": "",
+       "href": "#/product/p1",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Ceramic Pour-Over Set",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Ceramic Pour-Over Set",
+       "label": "",
+       "href": "#/product/p2",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 2
+      },
+      {
+       "role": "heading",
+       "text": "Wool Beanie",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Wool Beanie",
+       "label": "",
+       "href": "#/product/p3",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 3
+      },
+      {
+       "role": "heading",
+       "text": "Desk Plant (Pothos)",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Desk Plant (Pothos)",
+       "label": "",
+       "href": "#/product/p4",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 4
+      },
+      {
+       "role": "heading",
+       "text": "Notebook, Dot Grid",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Notebook, Dot Grid",
+       "label": "",
+       "href": "#/product/p5",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 5
+      },
+      {
+       "role": "heading",
+       "text": "Insulated Bottle",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Insulated Bottle",
+       "label": "",
+       "href": "#/product/p6",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 6
+      },
+      {
+       "role": "link",
+       "text": "Cart 1",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "1",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Added Canvas Tote Bag to your cart",
+       "label": "",
+       "inRow": false,
+       "tag": "div",
+       "cls": "show ok",
+       "count": 1
+      }
+     ],
+     "text": "Fieldnote Goods\nShop\nMy orders\nCart 0\nShop\n\nFree shipping on orders of $50 or more.\n\nBAGS\nCanvas Tote Bag\n\n$18.00\n\nIn stock\n\nAdd to cart\nKITCHEN\nCeramic Pour-Over Set\n\n$34.50\n\nIn stock\n\nAdd to cart\nAPPAREL\nWool Beanie\n\n$22.00\n\nIn stock\n\nAdd to cart\nHOME\nDesk Plant (Pothos)\n\n$15.75\n\nIn stock\n\nAdd to cart\nSTATIONERY\nNotebook, Dot Grid\n\n$9.50\n\nIn stock\n\nAdd to cart\nKITCHEN\nInsulated Bottle\n\n$27.00\n\nOut of stock\n\nAdd to cart\nFieldnote Goods\nShop\nMy orders\nCart 1\nShop\n\nFree shipping on orders of $50 or more.\n\nBAGS\nCanvas Tote Bag\n\n$18.00\n\nIn stock\n\nAdd to cart\nKITCHEN\nCeramic Pour-Over Set\n\n$34.50\n\nIn stock\n\nAdd to cart\nAPPAREL\nWool Beanie\n\n$22.00\n\nIn stock\n\nAdd to cart\nHOME\nDesk Plant (Pothos)\n\n$15.75\n\nIn stock\n\nAdd to cart\nSTATIONERY\nNotebook, Dot Grid\n\n$9.50\n\nIn stock\n\nAdd to cart\nKITCHEN\nInsulated Bottle\n\n$27.00\n\nOut of stock\n\nAdd to cart\nAdded Canvas Tote Bag to your cart"
+    },
+    {
+     "url": "/#/cart",
+     "controls": [
+      {
+       "role": "link",
+       "text": "Fieldnote Goods",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "brand",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Shop",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "My orders",
+       "label": "",
+       "href": "#/orders",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Cart 1",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link active",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "1",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Your cart",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "−",
+       "label": "Decrease quantity of Canvas Tote Bag",
+       "inRow": true,
+       "tag": "button",
+       "cls": "icon",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "+",
+       "label": "Increase quantity of Canvas Tote Bag",
+       "inRow": true,
+       "tag": "button",
+       "cls": "icon",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Remove",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "cls": "link",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Coupon",
+       "label": "",
+       "inRow": false,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Apply coupon",
+       "label": "",
+       "inRow": false,
+       "tag": "button",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Go to checkout",
+       "label": "",
+       "href": "#/checkout",
+       "inRow": false,
+       "tag": "a",
+       "cls": "button",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Continue shopping",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "back",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Added Canvas Tote Bag to your cart",
+       "label": "",
+       "inRow": false,
+       "tag": "div",
+       "cls": "show ok",
+       "count": 1
+      }
+     ],
+     "text": "Fieldnote Goods\nShop\nMy orders\nCart 1\nYour cart\nItem\tPrice\tQuantity\tTotal\t\nActions\n\nCanvas Tote Bag\t$18.00\t\n−\n1\n+\n$18.00\tRemove\nCoupon\nCoupon code\nApply coupon\nSubtotal\n$18.00\nShipping\n$4.99\nTotal\n$22.99\n\nAdd $32.00 more for free shipping.\n\nGo to checkout Continue shopping\nAdded Canvas Tote Bag to your cart"
+    },
+    {
+     "url": "/#/checkout",
+     "controls": [
+      {
+       "role": "link",
+       "text": "Fieldnote Goods",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "brand",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Shop",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "My orders",
+       "label": "",
+       "href": "#/orders",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Cart 1",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link active",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "1",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Checkout",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Place order",
+       "label": "",
+       "inRow": false,
+       "tag": "button",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Order summary",
+       "label": "",
+       "inRow": false,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Added Canvas Tote Bag to your cart",
+       "label": "",
+       "inRow": false,
+       "tag": "div",
+       "count": 1
+      }
+     ],
+     "text": "Fieldnote Goods\nShop\nMy orders\nCart 1\nCheckout\nFull name\n\nEmail\n\nDelivery address\n\nPlace order\nOrder summary\n1 × Canvas Tote Bag\n$18.00\nSubtotal\n$18.00\nShipping\n$4.99\nTotal\n$22.99\nAdded Canvas Tote Bag to your cart"
+    },
+    {
+     "url": "/#/confirmation/1003",
+     "controls": [
+      {
+       "role": "link",
+       "text": "Fieldnote Goods",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "brand",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Shop",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "My orders",
+       "label": "",
+       "href": "#/orders",
+       "inRow": false,
+       "tag": "a",
+       "cls": "active",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Cart 0",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "0",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Thank you, Ada!",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "#1003",
+       "label": "",
+       "inRow": false,
+       "tag": "strong",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "$22.99",
+       "label": "",
+       "inRow": false,
+       "tag": "strong",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "View order",
+       "label": "",
+       "href": "#/orders/1003",
+       "inRow": false,
+       "tag": "a",
+       "cls": "button",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Continue shopping",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "back",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Added Canvas Tote Bag to your cart",
+       "label": "",
+       "inRow": false,
+       "tag": "div",
+       "count": 1
+      }
+     ],
+     "text": "Fieldnote Goods\nShop\nMy orders\nCart 0\nThank you, Ada!\n\nYour order #1003 has been placed.\n\nTotal charged: $22.99\n\nWe will email a receipt to ada@example.com.\n\nView order Continue shopping\nAdded Canvas Tote Bag to your cart"
+    }
+   ],
+   "clicks": [
+    {
+     "role": "button",
+     "text": "Add to cart",
+     "label": "",
+     "inRow": true,
+     "tag": "button"
+    },
+    {
+     "role": "link",
+     "text": "Cart 1",
+     "label": "",
+     "href": "#/cart",
+     "inRow": false,
+     "tag": "a",
+     "cls": "cart-link"
+    },
+    {
+     "role": "link",
+     "text": "Go to checkout",
+     "label": "",
+     "href": "#/checkout",
+     "inRow": false,
+     "tag": "a",
+     "cls": "button"
+    },
+    {
+     "role": "button",
+     "text": "Place order",
+     "label": "",
+     "inRow": false,
+     "tag": "button"
+    }
+   ]
+  },
+  {
+   "test": "tests/coupon_test.md",
+   "traffic": [
+    {
+     "seq": 155,
+     "test": "tests/coupon_test.md",
+     "method": "GET",
+     "path": "/",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": true
+    },
+    {
+     "seq": 156,
+     "test": "tests/coupon_test.md",
+     "method": "GET",
+     "path": "/api/products",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "products": [
+       {
+        "id": "p1",
+        "name": "Canvas Tote Bag",
+        "price": 18,
+        "category": "Bags",
+        "stock": 12,
+        "description": "Heavy cotton tote with an inside pocket.",
+        "inStock": true
+       },
+       {
+        "id": "p2",
+        "name": "Ceramic Pour-Over Set",
+        "price": 34.5,
+        "category": "Kitchen",
+        "stock": 5,
+        "description": "Dripper, carafe and 40 paper filters.",
+        "inStock": true
+       },
+       {
+        "id": "p3",
+        "name": "Wool Beanie",
+        "price": 22,
+        "category": "Apparel",
+        "stock": 20,
+        "description": "Merino wool, one size.",
+        "inStock": true
+       },
+       {
+        "id": "p4",
+        "name": "Desk Plant (Pothos)",
+        "price": 15.75,
+        "category": "Home",
+        "stock": 8,
+        "description": "Easy-care trailing plant in a 12 cm pot.",
+        "inStock": true
+       },
+       {
+        "id": "p5",
+        "name": "Notebook, Dot Grid",
+        "price": 9.5,
+        "category": "Stationery",
+        "stock": 40,
+        "description": "A5, 160 pages, lay-flat binding.",
+        "inStock": true
+       },
+       {
+        "id": "p6",
+        "name": "Insulated Bottle",
+        "price": 27,
+        "category": "Kitchen",
+        "stock": 0,
+        "description": "750 ml, keeps drinks cold for 24 hours.",
+        "inStock": false
+       }
+      ]
+     }
+    },
+    {
+     "seq": 157,
+     "test": "tests/coupon_test.md",
+     "method": "GET",
+     "path": "/api/cart",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "items": [],
+      "count": 0,
+      "subtotal": 0,
+      "coupon": null,
+      "discount": 0,
+      "shipping": 0,
+      "freeShippingFrom": 50,
+      "total": 0
+     }
+    },
+    {
+     "seq": 158,
+     "test": "tests/coupon_test.md",
+     "method": "POST",
+     "path": "/api/cart/items",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "req": {
+      "productId": "p2",
+      "qty": 1
+     },
+     "json": {
+      "items": [
+       {
+        "productId": "p2",
+        "name": "Ceramic Pour-Over Set",
+        "price": 34.5,
+        "qty": 1,
+        "lineTotal": 34.5
+       }
+      ],
+      "count": 1,
+      "subtotal": 34.5,
+      "coupon": null,
+      "discount": 0,
+      "shipping": 4.99,
+      "freeShippingFrom": 50,
+      "total": 39.49
+     }
+    },
+    {
+     "seq": 159,
+     "test": "tests/coupon_test.md",
+     "method": "GET",
+     "path": "/api/cart",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "items": [
+       {
+        "productId": "p2",
+        "name": "Ceramic Pour-Over Set",
+        "price": 34.5,
+        "qty": 1,
+        "lineTotal": 34.5
+       }
+      ],
+      "count": 1,
+      "subtotal": 34.5,
+      "coupon": null,
+      "discount": 0,
+      "shipping": 4.99,
+      "freeShippingFrom": 50,
+      "total": 39.49
+     }
+    },
+    {
+     "seq": 160,
+     "test": "tests/coupon_test.md",
+     "method": "POST",
+     "path": "/api/cart/coupon",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "req": {
+      "code": "SAVE10"
+     },
+     "json": {
+      "items": [
+       {
+        "productId": "p2",
+        "name": "Ceramic Pour-Over Set",
+        "price": 34.5,
+        "qty": 1,
+        "lineTotal": 34.5
+       }
+      ],
+      "count": 1,
+      "subtotal": 34.5,
+      "coupon": {
+       "code": "SAVE10",
+       "kind": "percent",
+       "amount": 10,
+       "label": "10% off your order"
+      },
+      "discount": 3.45,
+      "shipping": 4.99,
+      "freeShippingFrom": 50,
+      "total": 36.04
+     }
+    },
+    {
+     "seq": 161,
+     "test": "tests/coupon_test.md",
+     "method": "GET",
+     "path": "/api/cart",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "items": [
+       {
+        "productId": "p2",
+        "name": "Ceramic Pour-Over Set",
+        "price": 34.5,
+        "qty": 1,
+        "lineTotal": 34.5
+       }
+      ],
+      "count": 1,
+      "subtotal": 34.5,
+      "coupon": {
+       "code": "SAVE10",
+       "kind": "percent",
+       "amount": 10,
+       "label": "10% off your order"
+      },
+      "discount": 3.45,
+      "shipping": 4.99,
+      "freeShippingFrom": 50,
+      "total": 36.04
+     }
+    }
+   ],
+   "pages": [
+    {
+     "url": "/",
+     "controls": [
+      {
+       "role": "link",
+       "text": "Fieldnote Goods",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "brand",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Shop",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "active",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "My orders",
+       "label": "",
+       "href": "#/orders",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Cart 0",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "0",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Shop",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Canvas Tote Bag",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Canvas Tote Bag",
+       "label": "",
+       "href": "#/product/p1",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Ceramic Pour-Over Set",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Ceramic Pour-Over Set",
+       "label": "",
+       "href": "#/product/p2",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 2
+      },
+      {
+       "role": "heading",
+       "text": "Wool Beanie",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Wool Beanie",
+       "label": "",
+       "href": "#/product/p3",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 3
+      },
+      {
+       "role": "heading",
+       "text": "Desk Plant (Pothos)",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Desk Plant (Pothos)",
+       "label": "",
+       "href": "#/product/p4",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 4
+      },
+      {
+       "role": "heading",
+       "text": "Notebook, Dot Grid",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Notebook, Dot Grid",
+       "label": "",
+       "href": "#/product/p5",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 5
+      },
+      {
+       "role": "heading",
+       "text": "Insulated Bottle",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Insulated Bottle",
+       "label": "",
+       "href": "#/product/p6",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 6
+      },
+      {
+       "role": "link",
+       "text": "Cart 1",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "1",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Added Ceramic Pour-Over Set to your cart",
+       "label": "",
+       "inRow": false,
+       "tag": "div",
+       "cls": "show ok",
+       "count": 1
+      }
+     ],
+     "text": "Fieldnote Goods\nShop\nMy orders\nCart 0\nShop\n\nFree shipping on orders of $50 or more.\n\nBAGS\nCanvas Tote Bag\n\n$18.00\n\nIn stock\n\nAdd to cart\nKITCHEN\nCeramic Pour-Over Set\n\n$34.50\n\nIn stock\n\nAdd to cart\nAPPAREL\nWool Beanie\n\n$22.00\n\nIn stock\n\nAdd to cart\nHOME\nDesk Plant (Pothos)\n\n$15.75\n\nIn stock\n\nAdd to cart\nSTATIONERY\nNotebook, Dot Grid\n\n$9.50\n\nIn stock\n\nAdd to cart\nKITCHEN\nInsulated Bottle\n\n$27.00\n\nOut of stock\n\nAdd to cart\nFieldnote Goods\nShop\nMy orders\nCart 1\nShop\n\nFree shipping on orders of $50 or more.\n\nBAGS\nCanvas Tote Bag\n\n$18.00\n\nIn stock\n\nAdd to cart\nKITCHEN\nCeramic Pour-Over Set\n\n$34.50\n\nIn stock\n\nAdd to cart\nAPPAREL\nWool Beanie\n\n$22.00\n\nIn stock\n\nAdd to cart\nHOME\nDesk Plant (Pothos)\n\n$15.75\n\nIn stock\n\nAdd to cart\nSTATIONERY\nNotebook, Dot Grid\n\n$9.50\n\nIn stock\n\nAdd to cart\nKITCHEN\nInsulated Bottle\n\n$27.00\n\nOut of stock\n\nAdd to cart\nAdded Ceramic Pour-Over Set to your cart"
+    },
+    {
+     "url": "/#/cart",
+     "controls": [
+      {
+       "role": "link",
+       "text": "Fieldnote Goods",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "brand",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Shop",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "My orders",
+       "label": "",
+       "href": "#/orders",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Cart 1",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link active",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "1",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Your cart",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "−",
+       "label": "Decrease quantity of Ceramic Pour-Over Set",
+       "inRow": true,
+       "tag": "button",
+       "cls": "icon",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "+",
+       "label": "Increase quantity of Ceramic Pour-Over Set",
+       "inRow": true,
+       "tag": "button",
+       "cls": "icon",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Remove",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "cls": "link",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Coupon",
+       "label": "",
+       "inRow": false,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Apply coupon",
+       "label": "",
+       "inRow": false,
+       "tag": "button",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Go to checkout",
+       "label": "",
+       "href": "#/checkout",
+       "inRow": false,
+       "tag": "a",
+       "cls": "button",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Continue shopping",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "back",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Added Ceramic Pour-Over Set to your cart",
+       "label": "",
+       "inRow": false,
+       "tag": "div",
+       "cls": "show ok",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "SAVE10",
+       "label": "",
+       "inRow": false,
+       "tag": "strong",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Remove coupon",
+       "label": "",
+       "inRow": false,
+       "tag": "button",
+       "cls": "link",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Coupon SAVE10 applied",
+       "label": "",
+       "inRow": false,
+       "tag": "div",
+       "cls": "show ok",
+       "count": 1
+      }
+     ],
+     "text": "Fieldnote Goods\nShop\nMy orders\nCart 1\nYour cart\nItem\tPrice\tQuantity\tTotal\t\nActions\n\nCeramic Pour-Over Set\t$34.50\t\n−\n1\n+\n$34.50\tRemove\nCoupon\nCoupon code\nApply coupon\nSubtotal\n$34.50\nShipping\n$4.99\nTotal\n$39.49\n\nAdd $15.50 more for free shipping.\n\nGo to checkout Continue shopping\nAdded Ceramic Pour-Over Set to your cart\nFieldnote Goods\nShop\nMy orders\nCart 1\nYour cart\nItem\tPrice\tQuantity\tTotal\t\nActions\n\nCeramic Pour-Over Set\t$34.50\t\n−\n1\n+\n$34.50\tRemove\nCoupon\n\nApplied: SAVE10 (10% off your order) Remove coupon\n\nSubtotal\n$34.50\nDiscount\n−$3.45\nShipping\n$4.99\nTotal\n$36.04\n\nAdd $18.95 more for free shipping.\n\nGo to checkout Continue shopping\nCoupon SAVE10 applied"
+    }
+   ],
+   "clicks": [
+    {
+     "role": "button",
+     "text": "Add to cart",
+     "label": "",
+     "inRow": true,
+     "tag": "button"
+    },
+    {
+     "role": "link",
+     "text": "Cart 1",
+     "label": "",
+     "href": "#/cart",
+     "inRow": false,
+     "tag": "a",
+     "cls": "cart-link"
+    },
+    {
+     "role": "button",
+     "text": "Apply coupon",
+     "label": "",
+     "inRow": false,
+     "tag": "button"
+    }
+   ]
+  },
+  {
+   "test": "tests/order_history_test.md",
+   "traffic": [
+    {
+     "seq": 162,
+     "test": "tests/order_history_test.md",
+     "method": "GET",
+     "path": "/",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": true
+    },
+    {
+     "seq": 163,
+     "test": "tests/order_history_test.md",
+     "method": "GET",
+     "path": "/api/products",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "products": [
+       {
+        "id": "p1",
+        "name": "Canvas Tote Bag",
+        "price": 18,
+        "category": "Bags",
+        "stock": 12,
+        "description": "Heavy cotton tote with an inside pocket.",
+        "inStock": true
+       },
+       {
+        "id": "p2",
+        "name": "Ceramic Pour-Over Set",
+        "price": 34.5,
+        "category": "Kitchen",
+        "stock": 5,
+        "description": "Dripper, carafe and 40 paper filters.",
+        "inStock": true
+       },
+       {
+        "id": "p3",
+        "name": "Wool Beanie",
+        "price": 22,
+        "category": "Apparel",
+        "stock": 20,
+        "description": "Merino wool, one size.",
+        "inStock": true
+       },
+       {
+        "id": "p4",
+        "name": "Desk Plant (Pothos)",
+        "price": 15.75,
+        "category": "Home",
+        "stock": 8,
+        "description": "Easy-care trailing plant in a 12 cm pot.",
+        "inStock": true
+       },
+       {
+        "id": "p5",
+        "name": "Notebook, Dot Grid",
+        "price": 9.5,
+        "category": "Stationery",
+        "stock": 40,
+        "description": "A5, 160 pages, lay-flat binding.",
+        "inStock": true
+       },
+       {
+        "id": "p6",
+        "name": "Insulated Bottle",
+        "price": 27,
+        "category": "Kitchen",
+        "stock": 0,
+        "description": "750 ml, keeps drinks cold for 24 hours.",
+        "inStock": false
+       }
+      ]
+     }
+    },
+    {
+     "seq": 164,
+     "test": "tests/order_history_test.md",
+     "method": "GET",
+     "path": "/api/cart",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "items": [],
+      "count": 0,
+      "subtotal": 0,
+      "coupon": null,
+      "discount": 0,
+      "shipping": 0,
+      "freeShippingFrom": 50,
+      "total": 0
+     }
+    },
+    {
+     "seq": 165,
+     "test": "tests/order_history_test.md",
+     "method": "GET",
+     "path": "/api/orders",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "orders": [
+       {
+        "id": "1002",
+        "owner": "u1",
+        "ownerName": "Sam Rivera",
+        "status": "placed",
+        "createdAt": "2026-11-14T16:40:00Z",
+        "itemCount": 2,
+        "total": 38.74
+       },
+       {
+        "id": "1001",
+        "owner": "u1",
+        "ownerName": "Sam Rivera",
+        "status": "delivered",
+        "createdAt": "2026-11-02T10:15:00Z",
+        "itemCount": 2,
+        "total": 23.99
+       }
+      ]
+     }
+    },
+    {
+     "seq": 166,
+     "test": "tests/order_history_test.md",
+     "method": "GET",
+     "path": "/api/orders/1001",
+     "status": 200,
+     "type": "json",
+     "mutated": false,
+     "json": {
+      "id": "1001",
+      "owner": "u1",
+      "ownerName": "Sam Rivera",
+      "email": "sam@example.com",
+      "address": "12 Harbour Road, Lagos",
+      "status": "delivered",
+      "createdAt": "2026-11-02T10:15:00Z",
+      "coupon": null,
+      "items": [
+       {
+        "productId": "p5",
+        "name": "Notebook, Dot Grid",
+        "price": 9.5,
+        "qty": 2,
+        "lineTotal": 19
+       }
+      ],
+      "subtotal": 19,
+      "discount": 0,
+      "shipping": 4.99,
+      "total": 23.99
+     }
+    }
+   ],
+   "pages": [
+    {
+     "url": "/",
+     "controls": [
+      {
+       "role": "link",
+       "text": "Fieldnote Goods",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "brand",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Shop",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "active",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "My orders",
+       "label": "",
+       "href": "#/orders",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Cart 0",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "0",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Shop",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Canvas Tote Bag",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Canvas Tote Bag",
+       "label": "",
+       "href": "#/product/p1",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Ceramic Pour-Over Set",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Ceramic Pour-Over Set",
+       "label": "",
+       "href": "#/product/p2",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 2
+      },
+      {
+       "role": "heading",
+       "text": "Wool Beanie",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Wool Beanie",
+       "label": "",
+       "href": "#/product/p3",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 3
+      },
+      {
+       "role": "heading",
+       "text": "Desk Plant (Pothos)",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Desk Plant (Pothos)",
+       "label": "",
+       "href": "#/product/p4",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 4
+      },
+      {
+       "role": "heading",
+       "text": "Notebook, Dot Grid",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Notebook, Dot Grid",
+       "label": "",
+       "href": "#/product/p5",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 5
+      },
+      {
+       "role": "heading",
+       "text": "Insulated Bottle",
+       "label": "",
+       "inRow": true,
+       "tag": "h2",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Insulated Bottle",
+       "label": "",
+       "href": "#/product/p6",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Add to cart",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "count": 6
+      }
+     ],
+     "text": "Fieldnote Goods\nShop\nMy orders\nCart 0\nShop\n\nFree shipping on orders of $50 or more.\n\nBAGS\nCanvas Tote Bag\n\n$18.00\n\nIn stock\n\nAdd to cart\nKITCHEN\nCeramic Pour-Over Set\n\n$34.50\n\nIn stock\n\nAdd to cart\nAPPAREL\nWool Beanie\n\n$22.00\n\nIn stock\n\nAdd to cart\nHOME\nDesk Plant (Pothos)\n\n$15.75\n\nIn stock\n\nAdd to cart\nSTATIONERY\nNotebook, Dot Grid\n\n$9.50\n\nIn stock\n\nAdd to cart\nKITCHEN\nInsulated Bottle\n\n$27.00\n\nOut of stock\n\nAdd to cart"
+    },
+    {
+     "url": "/#/orders",
+     "controls": [
+      {
+       "role": "link",
+       "text": "Fieldnote Goods",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "brand",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Shop",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "My orders",
+       "label": "",
+       "href": "#/orders",
+       "inRow": false,
+       "tag": "a",
+       "cls": "active",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Cart 0",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "0",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "My orders",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "#1002",
+       "label": "",
+       "href": "#/orders/1002",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Placed",
+       "label": "",
+       "inRow": true,
+       "tag": "span",
+       "cls": "status placed",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Cancel",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "cls": "link danger",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "#1001",
+       "label": "",
+       "href": "#/orders/1001",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Delivered",
+       "label": "",
+       "inRow": true,
+       "tag": "span",
+       "cls": "status delivered",
+       "count": 1
+      }
+     ],
+     "text": "Fieldnote Goods\nShop\nMy orders\nCart 0\nMy orders\nOrder\tDate\tItems\tTotal\tStatus\t\nActions\n\n#1002\t14 Nov 2026\t2\t$38.74\tPlaced\tCancel\n#1001\t2 Nov 2026\t2\t$23.99\tDelivered\t"
+    },
+    {
+     "url": "/#/orders/1001",
+     "controls": [
+      {
+       "role": "link",
+       "text": "Fieldnote Goods",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "cls": "brand",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Shop",
+       "label": "",
+       "href": "#/",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "My orders",
+       "label": "",
+       "href": "#/orders",
+       "inRow": false,
+       "tag": "a",
+       "cls": "active",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Cart 0",
+       "label": "",
+       "href": "#/cart",
+       "inRow": false,
+       "tag": "a",
+       "cls": "cart-link",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "0",
+       "label": "items in cart",
+       "inRow": false,
+       "tag": "span",
+       "cls": "badge",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "← All orders",
+       "label": "",
+       "href": "#/orders",
+       "inRow": false,
+       "tag": "a",
+       "cls": "back",
+       "count": 1
+      },
+      {
+       "role": "heading",
+       "text": "Order #1001 Delivered",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Delivered",
+       "label": "",
+       "inRow": false,
+       "tag": "span",
+       "cls": "status delivered",
+       "count": 1
+      }
+     ],
+     "text": "Fieldnote Goods\nShop\nMy orders\nCart 0\n← All orders\nOrder #1001\nDelivered\n\nPlaced 2 Nov 2026 · Deliver to 12 Harbour Road, Lagos\n\nItem\tPrice\tQuantity\tTotal\nNotebook, Dot Grid\t$9.50\t2\t$19.00\nSubtotal\n$19.00\nShipping\n$4.99\nTotal\n$23.99"
+    }
+   ],
+   "clicks": [
+    {
+     "role": "link",
+     "text": "My orders",
+     "label": "",
+     "href": "#/orders",
+     "inRow": false,
+     "tag": "a"
+    },
+    {
+     "role": "link",
+     "text": "#1001",
+     "label": "",
+     "href": "#/orders/1001",
+     "inRow": true,
+     "tag": "a"
+    }
+   ]
+  }
+ ],
+ "created": "2026-11-17T14:22:14.757Z",
+ "commit": "7455f47"
+}
