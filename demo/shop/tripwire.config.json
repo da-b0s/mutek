@@ -1,0 +1,12 @@
+{
+  "app": "http://localhost:3000",
+  "port": 8080,
+  "tests": "tests/*_test.md",
+  "reset": { "url": "http://localhost:3000/api/__reset", "method": "POST" },
+  "maxMutants": 40,
+  "timeout": 180,
+  "threshold": 80,
+  "healCheck": true,
+  "healBudget": 10,
+  "agent": "claude"
+}
