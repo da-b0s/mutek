@@ -1,0 +1,10 @@
+{
+  "name": "tripwire-demo-shop",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Small API-driven shop used as Tripwire's demo target.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
