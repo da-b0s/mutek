@@ -187,7 +187,7 @@ export function recordingDir(testFile) {
 export function snapshotRecording(testFile) {
   const src = recordingDir(testFile);
   const md = fs.existsSync(testFile) ? fs.readFileSync(testFile) : null;
-  if (!fs.existsSync(src)) return () => {};
+  if (!fs.existsSync(src)) return () => { if (md) fs.writeFileSync(testFile, md); };
   const tmp = fs.mkdtempSync(path.join(path.dirname(src), '.tw-snap-'));
   fs.cpSync(src, path.join(tmp, 'rec'), { recursive: true });
   return () => {
