@@ -12,7 +12,7 @@
     "shop": "npm --workspace demo/shop start",
     "proxy": "node packages/cli/bin/tripwire.js proxy --target http://localhost:3000 --port 8080",
     "demo": "node packages/cli/bin/tripwire.js demo",
-    "test": "node --test packages/cli/test/"
+    "test": "node --test \"packages/cli/test/*.test.js\""
   },
   "engines": {
     "node": ">=18"
