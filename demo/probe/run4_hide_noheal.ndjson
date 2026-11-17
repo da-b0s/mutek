@@ -1,0 +1,4 @@
+Skill update available: not installed → 0.1.4 — run `kane-cli install skill`
+
+{"type":"stream_start","cli_version":"0.10.5","surface":"testmd","pid":22604,"v":1,"ts":"2026-11-17T10:01:50.774Z"}
+error: TMS did not return an org_id. Run `kane-cli login` again.

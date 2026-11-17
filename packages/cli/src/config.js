@@ -11,7 +11,7 @@ export const DEFAULTS = {
   timeout: 180,
   threshold: 80,
   healCheck: true,
-  healBudget: 10,
+  healBudget: 5,                      // each heal check re-authors steps: ~15 credits measured
   dir: '.tripwire',
   agent: 'claude'
 };

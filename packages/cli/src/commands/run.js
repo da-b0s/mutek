@@ -215,7 +215,12 @@ export async function runMutant(m, { tw, cfg, base, runDir, healAllowed }) {
       await resetApp(cfg, base);
       await tw.reset(t, false);
       await tw.arm(m);
-      r = await runTest(t, { timeout: cfg.timeout, logFile: path.join(mdir, `${slug(t)}_${attempt}.ndjson`) });
+      // Kane can rewrite a recording during any run against the broken app (observed even on
+      // failed runs), so every mutant run gets the real recording back afterwards.
+      const restore = snapshotRecording(t);
+      try {
+        r = await runTest(t, { timeout: cfg.timeout, logFile: path.join(mdir, `${slug(t)}_${attempt}.ndjson`) });
+      } finally { restore(); }
       hits = (await tw.hit()).hits;
       attempt++;
     } while ((r.code === 2 || r.code === 3) && attempt < 2); // infrastructure problem: retry once, never a kill
