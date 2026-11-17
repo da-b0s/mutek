@@ -62,6 +62,10 @@ test('run classifies mutants and writes ledger and report', async () => {
   assert.ok(rows.some((r) => r.status === 'survived'), 'some mutants survive the weak suite');
   assert.ok(fs.existsSync(path.join(work, '.tripwire/report/index.html')));
   assert.match(fs.readFileSync(path.join(work, '.tripwire/report/badge.svg'), 'utf8'), /tripwire/);
+  const html = fs.readFileSync(path.join(work, '.tripwire/report/index.html'), 'utf8');
+  assert.match(html, /How Kane's triage read the planted bugs/);
+  assert.match(html, /automation bug<\/strong> \/ locator rot/);
+  assert.equal(by('number-drift:GET /api/cart:$.total').runs.find((x) => x.code === 1).kaneTriage.category, 'locator_rot');
   assert.ok(fs.existsSync(path.join(work, '.tripwire/traffic.json')));
 });
 

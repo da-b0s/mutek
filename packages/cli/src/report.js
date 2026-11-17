@@ -59,6 +59,17 @@ export function writeReport(dir) {
     return `<figure><img src="shots/${esc(name)}" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of ${esc(run.test)}. The test still passed.</figcaption></figure>`;
   };
 
+  // Kane triages each failed replay on its own. Tripwire knows the app was broken on purpose,
+  // so it can show how that triage read a real product bug.
+  const triage = (r) => {
+    const t = r.runs?.find((x) => x.kaneTriage)?.kaneTriage;
+    if (!t) return '';
+    const product = t.family === 'product_bug' || t.confirmed;
+    return `<p class="triage">Kane's triage of the failure: <strong>${esc((t.family || '').replace(/_/g, ' '))}</strong>${t.category ? ` / ${esc(t.category.replace(/_/g, ' '))}` : ''}${t.confidence ? ` (${Math.round(t.confidence * 100)}%)` : ''}. ${product ? 'It identified a product bug.' : 'The app really was broken: this was a product bug.'}</p>`;
+  };
+  const triaged = rows.filter((r) => r.status === 'killed' && r.runs?.some((x) => x.kaneTriage));
+  const triagedAsTest = triaged.filter((r) => { const t = r.runs.find((x) => x.kaneTriage).kaneTriage; return !(t.family === 'product_bug' || t.confirmed); });
+
   const byStatus = (st) => rows.filter((r) => r.status === st);
   const fixFor = new Map(fixes.filter((f) => f.result === 'killed').map((f) => [f.id, f]));
   const card = (r, withShot) => `
@@ -68,6 +79,7 @@ export function writeReport(dir) {
       ${r.expect ? `<p class="expect">A good test would: ${esc(r.expect.charAt(0).toLowerCase() + r.expect.slice(1))}.</p>` : ''}
       <p class="meta">Tests that walked past it: ${(r.touches_tests || []).map((t) => `<code>${esc(t)}</code>`).join(' ')}</p>
       ${r.status === 'masked' ? `<p class="warn">With healing off, <code>${esc(r.killed_by)}</code> failed. With Kane's default healing it re-authored its steps and <strong>passed on the broken app</strong>.</p>` : ''}
+      ${triage(r)}
       ${fixFor.has(r.id) ? `<p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (${esc(fixFor.get(r.id).proof?.clean?.session || '')} / ${esc(fixFor.get(r.id).proof?.mutant?.session || '')}).</p>` : ''}
       ${withShot ? shot(r) : ''}
       <details><summary>Mutant id</summary><code>${esc(r.id)}</code></details>
@@ -94,7 +106,7 @@ table{width:100%;border-collapse:collapse;background:var(--surface);border:1px s
 .mutant{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--nr);border-radius:8px;padding:14px}
 .mutant.survived{border-left-color:var(--survived)}.mutant.masked{border-left-color:var(--masked)}.mutant.killed{border-left-color:var(--killed)}
 .pill{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-right:8px}.pill.survived{color:var(--survived)}.pill.masked{color:var(--masked)}.pill.killed{color:var(--killed)}.pill.not-reached,.pill.error{color:var(--nr)}
-.op{font-size:.8rem;color:var(--muted)}.expect,.meta{color:var(--muted);font-size:.9rem;margin:4px 0}.warn{color:var(--masked);font-size:.9rem}.fixed{color:var(--killed);font-size:.9rem}
+.op{font-size:.8rem;color:var(--muted)}.expect,.meta{color:var(--muted);font-size:.9rem;margin:4px 0}.warn{color:var(--masked);font-size:.9rem}.triage{font-size:.85rem;color:var(--muted);border-left:2px solid var(--line);padding-left:8px}.fixed{color:var(--killed);font-size:.9rem}
 figure{margin:10px 0 0}img{max-width:100%;border:1px solid var(--line);border-radius:6px}figcaption{font-size:.8rem;color:var(--muted)}
 details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-monospace,Consolas,monospace;font-size:.85em;word-break:break-all}
 .bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;min-width:80px}.bar i{display:block;height:100%;background:var(--killed)}
@@ -128,6 +140,9 @@ ${tests.map((t) => { const b = baseline.tests?.find((x) => x.test === t.test); r
 </tbody></table>
 
 ${coverage ? `<h2>Acceptance criteria</h2><table><thead><tr><th>Criterion</th><th>Kane cover</th><th>Tripwire</th></tr></thead><tbody>${coverage.map((c) => `<tr><td>${esc(c.criterion)}</td><td>${esc(c.kane)}</td><td>${esc(c.state)}</td></tr>`).join('')}</tbody></table><p class="note"><b>Proven but unguarded</b>: the linked tests pass, but none of them caught a mutant that touched them.</p>` : ''}
+
+${triaged.length ? `<h2>How Kane's triage read the planted bugs</h2>
+<p class="note">Every mutant below was a real break in the app. Kane triaged ${triaged.length} of the failing runs; it attributed <strong>${triagedAsTest.length}</strong> of them to the test rather than the product (typically "locator rot": the page changed, so the recording looks stale). From inside a single run a broken app and an outdated test look alike; Tripwire is the outside reference that tells them apart. Treat a triage of "automation bug" on a release branch as a prompt to look, not as a reason to re-record.</p>` : ''}
 
 <h2>Caught (${s.killed})</h2>
 <details><summary>Show all ${s.killed} killed mutants</summary><div class="grid">${byStatus('killed').map((r) => card(r, false)).join('')}</div></details>

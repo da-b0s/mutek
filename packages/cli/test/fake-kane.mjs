@@ -29,5 +29,7 @@ for (const s of spec.steps) {
 }
 await fetch(base + '/_tw/dom', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ events: [{ kind: 'page', url: '/', controls: [], text: seen.join('\n') }] }) }).catch(() => {});
 emit({ type: 'run_end', status: ok ? 'passed' : 'failed', failure_reason: reason });
+if (!ok) emit({ type: 'test_md_bug_verdict', confirmed: false, family: 'automation_bug', category: 'locator_rot', confidence: 0.9, bug_title: 'stale assertion' });
+if (!ok) emit({ type: 'test_md_step_end', step_index: 1, status: 'failed' });
 emit({ type: 'test_md_done', overall_status: ok ? 'passed' : 'failed', session_id: 'fake-' + Date.now() });
 process.exitCode = ok ? 0 : 1; // not process.exit(): it can abort on Windows while fetch sockets close
