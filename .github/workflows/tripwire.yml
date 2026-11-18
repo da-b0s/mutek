@@ -1,0 +1,67 @@
+name: tripwire
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "Incremental: only re-run mutants whose tests changed since this ref (empty = full run)"
+        required: false
+        default: ""
+
+jobs:
+  # Free: unit and integration tests (fake kane-cli), plus the committed score must clear the bar.
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm ci
+      - run: npm test
+      - name: Committed demo score clears the threshold
+        working-directory: demo/shop
+        run: npx tripwire check
+
+  # Real Kane: replays the demo suite against mutants. Needs repository secrets
+  # LT_USERNAME and LT_ACCESS_KEY (TestMu AI basic auth). Runs on pull requests that touch the
+  # demo tests or app, and on demand.
+  mutate:
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && contains(join(github.event.pull_request.labels.*.name, ','), 'tripwire'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      LT_USERNAME: ${{ secrets.LT_USERNAME }}
+      LT_ACCESS_KEY: ${{ secrets.LT_ACCESS_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - uses: browser-actions/setup-chrome@v1
+      - run: npm ci
+      - run: npm install -g @testmuai/kane-cli
+      - name: Log in to Kane
+        run: kane-cli login --username "$LT_USERNAME" --access-key "$LT_ACCESS_KEY"
+      - name: Start the demo shop
+        run: |
+          npm run shop &
+          npx --yes wait-on http://localhost:3000
+      - name: Run Tripwire
+        working-directory: demo/shop
+        run: |
+          if [ -n "${{ github.event.inputs.since }}" ]; then
+            npx tripwire run --quiet --no-heal-check --since "${{ github.event.inputs.since }}"
+          else
+            npx tripwire run --quiet --no-heal-check --max-mutants 20
+          fi
+      - name: Gate on the score
+        working-directory: demo/shop
+        run: npx tripwire check
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tripwire-report
+          path: demo/shop/.tripwire/report/
