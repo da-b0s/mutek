@@ -11,6 +11,7 @@ Usage:
   tripwire report                                         rebuild the HTML report and badge
   tripwire list                                           show the mutant catalogue for the last baseline
   tripwire check   [--threshold 80]                      exit 1 if the score is below the threshold (for hooks)
+  tripwire coverage [--criteria ACCEPTANCE.md]            acceptance criteria: owed, proven, or proven but unguarded
 
 Run "tripwire <command> --help" for the options of one command.`;
 
@@ -30,6 +31,7 @@ export async function main(argv) {
     case 'report': return (await import('./commands/report.js')).default(rest, parseArgs);
     case 'list': return (await import('./commands/list.js')).default(rest, parseArgs);
     case 'check': return (await import('./commands/check.js')).default(rest, parseArgs);
+    case 'coverage': return (await import('./commands/coverage.js')).default(rest, parseArgs);
     default:
       console.error(`Unknown command "${cmd}".\n\n${HELP}`);
       return 2;

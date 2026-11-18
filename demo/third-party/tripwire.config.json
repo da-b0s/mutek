@@ -1,0 +1,12 @@
+{
+  "app": "http://localhost:3100",
+  "port": 8180,
+  "tests": "tests/*_test.md",
+  "reset": null,
+  "maxMutants": 30,
+  "timeout": 180,
+  "threshold": 80,
+  "healCheck": true,
+  "healBudget": 3,
+  "agent": "claude"
+}
