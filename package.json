@@ -12,7 +12,8 @@
     "shop": "npm --workspace demo/shop start",
     "proxy": "node packages/cli/bin/tripwire.js proxy --target http://localhost:3000 --port 8080",
     "demo": "node packages/cli/bin/tripwire.js demo",
-    "test": "node --test \"packages/cli/test/*.test.js\""
+    "test": "node --test \"packages/cli/test/*.test.js\"",
+    "report:publish": "node packages/cli/bin/tripwire.js report --dir demo/shop/.tripwire && node -e \"require('fs').rmSync('docs',{recursive:true,force:true});require('fs').cpSync('demo/shop/.tripwire/report','docs',{recursive:true});require('fs').writeFileSync('docs/.nojekyll','')\""
   },
   "engines": {
     "node": ">=18"

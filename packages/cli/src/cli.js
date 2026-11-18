@@ -17,7 +17,11 @@ Run "tripwire <command> --help" for the options of one command.`;
 export async function main(argv) {
   const [cmd, ...rest] = argv;
   if (!cmd || cmd === '--help' || cmd === '-h' || cmd === 'help') { console.log(HELP); return 0; }
-  if (cmd === '--version' || cmd === '-v') { console.log('0.1.0'); return 0; }
+  if (cmd === '--version' || cmd === '-v') {
+    const { readFileSync } = await import('node:fs');
+    console.log(JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version);
+    return 0;
+  }
   switch (cmd) {
     case 'proxy': return (await import('./commands/proxy.js')).default(rest, parseArgs);
     case 'run': return (await import('./commands/run.js')).default(rest, parseArgs);

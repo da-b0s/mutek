@@ -29,6 +29,7 @@ const HELP = `tripwire run [options]
   --dry-run             generate from the last baseline and print the plan
   --resume              continue the last run: reuse its baseline, skip mutants already in the ledger
   --retry-errors        re-run only the mutants that hit a Kane error in the last run
+  -q, --quiet           one line per mutant, no per-replay progress
   --dir <path>          state directory (default .tripwire)`;
 
 const readJson = (f) => { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch { return null; } };
@@ -68,7 +69,7 @@ export default async function run(argv, parseArgs) {
       tests: { type: 'string' }, app: { type: 'string' }, port: { type: 'string' },
       'max-mutants': { type: 'string' }, only: { type: 'string' }, since: { type: 'string' },
       'no-heal-check': { type: 'boolean' }, 'heal-budget': { type: 'string' }, timeout: { type: 'string' },
-      'baseline-only': { type: 'boolean' }, 'dry-run': { type: 'boolean' }, resume: { type: 'boolean' }, 'retry-errors': { type: 'boolean' }, dir: { type: 'string' },
+      'baseline-only': { type: 'boolean' }, 'dry-run': { type: 'boolean' }, resume: { type: 'boolean' }, 'retry-errors': { type: 'boolean' }, quiet: { type: 'boolean', short: 'q' }, dir: { type: 'string' },
       help: { type: 'boolean', short: 'h' }
     }
   });
@@ -189,12 +190,13 @@ export default async function run(argv, parseArgs) {
       console.log(`${done.length} mutants already done, ${todo.length} to go`);
     }
     for (const [i, m] of todo.entries()) {
-      const row = await runMutant(m, { tw, cfg, base, runDir, healAllowed: cfg.healCheck && healChecks < cfg.healBudget });
+      if (!values.quiet) console.log(`  [${String(i + 1).padStart(2)}/${todo.length}] ${m.family} · ${m.operator}: ${m.describe}`);
+      const row = await runMutant(m, { tw, cfg, base, runDir, healAllowed: cfg.healCheck && healChecks < cfg.healBudget, progress: values.quiet ? undefined : (msg) => console.log(`          ${msg}`) });
       if (row.healChecked) healChecks++;
       Object.assign(row, { run: runId, commit, at: new Date().toISOString() });
       rows.push(row);
       appendLedger(dir, row);
-      console.log(`  [${String(i + 1).padStart(2)}/${todo.length}] ${label(row.status)} ${m.describe}${row.killed_by ? `  (by ${row.killed_by})` : ''}`);
+      console.log(`  ${values.quiet ? `[${String(i + 1).padStart(2)}/${todo.length}] ` : '        → '}${values.quiet ? label(row.status) : label(row.status).trim()} ${values.quiet ? m.describe : ''}${row.killed_by ? `${values.quiet ? '  ' : ''}(by ${row.killed_by})` : ''}`);
     }
     await tw.disarm();
     fs.rmSync(path.join(dir, 'current-run.json'), { force: true });
@@ -244,7 +246,7 @@ const hiccup = (n, msg) => console.log(`    kane service hiccup (${msg}); waitin
 const label = (s) => ({ killed: 'killed     ', survived: 'SURVIVED   ', masked: 'MASKED     ', 'not-reached': 'not reached', error: 'error      ' }[s] || s);
 
 // Arm one mutant, replay the tests that touch it (healing off) until one fails.
-export async function runMutant(m, { tw, cfg, base, runDir, healAllowed }) {
+export async function runMutant(m, { tw, cfg, base, runDir, healAllowed, progress = () => {} }) {
   const row = { id: m.id, family: m.family, operator: m.operator, describe: m.describe, expect: m.expect, touches_tests: m.touches_tests, status: null, fired: false, runs: [] };
   const mdir = path.join(runDir, slug(m.id));
   fs.mkdirSync(mdir, { recursive: true });
@@ -261,6 +263,7 @@ export async function runMutant(m, { tw, cfg, base, runDir, healAllowed }) {
       // Kane can rewrite a recording during any run against the broken app (observed even on
       // failed runs), so every mutant run gets the real recording back afterwards.
       const restore = snapshotRecording(t);
+      progress(`replaying ${t}${attempt ? ' (retry)' : ''}`);
       try {
         r = await runTest(t, { timeout: cfg.timeout, logFile: path.join(mdir, `${slug(t)}_${attempt}.ndjson`), onRetry: hiccup });
       } finally { restore(); }
@@ -285,6 +288,7 @@ export async function runMutant(m, { tw, cfg, base, runDir, healAllowed }) {
   // Heal check: would Kane's default healing have re-authored its way past this bug?
   if (row.status === 'killed' && healAllowed) {
     row.healChecked = true;
+    progress(`caught by ${row.killed_by}; heal check: same bug with Kane's default healing on`);
     await tw.disarm();
     await resetApp(cfg, base);
     await tw.reset(row.killed_by, false);

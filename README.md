@@ -39,9 +39,12 @@ Masked by healing: a one-off "session expired" (401) during cancel. Strict repla
 Kane's default adaptive healing the test re-authored itself past the sign-in page and passed.
 
 Each fix was proven on the first attempt by two Kane runs: pass on the real app, fail with the bug
-armed. Score = killed ÷ (killed + survived + masked) over 32 of 40 selected mutants; the remaining
-8 are queued (`tripwire run --resume`). The full [report](demo/shop/.tripwire/report/index.html)
-has a screenshot of every broken page the suite passed on, and Kane's own triage of every failure.
+armed. One honest caveat: the order-list fix names the injected order ("no other rows such as
+#91002"); its "exactly 2 orders" check is what catches the bug, but naming the planted value is
+overfitting, so the fix prompt now forbids it. Score = killed ÷ (killed + survived + masked) over 32 of 40 selected mutants; the remaining
+8 are queued (`tripwire run --resume`). The full report
+([live page](https://da-b0s.github.io/tripwire/), [source](docs/index.html)) has a screenshot of
+every broken page the suite passed on, and Kane's own triage of every failure.
 
 **Cost:** baseline replay of 6 tests ≈ 4 credits; mutant runs ≈ 1 to 5 credits each (a failing
 replay costs more because Kane investigates it); a heal check ≈ 15 to 35; each proven fix ≈ 25.
@@ -64,13 +67,22 @@ tripwire fix      # hand each survivor to your agent; Kane proves every new asse
 tripwire check    # exit 1 below the threshold (for hooks and CI)
 ```
 
-Try it on the bundled demo shop:
+Try it on the bundled demo shop (its Kane suite and recordings are committed):
 
 ```bash
 git clone https://github.com/da-b0s/tripwire && cd tripwire && npm install
-npm run shop &                      # the app, on :3000
-cd demo/shop && npx tripwire run    # starts the proxy on :8080 itself
+npm run shop                        # terminal 1: the app, on :3000
 ```
+
+```bash
+cd demo/shop && npx tripwire run    # terminal 2: starts the proxy on :8080 itself
+```
+
+Without spending any credits you can inspect the committed results: `npx tripwire check`,
+`npx tripwire list`, `npx tripwire run --dry-run` and `npx tripwire report` all work offline.
+
+Long runs are safe to interrupt: `tripwire run --resume` continues from the last finished mutant,
+and `tripwire run --retry-errors` re-runs only mutants that hit a Kane service error.
 
 ## What a score means
 

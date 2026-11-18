@@ -11,7 +11,8 @@
     "src",
     "operators",
     "policies",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "dependencies": {
     "adm-zip": "^0.5.16",
@@ -28,5 +29,15 @@
     "ai-agents",
     "chaos"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/da-b0s/tripwire.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/da-b0s/tripwire#readme",
+  "bugs": {
+    "url": "https://github.com/da-b0s/tripwire/issues"
+  },
+  "author": "da-b0s"
 }
