@@ -1,0 +1,27 @@
+I wrote 8 mutants to `.tripwire/saboteur.json`. I haven't run them against the suite yet.
+
+| # | Mutant | Rule it breaks | Response rewritten |
+|---|---|---|---|
+| 1 | `save10-takes-20-percent` | AC9: SAVE10 takes 20% off; the discount and total change to match | `POST /api/cart/coupon` |
+| 2 | `free-shipping-below-50` | AC13: shipping is free on a $31.05 order | `POST /api/cart/coupon` |
+| 3 | `line-total-ignores-quantity` | AC6: quantity 2 still shows a $22.00 line total and subtotal | `PUT /api/cart/items/p3` |
+| 4 | `cart-badge-double-counts` | AC7: the header badge shows 2 after adding one item | `POST /api/cart/items` |
+| 5 | `cancel-leaves-order-placed` | AC19: the order stays "Placed" after a confirmed cancel | `POST /api/orders/1002/cancel` |
+| 6 | `orders-show-other-customer` | AC18: My orders includes another customer's order #91002 | `GET /api/orders` |
+| 7 | `orders-oldest-first` | AC18: My orders lists the oldest order first | `GET /api/orders` |
+| 8 | `confirmation-total-drops-shipping` | AC14/AC16: the confirmation says $18.00 was charged, not $22.99 | `POST /api/orders` |
+
+I skipped a mutant that would make the out-of-stock "Insulated Bottle" addable. Its entry was cut off in the recorded traffic, so I couldn't confirm its position in `$.products` or its fields.
+
+From reading the tests, mutants 3, 6 and 8 look covered. The cart, cancel-order and checkout tests check those exact values. The others probably survive:
+- **Mutant 1:** the coupon test asserts the totals but not the cart's money fields.
+- **Mutant 2:** the same: the totals are asserted, the cart's money fields aren't.
+- **Mutant 4:** the badge is only checked after the add, and the add's response is the one this mutant changes.
+- **Mutant 5:** the order-history view of the cancelled order isn't re-checked.
+- **Mutant 7:** no test asserts row order.
+
+`npx tripwire run --since HEAD` will give the real result.
+
+**8**
+
+----- stderr -----

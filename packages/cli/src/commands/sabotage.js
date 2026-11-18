@@ -66,6 +66,17 @@ When done, reply with the number of mutants written.`;
   console.log(`Asking ${agent} for ${count} domain-specific mutants...`);
   const r = await runAgent(agent, prompt);
   if (r.code === 127) throw new Error(`could not start the ${agent} CLI: ${r.stderr.trim()}`);
+  fs.writeFileSync(path.join(dir, 'sabotage_reply.txt'), `${r.stdout}\n----- stderr -----\n${r.stderr}`);
+  // Some agents answer with the JSON instead of writing the file: take the largest JSON array.
+  if (!fs.existsSync(out)) {
+    const arrays = [...r.stdout.matchAll(/```(?:json)?\s*(\[[\s\S]*?\])\s*```/g)].map((x) => x[1]);
+    const whole = r.stdout.indexOf('['), last = r.stdout.lastIndexOf(']');
+    if (whole >= 0 && last > whole) arrays.push(r.stdout.slice(whole, last + 1));
+    for (const a of arrays.sort((x, y) => y.length - x.length)) {
+      try { const parsed = JSON.parse(a); if (Array.isArray(parsed) && parsed.length) { fs.writeFileSync(out, JSON.stringify(parsed, null, 2)); break; } } catch { /* try the next */ }
+    }
+  }
+  if (!fs.existsSync(out)) console.log(`The agent did not produce mutants. Its reply is in ${path.join(dir, 'sabotage_reply.txt')}`);
   const { mutants, rejected } = loadSaboteur(dir);
   for (const m of mutants) console.log(`  + ${m.id}: ${m.describe}`);
   for (const x of rejected) console.log(`  - rejected ${x.id}: ${x.errors.join('; ')}`);

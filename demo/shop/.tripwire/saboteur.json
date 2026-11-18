@@ -1,0 +1,80 @@
+[
+  {
+    "id": "save10-takes-20-percent",
+    "describe": "The SAVE10 coupon takes 20% off instead of 10%",
+    "expect": "After applying SAVE10 to a $34.50 cart, the Discount reads −$3.45 and the Total reads $36.04",
+    "match": { "method": "POST", "path": "/api/cart/coupon" },
+    "action": { "type": "json", "ops": [
+      { "op": "set", "path": "$.discount", "value": 6.9 },
+      { "op": "set", "path": "$.total", "value": 32.59 }
+    ] }
+  },
+  {
+    "id": "free-shipping-below-50",
+    "describe": "Shipping is free on a $31.05 order even though free shipping starts at $50",
+    "expect": "With a discounted subtotal under $50, Shipping reads $4.99 and the Total includes it ($36.04)",
+    "match": { "method": "POST", "path": "/api/cart/coupon" },
+    "action": { "type": "json", "ops": [
+      { "op": "set", "path": "$.shipping", "value": 0 },
+      { "op": "set", "path": "$.total", "value": 31.05 }
+    ] }
+  },
+  {
+    "id": "line-total-ignores-quantity",
+    "describe": "Raising the quantity to 2 leaves the line total and subtotal at the single-item price",
+    "expect": "With quantity 2 of a $22.00 item, the line total and Subtotal read $44.00",
+    "match": { "method": "PUT", "path": "/api/cart/items/p3" },
+    "action": { "type": "json", "ops": [
+      { "op": "set", "path": "$.items[0].lineTotal", "value": 22 },
+      { "op": "set", "path": "$.subtotal", "value": 22 },
+      { "op": "set", "path": "$.total", "value": 26.99 }
+    ] }
+  },
+  {
+    "id": "cart-badge-double-counts",
+    "describe": "Adding one item makes the cart badge show 2",
+    "expect": "After adding one product to an empty cart, the header badge shows 1",
+    "match": { "method": "POST", "path": "/api/cart/items" },
+    "action": { "type": "json", "ops": [
+      { "op": "set", "path": "$.count", "value": 2 }
+    ] }
+  },
+  {
+    "id": "cancel-leaves-order-placed",
+    "describe": "Confirming a cancellation leaves the order showing status Placed",
+    "expect": "After confirming the cancel dialog, the order row shows status Cancelled and no Cancel button",
+    "match": { "method": "POST", "path": "/api/orders/1002/cancel" },
+    "action": { "type": "json", "ops": [
+      { "op": "set", "path": "$.status", "value": "placed" }
+    ] }
+  },
+  {
+    "id": "orders-show-other-customer",
+    "describe": "My orders also lists an order belonging to another customer",
+    "expect": "My orders lists exactly #1002 and #1001 and no order from another customer such as #91002",
+    "match": { "method": "GET", "path": "/api/orders" },
+    "action": { "type": "json", "ops": [
+      { "op": "push", "path": "$.orders", "value": { "id": "91002", "owner": "u2", "ownerName": "Jordan Lee", "status": "placed", "createdAt": "2026-11-10T09:00:00Z", "itemCount": 3, "total": 61.25 } }
+    ] }
+  },
+  {
+    "id": "orders-oldest-first",
+    "describe": "My orders lists the oldest order first instead of the newest",
+    "expect": "The first row in My orders is the newest order #1002, followed by #1001",
+    "match": { "method": "GET", "path": "/api/orders" },
+    "action": { "type": "respond", "status": 200, "body": { "orders": [
+      { "id": "1001", "owner": "u1", "ownerName": "Sam Rivera", "status": "delivered", "createdAt": "2026-11-02T10:15:00Z", "itemCount": 2, "total": 23.99 },
+      { "id": "1002", "owner": "u1", "ownerName": "Sam Rivera", "status": "placed", "createdAt": "2026-11-14T16:40:00Z", "itemCount": 2, "total": 38.74 }
+    ] } }
+  },
+  {
+    "id": "confirmation-total-drops-shipping",
+    "describe": "The order confirmation says $18.00 was charged although the cart total was $22.99 with shipping",
+    "expect": "The confirmation's 'Total charged' matches the checkout total of $22.99, including $4.99 shipping",
+    "match": { "method": "POST", "path": "/api/orders" },
+    "action": { "type": "json", "ops": [
+      { "op": "set", "path": "$.shipping", "value": 0 },
+      { "op": "set", "path": "$.total", "value": 18 }
+    ] }
+  }
+]
