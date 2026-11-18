@@ -4,7 +4,7 @@
    "test": "tests/browse_test.md",
    "traffic": [
     {
-     "seq": 128,
+     "seq": 171,
      "test": "tests/browse_test.md",
      "method": "GET",
      "path": "/",
@@ -14,7 +14,7 @@
      "document": true
     },
     {
-     "seq": 129,
+     "seq": 172,
      "test": "tests/browse_test.md",
      "method": "GET",
      "path": "/api/products",
@@ -81,7 +81,7 @@
      }
     },
     {
-     "seq": 130,
+     "seq": 173,
      "test": "tests/browse_test.md",
      "method": "GET",
      "path": "/api/cart",
@@ -100,7 +100,7 @@
      }
     },
     {
-     "seq": 131,
+     "seq": 174,
      "test": "tests/browse_test.md",
      "method": "GET",
      "path": "/api/products/p2",
@@ -427,7 +427,7 @@
    "test": "tests/cancel_order_test.md",
    "traffic": [
     {
-     "seq": 132,
+     "seq": 175,
      "test": "tests/cancel_order_test.md",
      "method": "GET",
      "path": "/",
@@ -437,7 +437,7 @@
      "document": true
     },
     {
-     "seq": 133,
+     "seq": 176,
      "test": "tests/cancel_order_test.md",
      "method": "GET",
      "path": "/api/products",
@@ -504,7 +504,7 @@
      }
     },
     {
-     "seq": 134,
+     "seq": 177,
      "test": "tests/cancel_order_test.md",
      "method": "GET",
      "path": "/api/cart",
@@ -523,7 +523,7 @@
      }
     },
     {
-     "seq": 135,
+     "seq": 178,
      "test": "tests/cancel_order_test.md",
      "method": "GET",
      "path": "/api/orders",
@@ -554,7 +554,7 @@
      }
     },
     {
-     "seq": 136,
+     "seq": 179,
      "test": "tests/cancel_order_test.md",
      "method": "POST",
      "path": "/api/orders/1002/cancel",
@@ -593,7 +593,7 @@
      }
     },
     {
-     "seq": 137,
+     "seq": 180,
      "test": "tests/cancel_order_test.md",
      "method": "GET",
      "path": "/api/orders",
@@ -1020,7 +1020,7 @@
    "test": "tests/cart_test.md",
    "traffic": [
     {
-     "seq": 138,
+     "seq": 181,
      "test": "tests/cart_test.md",
      "method": "GET",
      "path": "/",
@@ -1030,7 +1030,7 @@
      "document": true
     },
     {
-     "seq": 139,
+     "seq": 182,
      "test": "tests/cart_test.md",
      "method": "GET",
      "path": "/api/products",
@@ -1097,7 +1097,7 @@
      }
     },
     {
-     "seq": 140,
+     "seq": 183,
      "test": "tests/cart_test.md",
      "method": "GET",
      "path": "/api/cart",
@@ -1116,7 +1116,7 @@
      }
     },
     {
-     "seq": 141,
+     "seq": 184,
      "test": "tests/cart_test.md",
      "method": "POST",
      "path": "/api/cart/items",
@@ -1147,7 +1147,7 @@
      }
     },
     {
-     "seq": 142,
+     "seq": 185,
      "test": "tests/cart_test.md",
      "method": "GET",
      "path": "/api/cart",
@@ -1174,7 +1174,7 @@
      }
     },
     {
-     "seq": 143,
+     "seq": 186,
      "test": "tests/cart_test.md",
      "method": "PUT",
      "path": "/api/cart/items/p3",
@@ -1204,7 +1204,7 @@
      }
     },
     {
-     "seq": 144,
+     "seq": 187,
      "test": "tests/cart_test.md",
      "method": "GET",
      "path": "/api/cart",
@@ -1231,7 +1231,7 @@
      }
     },
     {
-     "seq": 145,
+     "seq": 188,
      "test": "tests/cart_test.md",
      "method": "PUT",
      "path": "/api/cart/items/p3",
@@ -1261,7 +1261,7 @@
      }
     },
     {
-     "seq": 146,
+     "seq": 189,
      "test": "tests/cart_test.md",
      "method": "GET",
      "path": "/api/cart",
@@ -1721,7 +1721,7 @@
    "test": "tests/checkout_test.md",
    "traffic": [
     {
-     "seq": 147,
+     "seq": 190,
      "test": "tests/checkout_test.md",
      "method": "GET",
      "path": "/",
@@ -1731,7 +1731,7 @@
      "document": true
     },
     {
-     "seq": 148,
+     "seq": 191,
      "test": "tests/checkout_test.md",
      "method": "GET",
      "path": "/api/products",
@@ -1798,7 +1798,7 @@
      }
     },
     {
-     "seq": 149,
+     "seq": 192,
      "test": "tests/checkout_test.md",
      "method": "GET",
      "path": "/api/cart",
@@ -1817,7 +1817,7 @@
      }
     },
     {
-     "seq": 150,
+     "seq": 193,
      "test": "tests/checkout_test.md",
      "method": "POST",
      "path": "/api/cart/items",
@@ -1848,7 +1848,7 @@
      }
     },
     {
-     "seq": 151,
+     "seq": 194,
      "test": "tests/checkout_test.md",
      "method": "GET",
      "path": "/api/cart",
@@ -1875,7 +1875,7 @@
      }
     },
     {
-     "seq": 152,
+     "seq": 195,
      "test": "tests/checkout_test.md",
      "method": "GET",
      "path": "/api/cart",
@@ -1902,7 +1902,7 @@
      }
     },
     {
-     "seq": 153,
+     "seq": 196,
      "test": "tests/checkout_test.md",
      "method": "POST",
      "path": "/api/orders",
@@ -1921,7 +1921,7 @@
       "email": "ada@example.com",
       "address": "7 Marina Street, Lagos",
       "status": "placed",
-      "createdAt": "2026-11-17T14:24:42.454Z",
+      "createdAt": "2026-11-18T02:47:41.563Z",
       "coupon": null,
       "items": [
        {
@@ -1939,7 +1939,7 @@
      }
     },
     {
-     "seq": 154,
+     "seq": 197,
      "test": "tests/checkout_test.md",
      "method": "GET",
      "path": "/api/orders/1003",
@@ -1953,7 +1953,7 @@
       "email": "ada@example.com",
       "address": "7 Marina Street, Lagos",
       "status": "placed",
-      "createdAt": "2026-11-17T14:24:42.454Z",
+      "createdAt": "2026-11-18T02:47:41.563Z",
       "coupon": null,
       "items": [
        {
@@ -2576,7 +2576,7 @@
    "test": "tests/coupon_test.md",
    "traffic": [
     {
-     "seq": 155,
+     "seq": 198,
      "test": "tests/coupon_test.md",
      "method": "GET",
      "path": "/",
@@ -2586,7 +2586,7 @@
      "document": true
     },
     {
-     "seq": 156,
+     "seq": 199,
      "test": "tests/coupon_test.md",
      "method": "GET",
      "path": "/api/products",
@@ -2653,7 +2653,7 @@
      }
     },
     {
-     "seq": 157,
+     "seq": 200,
      "test": "tests/coupon_test.md",
      "method": "GET",
      "path": "/api/cart",
@@ -2672,7 +2672,7 @@
      }
     },
     {
-     "seq": 158,
+     "seq": 201,
      "test": "tests/coupon_test.md",
      "method": "POST",
      "path": "/api/cart/items",
@@ -2703,7 +2703,7 @@
      }
     },
     {
-     "seq": 159,
+     "seq": 202,
      "test": "tests/coupon_test.md",
      "method": "GET",
      "path": "/api/cart",
@@ -2730,7 +2730,7 @@
      }
     },
     {
-     "seq": 160,
+     "seq": 203,
      "test": "tests/coupon_test.md",
      "method": "POST",
      "path": "/api/cart/coupon",
@@ -2765,7 +2765,7 @@
      }
     },
     {
-     "seq": 161,
+     "seq": 204,
      "test": "tests/coupon_test.md",
      "method": "GET",
      "path": "/api/cart",
@@ -3228,7 +3228,7 @@
    "test": "tests/order_history_test.md",
    "traffic": [
     {
-     "seq": 162,
+     "seq": 205,
      "test": "tests/order_history_test.md",
      "method": "GET",
      "path": "/",
@@ -3238,7 +3238,7 @@
      "document": true
     },
     {
-     "seq": 163,
+     "seq": 206,
      "test": "tests/order_history_test.md",
      "method": "GET",
      "path": "/api/products",
@@ -3305,7 +3305,7 @@
      }
     },
     {
-     "seq": 164,
+     "seq": 207,
      "test": "tests/order_history_test.md",
      "method": "GET",
      "path": "/api/cart",
@@ -3324,7 +3324,7 @@
      }
     },
     {
-     "seq": 165,
+     "seq": 208,
      "test": "tests/order_history_test.md",
      "method": "GET",
      "path": "/api/orders",
@@ -3355,7 +3355,7 @@
      }
     },
     {
-     "seq": 166,
+     "seq": 209,
      "test": "tests/order_history_test.md",
      "method": "GET",
      "path": "/api/orders/1001",
@@ -3809,6 +3809,6 @@
    ]
   }
  ],
- "created": "2026-11-17T14:22:14.757Z",
- "commit": "7455f47"
+ "created": "2026-11-18T02:45:15.489Z",
+ "commit": "92ef8a5"
 }

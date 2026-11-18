@@ -1,0 +1,2 @@
+{"type":"stream_start","cli_version":"0.10.5","surface":"testmd","pid":20000,"v":1,"ts":"2026-11-18T04:52:11.896Z"}
+error: TMS did not return an org_id. Run `kane-cli login` again.

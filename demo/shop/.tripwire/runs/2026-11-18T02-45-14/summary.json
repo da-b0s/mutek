@@ -1,0 +1,70 @@
+{
+  "run": "2026-11-18T02-45-14",
+  "commit": "f20ecaa",
+  "creditsUsed": null,
+  "baseline": [
+    {
+      "test": "tests/browse_test.md",
+      "code": 0,
+      "durationMs": 39348,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\13324a5a-00f2-44cf-ac10-1e042f548e61.evidence",
+      "verdict": "pass",
+      "testsWithoutChecks": 0,
+      "session": "6d49f662-f402-48e1-9ad9-1a2b86841ada"
+    },
+    {
+      "test": "tests/cancel_order_test.md",
+      "code": 0,
+      "durationMs": 32240,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\1684d6dd-f851-4372-9440-94dd7352c33d.evidence",
+      "verdict": "pass",
+      "testsWithoutChecks": 0,
+      "session": "a2d36a3e-bee4-48e5-b120-bede39f93187"
+    },
+    {
+      "test": "tests/cart_test.md",
+      "code": 0,
+      "durationMs": 34687,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\c9e61061-ea4b-48eb-995f-24cdfcf502d4.evidence",
+      "verdict": "pass",
+      "testsWithoutChecks": 0,
+      "session": "9c5a2029-fa56-4cea-b796-ca3b958e73b4"
+    },
+    {
+      "test": "tests/checkout_test.md",
+      "code": 0,
+      "durationMs": 56508,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\a65dcb6c-2299-4249-963e-15eab586112e.evidence",
+      "verdict": "pass",
+      "testsWithoutChecks": 0,
+      "session": "121f7c61-ab62-4752-8349-27c4dba7bb31"
+    },
+    {
+      "test": "tests/coupon_test.md",
+      "code": 0,
+      "durationMs": 45294,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\816098a1-c8e3-4946-85ce-96772f3c2a33.evidence",
+      "verdict": "pass",
+      "testsWithoutChecks": 0,
+      "session": "cd8a9ec6-d4dd-4983-b3b8-5d91c447a9a8"
+    },
+    {
+      "test": "tests/order_history_test.md",
+      "code": 0,
+      "durationMs": 37607,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\3ee107e4-b9af-41d2-b6c3-c3b648f83c9b.evidence",
+      "verdict": "pass",
+      "testsWithoutChecks": 0,
+      "session": "674d05cc-6612-462b-b03b-1b6dc0a27b74"
+    }
+  ],
+  "score": {
+    "killed": 25,
+    "survived": 4,
+    "masked": 1,
+    "not-reached": 2,
+    "error": 0,
+    "total": 32,
+    "score": 83.3
+  }
+}

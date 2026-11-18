@@ -87,10 +87,14 @@ export default async function run(argv, parseArgs) {
     const rows = readLedger(dir);
     const last = lastRunId(rows);
     const errored = latest(rows, last).filter((r) => r.status === 'error');
-    if (!errored.length) { console.log('No errored mutants in the last run.'); return 0; }
+    const pending = readJson(path.join(dir, 'current-run.json'));
+    if (!errored.length && !(pending?.run === last)) { console.log('No errored mutants in the last run.'); return 0; }
     const kept = rows.filter((r) => !(r.run === last && r.status === 'error'));
     fs.writeFileSync(path.join(dir, 'ledger.jsonl'), kept.map((r) => JSON.stringify(r)).join('\n') + (kept.length ? '\n' : ''));
-    fs.writeFileSync(path.join(dir, 'current-run.json'), JSON.stringify({ run: last, picked: latest(rows, last).map((r) => r.id) }));
+    // keep every mutant the run picked, including ones an interrupted run never reached
+    const prev = readJson(path.join(dir, 'current-run.json'));
+    const picked = [...new Set([...(prev?.run === last ? prev.picked : []), ...latest(rows, last).map((r) => r.id)])];
+    fs.writeFileSync(path.join(dir, 'current-run.json'), JSON.stringify({ run: last, picked }));
     console.log(`Retrying ${errored.length} errored mutants of run ${last}`);
     values.resume = true;
   }

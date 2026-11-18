@@ -1,0 +1,909 @@
+{
+  "counts": {
+    "number-drift": {
+      "generated": 66
+    },
+    "item-drop": {
+      "generated": 13
+    },
+    "item-dup": {
+      "generated": 13
+    },
+    "field-swap": {
+      "generated": 2
+    },
+    "stale-read": {
+      "generated": 2
+    },
+    "wrong-owner": {
+      "generated": 1
+    },
+    "silent-fail": {
+      "generated": 7
+    },
+    "fake-success": {
+      "generated": 7
+    },
+    "double-apply": {
+      "generated": 6
+    },
+    "validation-off": {
+      "generated": 7
+    },
+    "auth-drop": {
+      "generated": 4
+    },
+    "hide-control": {
+      "generated": 12
+    },
+    "dead-control": {
+      "generated": 7
+    },
+    "label-swap": {
+      "generated": 6
+    },
+    "text-change": {
+      "generated": 12
+    },
+    "wrong-link": {
+      "generated": 5
+    },
+    "missing-row-action": {
+      "generated": 5
+    },
+    "agent-proposed": {
+      "generated": 0
+    }
+  },
+  "picked": [
+    {
+      "id": "number-drift:GET /api/products:$.products[0].price",
+      "family": "data",
+      "operator": "number-drift",
+      "match": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "action": {
+        "type": "json",
+        "ops": [
+          {
+            "op": "scale",
+            "path": "$.products[0].price",
+            "value": 1.1
+          }
+        ]
+      },
+      "touches_tests": [
+        "tests/browse_test.md",
+        "tests/cancel_order_test.md",
+        "tests/cart_test.md",
+        "tests/checkout_test.md",
+        "tests/coupon_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "price from /api/products shows 19.80 instead of 18",
+      "expect": "The displayed price is checked against the expected value"
+    },
+    {
+      "id": "item-drop:GET /api/products:$.products[0]",
+      "family": "data",
+      "operator": "item-drop",
+      "match": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "action": {
+        "type": "json",
+        "ops": [
+          {
+            "op": "remove-index",
+            "path": "$.products",
+            "index": 0
+          }
+        ]
+      },
+      "touches_tests": [
+        "tests/browse_test.md",
+        "tests/cancel_order_test.md",
+        "tests/cart_test.md",
+        "tests/checkout_test.md",
+        "tests/coupon_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "\"Canvas Tote Bag\" is missing from the products (6 → 5 items)",
+      "expect": "The list length or a named item is checked"
+    },
+    {
+      "id": "item-dup:GET /api/products:$.products[0]",
+      "family": "data",
+      "operator": "item-dup",
+      "match": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "action": {
+        "type": "json",
+        "ops": [
+          {
+            "op": "dup-index",
+            "path": "$.products",
+            "index": 0
+          }
+        ]
+      },
+      "touches_tests": [
+        "tests/browse_test.md",
+        "tests/cancel_order_test.md",
+        "tests/cart_test.md",
+        "tests/checkout_test.md",
+        "tests/coupon_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "\"Canvas Tote Bag\" appears twice in the products (6 → 7 items)",
+      "expect": "The list length or uniqueness is checked"
+    },
+    {
+      "id": "field-swap:GET /api/products:$.products[1].name<->description",
+      "family": "data",
+      "operator": "field-swap",
+      "match": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "action": {
+        "type": "json",
+        "ops": [
+          {
+            "op": "swap",
+            "path": "$.products[1]",
+            "a": "name",
+            "b": "description"
+          }
+        ]
+      },
+      "touches_tests": [
+        "tests/browse_test.md",
+        "tests/cancel_order_test.md",
+        "tests/cart_test.md",
+        "tests/checkout_test.md",
+        "tests/coupon_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "name and description are swapped (\"Ceramic Pour-Over Set\" shows as description)",
+      "expect": "The name shown is checked, not just that something is shown"
+    },
+    {
+      "id": "stale-read:GET /api/orders",
+      "family": "data",
+      "operator": "stale-read",
+      "match": {
+        "method": "GET",
+        "path": "/api/orders"
+      },
+      "action": {
+        "type": "stale-read"
+      },
+      "touches_tests": [
+        "tests/cancel_order_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "/api/orders keeps returning what it returned before the last change",
+      "expect": "The test checks that the change it just made is visible"
+    },
+    {
+      "id": "wrong-owner:GET /api/orders:$.orders",
+      "family": "data",
+      "operator": "wrong-owner",
+      "match": {
+        "method": "GET",
+        "path": "/api/orders"
+      },
+      "action": {
+        "type": "json",
+        "ops": [
+          {
+            "op": "push",
+            "path": "$.orders",
+            "value": {
+              "id": "91002",
+              "owner": "tw-other-user",
+              "ownerName": "Jordan Okafor",
+              "status": "cancelled",
+              "createdAt": "2026-11-14T16:40:00Z",
+              "itemCount": 2,
+              "total": 38.74
+            },
+            "position": "start"
+          }
+        ]
+      },
+      "touches_tests": [
+        "tests/cancel_order_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "Another user's record (owner=\"tw-other-user\") appears in the orders",
+      "expect": "The test checks exactly which records are listed"
+    },
+    {
+      "id": "silent-fail:POST /api/orders/1002/cancel",
+      "family": "behaviour",
+      "operator": "silent-fail",
+      "match": {
+        "method": "POST",
+        "path": "/api/orders/1002/cancel"
+      },
+      "action": {
+        "type": "respond",
+        "status": 500,
+        "body": {
+          "error": "Internal Server Error"
+        }
+      },
+      "touches_tests": [
+        "tests/cancel_order_test.md"
+      ],
+      "describe": "POST /api/orders/1002/cancel fails with a 500 and nothing is saved",
+      "expect": "The test checks the result of the action, not only that it clicked"
+    },
+    {
+      "id": "fake-success:POST /api/orders/1002/cancel",
+      "family": "behaviour",
+      "operator": "fake-success",
+      "match": {
+        "method": "POST",
+        "path": "/api/orders/1002/cancel"
+      },
+      "action": {
+        "type": "respond",
+        "status": 200,
+        "body": {
+          "id": "1002",
+          "owner": "u1",
+          "ownerName": "Sam Rivera",
+          "email": "sam@example.com",
+          "address": "12 Harbour Road, Lagos",
+          "status": "cancelled",
+          "createdAt": "2026-11-14T16:40:00Z",
+          "coupon": null,
+          "items": [
+            {
+              "productId": "p1",
+              "name": "Canvas Tote Bag",
+              "price": 18,
+              "qty": 1,
+              "lineTotal": 18
+            },
+            {
+              "productId": "p4",
+              "name": "Desk Plant (Pothos)",
+              "price": 15.75,
+              "qty": 1,
+              "lineTotal": 15.75
+            }
+          ],
+          "subtotal": 33.75,
+          "discount": 0,
+          "shipping": 4.99,
+          "total": 38.74
+        }
+      },
+      "touches_tests": [
+        "tests/cancel_order_test.md"
+      ],
+      "describe": "POST /api/orders/1002/cancel reports success but the change is never saved",
+      "expect": "The test re-reads the data (reload or another page) after the change"
+    },
+    {
+      "id": "double-apply:POST /api/orders/1002/cancel",
+      "family": "behaviour",
+      "operator": "double-apply",
+      "match": {
+        "method": "POST",
+        "path": "/api/orders/1002/cancel"
+      },
+      "action": {
+        "type": "forward-twice"
+      },
+      "touches_tests": [
+        "tests/cancel_order_test.md"
+      ],
+      "describe": "POST /api/orders/1002/cancel is applied twice",
+      "expect": "The test checks the exact quantity or number of records afterwards"
+    },
+    {
+      "id": "validation-off:POST /api/orders/1002/cancel",
+      "family": "behaviour",
+      "operator": "validation-off",
+      "match": {
+        "method": "POST",
+        "path": "/api/orders/1002/cancel"
+      },
+      "action": {
+        "type": "status-map",
+        "from": [
+          400,
+          422
+        ],
+        "to": 200
+      },
+      "touches_tests": [
+        "tests/cancel_order_test.md"
+      ],
+      "describe": "Invalid input to POST /api/orders/1002/cancel is treated as a success",
+      "expect": "A test submits invalid input and checks the error message"
+    },
+    {
+      "id": "auth-drop:POST /api/orders/1002/cancel",
+      "family": "behaviour",
+      "operator": "auth-drop",
+      "match": {
+        "method": "POST",
+        "path": "/api/orders/1002/cancel"
+      },
+      "action": {
+        "type": "respond",
+        "status": 401,
+        "body": {
+          "error": "Unauthorized"
+        }
+      },
+      "touches_tests": [
+        "tests/cancel_order_test.md"
+      ],
+      "describe": "POST /api/orders/1002/cancel returns 401 once, mid-flow",
+      "times": 1,
+      "expect": "The test checks the page it lands on after each step"
+    },
+    {
+      "id": "hide-control:button:\"Keep order\"",
+      "family": "interface",
+      "operator": "hide-control",
+      "match": {
+        "document": true
+      },
+      "action": {
+        "type": "dom",
+        "dom": {
+          "op": "hide",
+          "target": {
+            "role": "button",
+            "text": "Keep order"
+          }
+        }
+      },
+      "touches_tests": [
+        "tests/cancel_order_test.md"
+      ],
+      "describe": "The \"Keep order\" button is missing",
+      "expect": "The test checks that \"Keep order\" is offered"
+    },
+    {
+      "id": "dead-control:button:\"Add to cart\"",
+      "family": "interface",
+      "operator": "dead-control",
+      "match": {
+        "document": true
+      },
+      "action": {
+        "type": "dom",
+        "dom": {
+          "op": "dead",
+          "target": {
+            "role": "button",
+            "text": "Add to cart"
+          }
+        }
+      },
+      "touches_tests": [
+        "tests/browse_test.md",
+        "tests/cancel_order_test.md",
+        "tests/cart_test.md",
+        "tests/checkout_test.md",
+        "tests/coupon_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "Clicking \"Add to cart\" does nothing",
+      "expect": "The test checks what \"Add to cart\" is supposed to change"
+    },
+    {
+      "id": "label-swap:\"Cancel\"<->\"Keep order\"",
+      "family": "interface",
+      "operator": "label-swap",
+      "match": {
+        "document": true
+      },
+      "action": {
+        "type": "dom",
+        "dom": {
+          "op": "swap-labels",
+          "target": {
+            "role": "button",
+            "text": "Cancel"
+          },
+          "other": {
+            "role": "button",
+            "text": "Keep order"
+          }
+        }
+      },
+      "touches_tests": [
+        "tests/cancel_order_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "The \"Cancel\" and \"Keep order\" buttons have each other's labels",
+      "expect": "The test checks the outcome of the button it pressed"
+    },
+    {
+      "id": "text-change:status:\"Placed\"",
+      "family": "interface",
+      "operator": "text-change",
+      "match": {
+        "document": true
+      },
+      "action": {
+        "type": "dom",
+        "dom": {
+          "op": "replace-text",
+          "target": {
+            "role": "text",
+            "text": "Placed"
+          },
+          "replacement": "Delivered"
+        }
+      },
+      "touches_tests": [
+        "tests/cancel_order_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "The \"Placed\" status shows \"Delivered\"",
+      "expect": "The test checks the status shown, not only that a row exists"
+    },
+    {
+      "id": "wrong-link:\"My orders\"->#/",
+      "family": "interface",
+      "operator": "wrong-link",
+      "match": {
+        "document": true
+      },
+      "action": {
+        "type": "dom",
+        "dom": {
+          "op": "relink",
+          "target": {
+            "role": "link",
+            "text": "My orders"
+          },
+          "href": "#/"
+        }
+      },
+      "touches_tests": [
+        "tests/browse_test.md",
+        "tests/cancel_order_test.md",
+        "tests/cart_test.md",
+        "tests/checkout_test.md",
+        "tests/coupon_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "The \"My orders\" link goes to #/ instead of #/orders",
+      "expect": "After following a link the test checks where it landed"
+    },
+    {
+      "id": "missing-row-action:\"Add to cart\"",
+      "family": "interface",
+      "operator": "missing-row-action",
+      "match": {
+        "document": true
+      },
+      "action": {
+        "type": "dom",
+        "dom": {
+          "op": "remove-row-action",
+          "target": {
+            "role": "button",
+            "text": "Add to cart"
+          }
+        }
+      },
+      "touches_tests": [
+        "tests/browse_test.md",
+        "tests/cancel_order_test.md",
+        "tests/cart_test.md",
+        "tests/checkout_test.md",
+        "tests/coupon_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "The first row has no \"Add to cart\" action",
+      "expect": "The test checks that each row offers \"Add to cart\""
+    },
+    {
+      "id": "number-drift:GET /api/orders:$.orders[0].total",
+      "family": "data",
+      "operator": "number-drift",
+      "match": {
+        "method": "GET",
+        "path": "/api/orders"
+      },
+      "action": {
+        "type": "json",
+        "ops": [
+          {
+            "op": "scale",
+            "path": "$.orders[0].total",
+            "value": 1.1
+          }
+        ]
+      },
+      "touches_tests": [
+        "tests/cancel_order_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "total from /api/orders shows 42.61 instead of 38.74",
+      "expect": "The displayed total is checked against the expected value"
+    },
+    {
+      "id": "item-drop:GET /api/orders:$.orders[0]",
+      "family": "data",
+      "operator": "item-drop",
+      "match": {
+        "method": "GET",
+        "path": "/api/orders"
+      },
+      "action": {
+        "type": "json",
+        "ops": [
+          {
+            "op": "remove-index",
+            "path": "$.orders",
+            "index": 0
+          }
+        ]
+      },
+      "touches_tests": [
+        "tests/cancel_order_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "\"1002\" is missing from the orders (2 → 1 items)",
+      "expect": "The list length or a named item is checked"
+    },
+    {
+      "id": "item-dup:GET /api/orders:$.orders[0]",
+      "family": "data",
+      "operator": "item-dup",
+      "match": {
+        "method": "GET",
+        "path": "/api/orders"
+      },
+      "action": {
+        "type": "json",
+        "ops": [
+          {
+            "op": "dup-index",
+            "path": "$.orders",
+            "index": 0
+          }
+        ]
+      },
+      "touches_tests": [
+        "tests/cancel_order_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "\"1002\" appears twice in the orders (2 → 3 items)",
+      "expect": "The list length or uniqueness is checked"
+    },
+    {
+      "id": "field-swap:GET /api/cart:$.coupon.code<->label",
+      "family": "data",
+      "operator": "field-swap",
+      "match": {
+        "method": "GET",
+        "path": "/api/cart"
+      },
+      "action": {
+        "type": "json",
+        "ops": [
+          {
+            "op": "swap",
+            "path": "$.coupon",
+            "a": "code",
+            "b": "label"
+          }
+        ]
+      },
+      "touches_tests": [
+        "tests/browse_test.md",
+        "tests/cancel_order_test.md",
+        "tests/cart_test.md",
+        "tests/checkout_test.md",
+        "tests/coupon_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "code and label are swapped (\"SAVE10\" shows as label)",
+      "expect": "The code shown is checked, not just that something is shown"
+    },
+    {
+      "id": "stale-read:GET /api/cart",
+      "family": "data",
+      "operator": "stale-read",
+      "match": {
+        "method": "GET",
+        "path": "/api/cart"
+      },
+      "action": {
+        "type": "stale-read"
+      },
+      "touches_tests": [
+        "tests/browse_test.md",
+        "tests/cancel_order_test.md",
+        "tests/cart_test.md",
+        "tests/checkout_test.md",
+        "tests/coupon_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "/api/cart keeps returning what it returned before the last change",
+      "expect": "The test checks that the change it just made is visible"
+    },
+    {
+      "id": "silent-fail:POST /api/cart/items",
+      "family": "behaviour",
+      "operator": "silent-fail",
+      "match": {
+        "method": "POST",
+        "path": "/api/cart/items"
+      },
+      "action": {
+        "type": "respond",
+        "status": 500,
+        "body": {
+          "error": "Internal Server Error"
+        }
+      },
+      "touches_tests": [
+        "tests/cart_test.md",
+        "tests/checkout_test.md",
+        "tests/coupon_test.md"
+      ],
+      "describe": "POST /api/cart/items fails with a 500 and nothing is saved",
+      "expect": "The test checks the result of the action, not only that it clicked"
+    },
+    {
+      "id": "fake-success:POST /api/cart/items",
+      "family": "behaviour",
+      "operator": "fake-success",
+      "match": {
+        "method": "POST",
+        "path": "/api/cart/items"
+      },
+      "action": {
+        "type": "respond",
+        "status": 200,
+        "body": {
+          "items": [
+            {
+              "productId": "p3",
+              "name": "Wool Beanie",
+              "price": 22,
+              "qty": 1,
+              "lineTotal": 22
+            }
+          ],
+          "count": 1,
+          "subtotal": 22,
+          "coupon": null,
+          "discount": 0,
+          "shipping": 4.99,
+          "freeShippingFrom": 50,
+          "total": 26.99
+        }
+      },
+      "touches_tests": [
+        "tests/cart_test.md",
+        "tests/checkout_test.md",
+        "tests/coupon_test.md"
+      ],
+      "describe": "POST /api/cart/items reports success but the change is never saved",
+      "expect": "The test re-reads the data (reload or another page) after the change"
+    },
+    {
+      "id": "double-apply:POST /api/cart/items",
+      "family": "behaviour",
+      "operator": "double-apply",
+      "match": {
+        "method": "POST",
+        "path": "/api/cart/items"
+      },
+      "action": {
+        "type": "forward-twice"
+      },
+      "touches_tests": [
+        "tests/cart_test.md",
+        "tests/checkout_test.md",
+        "tests/coupon_test.md"
+      ],
+      "describe": "POST /api/cart/items is applied twice",
+      "expect": "The test checks the exact quantity or number of records afterwards"
+    },
+    {
+      "id": "validation-off:POST /api/cart/items",
+      "family": "behaviour",
+      "operator": "validation-off",
+      "match": {
+        "method": "POST",
+        "path": "/api/cart/items"
+      },
+      "action": {
+        "type": "status-map",
+        "from": [
+          400,
+          422
+        ],
+        "to": 200
+      },
+      "touches_tests": [
+        "tests/cart_test.md",
+        "tests/checkout_test.md",
+        "tests/coupon_test.md"
+      ],
+      "describe": "Invalid input to POST /api/cart/items is treated as a success",
+      "expect": "A test submits invalid input and checks the error message"
+    },
+    {
+      "id": "auth-drop:POST /api/cart/items",
+      "family": "behaviour",
+      "operator": "auth-drop",
+      "match": {
+        "method": "POST",
+        "path": "/api/cart/items"
+      },
+      "action": {
+        "type": "respond",
+        "status": 401,
+        "body": {
+          "error": "Unauthorized"
+        }
+      },
+      "touches_tests": [
+        "tests/cart_test.md",
+        "tests/checkout_test.md",
+        "tests/coupon_test.md"
+      ],
+      "describe": "POST /api/cart/items returns 401 once, mid-flow",
+      "times": 1,
+      "expect": "The test checks the page it lands on after each step"
+    },
+    {
+      "id": "hide-control:button:\"Remove\"",
+      "family": "interface",
+      "operator": "hide-control",
+      "match": {
+        "document": true
+      },
+      "action": {
+        "type": "dom",
+        "dom": {
+          "op": "hide",
+          "target": {
+            "role": "button",
+            "text": "Remove"
+          }
+        }
+      },
+      "touches_tests": [
+        "tests/cart_test.md",
+        "tests/checkout_test.md",
+        "tests/coupon_test.md"
+      ],
+      "describe": "The \"Remove\" button is missing",
+      "expect": "The test checks that \"Remove\" is offered"
+    },
+    {
+      "id": "dead-control:button:\"Cancel\"",
+      "family": "interface",
+      "operator": "dead-control",
+      "match": {
+        "document": true
+      },
+      "action": {
+        "type": "dom",
+        "dom": {
+          "op": "dead",
+          "target": {
+            "role": "button",
+            "text": "Cancel"
+          }
+        }
+      },
+      "touches_tests": [
+        "tests/cancel_order_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "Clicking \"Cancel\" does nothing",
+      "expect": "The test checks what \"Cancel\" is supposed to change"
+    },
+    {
+      "id": "label-swap:\"+\"<->\"−\"",
+      "family": "interface",
+      "operator": "label-swap",
+      "match": {
+        "document": true
+      },
+      "action": {
+        "type": "dom",
+        "dom": {
+          "op": "swap-labels",
+          "target": {
+            "role": "button",
+            "text": "+"
+          },
+          "other": {
+            "role": "button",
+            "text": "−"
+          }
+        }
+      },
+      "touches_tests": [
+        "tests/cart_test.md",
+        "tests/checkout_test.md",
+        "tests/coupon_test.md"
+      ],
+      "describe": "The \"+\" and \"−\" buttons have each other's labels",
+      "expect": "The test checks the outcome of the button it pressed"
+    },
+    {
+      "id": "text-change:heading:\"Shop\"",
+      "family": "interface",
+      "operator": "text-change",
+      "match": {
+        "document": true
+      },
+      "action": {
+        "type": "dom",
+        "dom": {
+          "op": "replace-text",
+          "target": {
+            "role": "heading",
+            "text": "Shop"
+          },
+          "replacement": "My orders"
+        }
+      },
+      "touches_tests": [
+        "tests/browse_test.md",
+        "tests/cancel_order_test.md",
+        "tests/cart_test.md",
+        "tests/checkout_test.md",
+        "tests/coupon_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "The heading \"Shop\" reads \"My orders\"",
+      "expect": "The test checks it reached the right page or message"
+    },
+    {
+      "id": "wrong-link:\"#N\"->#/product/p1",
+      "family": "interface",
+      "operator": "wrong-link",
+      "match": {
+        "document": true
+      },
+      "action": {
+        "type": "dom",
+        "dom": {
+          "op": "relink",
+          "target": {
+            "role": "link",
+            "text": "#N",
+            "pattern": "^#\\d+(?:[.,]\\d+)?$"
+          },
+          "href": "#/product/p1"
+        }
+      },
+      "touches_tests": [
+        "tests/cancel_order_test.md",
+        "tests/order_history_test.md"
+      ],
+      "describe": "The \"#N\" link goes to #/product/p1 instead of #/orders/1002",
+      "expect": "After following a link the test checks where it landed"
+    }
+  ],
+  "excluded": []
+}
