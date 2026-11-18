@@ -160,7 +160,9 @@ export default async function fix(argv, parseArgs) {
         }
         // proof 2: broken app, replay must fail (healing on for masked mutants: it must survive a heal too)
         await resetApp(cfg, base); await tw.reset(test, false); await tw.arm(m);
-        const keep = masked ? snapshotRecording(test) : () => {};
+        // keep the recording the clean run just committed; whatever Kane writes while the app is
+        // broken must not become the test's recording
+        const keep = snapshotRecording(test);
         let broken;
         try {
           broken = await runTest(test, { heal: masked, timeout: cfg.timeout, logFile: path.join(fixDir, `${slug(m.id)}_mutant_${attempt}.ndjson`) });
