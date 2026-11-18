@@ -1,9 +1,10 @@
 node_modules/
 **/.testmuai/evidence/
 **/.testmuai/sessions/
-.tripwire/runs/
+**/.tripwire/runs/
 *.log
 .env
 .env.*
 !.env.example
 .DS_Store
+**/.tripwire/.stop-hook-blocks
