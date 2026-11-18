@@ -42,6 +42,9 @@ export function writeReport(dir) {
   const runId = lastRunId(all);
   const rows = latest(all, runId);
   const s = score(rows);
+  // the same run before any proven fix: what the agent's first-draft suite caught on its own
+  const firstDraft = score(latest(all.filter((r) => !r.fixed), runId));
+  const fixedCount = rows.filter((r) => r.fixed).length;
   const tests = perTest(rows);
   const baseline = readJson(path.join(dir, 'baseline.json'), { tests: [] });
   const summary = readJson(path.join(dir, 'runs', runId || '-', 'summary.json'), {});
@@ -120,7 +123,8 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 </style></head><body><main>
 <section class="top">
   <div><h1>Tripwire</h1><p class="sub">Would the tests fail if the app were broken? Run ${esc(runId || '–')}${summary.commit ? ` · commit ${esc(summary.commit)}` : ''}</p>
-  <div class="score" aria-label="mutation score">${pct(s.score)}</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p></div>
+  <div class="score" aria-label="mutation score">${pct(s.score)}</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p>
+  ${fixedCount ? `<p class="sub"><strong>${pct(firstDraft.score)}</strong> for the first-draft suite → <strong>${pct(s.score)}</strong> after <code>tripwire fix</code> strengthened ${fixedCount} test${fixedCount > 1 ? 's' : ''}, each proven by Kane: pass on the real app, fail on the broken one.</p>` : ''}</div>
   <div class="counts">
     <div class="count killed"><b>${s.killed}</b>killed</div>
     <div class="count survived"><b>${s.survived}</b>survived</div>

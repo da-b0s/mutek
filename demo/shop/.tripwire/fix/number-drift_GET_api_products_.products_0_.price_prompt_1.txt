@@ -1,0 +1,41 @@
+You are strengthening an end-to-end Kane CLI test (a *_test.md file). Do not change any application code.
+
+This bug was live in the app and the test below still PASSED:
+  price from /api/products shows 19.80 instead of 18
+What changed: GET /api/products $.products[0].price: real 18 -> broken 19.8
+
+A good test would: the displayed price is checked against the expected value.
+Screenshot of the broken page at the end of the test: C:\Users\DELL\Documents\Code\tripwire\demo\shop\.tripwire\fix\number-drift_GET_api_products_.products_0_.price.jpg
+
+Test file: tests/browse_test.md
+----- current contents -----
+---
+url: http://localhost:8080
+mode: testing
+max_steps: 30
+tags: [shop, browse]
+---
+
+# Browse: the shop lists products and a product page opens
+
+## Check the product list
+Verify the page heading is "Shop" and the product grid shows these 6 products: "Canvas Tote Bag", "Ceramic Pour-Over Set", "Wool Beanie", "Desk Plant (Pothos)", "Notebook, Dot Grid" and "Insulated Bottle".
+Verify "Insulated Bottle" is marked "Out of stock" and its "Add to cart" button is disabled.
+
+## Open a product page
+Click the "Ceramic Pour-Over Set" product name.
+Verify the product page heading is "Ceramic Pour-Over Set", the price shown is "$34.50", the description reads "Dripper, carafe and 40 paper filters." and the stock line reads "5 in stock".
+
+----- end -----
+
+Edit tests/browse_test.md by APPENDING exactly one new step at the very end of the file:
+  ## <short heading>
+  <one or two plain-English sentences: navigate if needed, then "Verify ..." with the exact expected value>
+
+Rules:
+- Only append. Do not modify, reorder, weaken or delete any existing line (Kane re-records every step after an edit, so editing earlier steps is expensive and is rejected).
+- The new step must PASS on the real app and FAIL on the broken app described above.
+- Use exact expected values a user would see (amounts with currency symbol, item names, counts, status words).
+- Do not mention bugs, mutants or Tripwire in the test. Write it as a normal user check.
+
+Reply with one line describing the assertion you added.

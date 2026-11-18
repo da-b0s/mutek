@@ -86,6 +86,10 @@ test('a real assertion is proven: passes on the real app, fails on the broken on
   assert.equal(f.proof.mutant.code, 1);
   assert.match(fs.readFileSync('tests/cart_test.md', 'utf8'), /## Check the total/);
   assert.match(fs.readFileSync('.tripwire/lessons.md', 'utf8'), /displayed total/);
+  const fixedRow = rowFor(TOTAL_ID);
+  assert.equal(fixedRow.status, 'killed');
+  assert.equal(fixedRow.fixed, true, 'the proven fix supersedes the survivor in the same run');
+  assert.match(fs.readFileSync('.tripwire/report/index.html', 'utf8'), /for the first-draft suite/);
   // and a fresh run now kills it
   assert.equal(await run(['--only', 'number-drift'], parseArgs), 0);
   assert.equal(rowFor(TOTAL_ID).status, 'killed');

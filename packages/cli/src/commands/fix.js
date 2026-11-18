@@ -7,7 +7,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { loadConfig } from '../config.js';
-import { readLedger, latest, lastRunId } from '../ledger.js';
+import { readLedger, latest, lastRunId, appendLedger } from '../ledger.js';
 import { runTest } from '../kane.js';
 import { runAgent } from '../agent.js';
 import { lastScreenshot, imageExt } from '../report.js';
@@ -66,7 +66,8 @@ Rules:
 - Only append. Do not modify, reorder, weaken or delete any existing line (Kane re-records every step after an edit, so editing earlier steps is expensive and is rejected).
 - The new step must PASS on the real app and FAIL on the broken app described above.
 - Use exact expected values a user would see (amounts with currency symbol, item names, counts, status words).
-- Do not mention bugs, mutants or Tripwire in the test. Write it as a normal user check.
+- Do not mention bugs, mutants or Tripwire in the test, and never name the broken value
+  (the wrong number, the extra record): assert the correct state, so the check stays general.
 ${lessons ? `\nAssertion patterns that worked before in this repo:\n${lessons}\n` : ''}${previousFailure ? `\nYour previous attempt was rejected: ${previousFailure}\nTry a different assertion.\n` : ''}
 Reply with one line describing the assertion you added.`;
 }
@@ -181,6 +182,10 @@ export default async function fix(argv, parseArgs) {
       }
       const rec = { at: new Date().toISOString(), id: m.id, describe: m.describe, operator: m.operator, status_before: row.status, test, agent, attempts: Math.min(attempt, maxAttempts), result, proof, note };
       fs.appendFileSync(path.join(dir, 'fixes.jsonl'), JSON.stringify(rec) + '\n');
+      // The proof's mutant run is a Kane run in which the strengthened suite caught this bug.
+      // Appending a step cannot un-catch any other mutant (earlier failures still fail first),
+      // so the run's score is updated by a superseding ledger row, marked as a fix.
+      if (result === 'killed') appendLedger(dir, { ...row, status: 'killed', killed_by: test, fixed: true, fix: { at: rec.at, attempts: rec.attempts, proof } });
       if (result === 'killed') fixed++;
     }
     console.log(`\n${fixed} of ${todo.length} survivors now caught, each proven by a passing clean run and a failing mutant run.`);
