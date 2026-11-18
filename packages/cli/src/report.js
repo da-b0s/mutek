@@ -14,13 +14,17 @@ export function lastScreenshot(pack) {
   if (!pack || !fs.existsSync(pack)) return null;
   try {
     const zip = new AdmZip(pack);
-    const shots = zip.getEntries().map((e) => e.entryName).filter((n) => /\/steps\/[^/]+\/screenshot\.png$/.test(n));
+    // Kane writes steps/<ordinal>-<id>/screenshot.jpg (older packs: .png)
+    const shots = zip.getEntries().map((e) => e.entryName).filter((n) => /\/steps\/[^/]+\/screenshot\.(png|jpe?g)$/.test(n));
     if (!shots.length) return null;
     const ord = (n) => Number((n.match(/\/steps\/(\d+)/) || [])[1] || 0);
     shots.sort((a, b) => ord(a) - ord(b));
     return zip.getEntry(shots[shots.length - 1]).getData();
   } catch { return null; }
 }
+
+// File extension from the image's magic bytes.
+export const imageExt = (buf) => (buf[0] === 0x89 && buf[1] === 0x50 ? 'png' : 'jpg');
 
 export function badge(scoreValue) {
   const label = 'tripwire';
@@ -54,7 +58,7 @@ export function writeReport(dir) {
     const run = row.status === 'killed' ? row.runs?.find((x) => x.code === 1) : row.status === 'masked' ? null : row.runs?.find((x) => x.code === 0 && x.fired);
     const buf = lastScreenshot(run?.pack);
     if (!buf) return '';
-    const name = `${slug(row.id)}.png`;
+    const name = `${slug(row.id)}.${imageExt(buf)}`;
     fs.writeFileSync(path.join(shotsDir, name), buf);
     return `<figure><img src="shots/${esc(name)}" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of ${esc(run.test)}. The test still passed.</figcaption></figure>`;
   };

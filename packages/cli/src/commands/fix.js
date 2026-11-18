@@ -10,7 +10,7 @@ import { loadConfig } from '../config.js';
 import { readLedger, latest, lastRunId } from '../ledger.js';
 import { runTest } from '../kane.js';
 import { runAgent } from '../agent.js';
-import { lastScreenshot } from '../report.js';
+import { lastScreenshot, imageExt } from '../report.js';
 import { withProxy, resetApp, snapshotRecording } from './run.js';
 import { generateAll } from '../../operators/index.js';
 import { get } from '../jsonpath.js';
@@ -125,7 +125,7 @@ export default async function fix(argv, parseArgs) {
       const test = masked ? row.killed_by : (row.runs.find((x) => x.code === 0 && x.fired) || row.runs[0]).test;
       const passedRun = row.runs.find((x) => x.test === test && x.code === 0) || row.runs[0];
       const shot = lastScreenshot(passedRun?.pack);
-      const shotPath = shot ? path.join(fixDir, `${slug(m.id)}.png`) : null;
+      const shotPath = shot ? path.join(fixDir, `${slug(m.id)}.${imageExt(shot)}`) : null;
       if (shot) fs.writeFileSync(shotPath, shot);
       const lessonsFile = path.join(dir, 'lessons.md');
       const lessons = fs.existsSync(lessonsFile) ? fs.readFileSync(lessonsFile, 'utf8').split('\n').filter((l) => l.startsWith('- ')).slice(-12).join('\n') : '';
