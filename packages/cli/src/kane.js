@@ -94,14 +94,29 @@ export function newestPack(cwd, sinceMs) {
   return packs[0]?.f ?? null;
 }
 
-// One test against whatever the proxy currently serves.
-export async function runTest(file, { heal = false, timeout = 180, cwd, logFile, extra = [] } = {}) {
+// Kane failures that happen before any step runs (no browser, no credits spent) and are worth
+// waiting out: Test Manager not answering during auth resolution, network resets, rate limits.
+export const TRANSIENT = /TMS did not return an org_id|auth resolution failed|ECONNRESET|ETIMEDOUT|ENOTFOUND|EAI_AGAIN|socket hang up|fetch failed|network error|\b429\b|\b50[234]\b/i;
+export const isTransient = (r) => r.code === 2 && !r.events.some((e) => e.type === 'test_md_step_start') && TRANSIENT.test(r.stderr + r.stdout);
+
+const pause = (ms) => new Promise((res) => setTimeout(res, ms));
+
+// One test against whatever the proxy currently serves. Transient pre-run failures are retried
+// with backoff (15 s, 45 s, 90 s) since they cost nothing and usually clear on their own.
+export async function runTest(file, { heal = false, timeout = 180, cwd, logFile, extra = [], backoff = [15000, 45000, 90000], onRetry } = {}) {
   const args = ['testmd', 'run', file, '--agent', '--headless', '--timeout', String(timeout)];
   if (!heal) args.push('--no-adaptive-heal');
   args.push(...extra);
-  const started = Date.now();
-  const r = await runKane(args, { cwd, killAfterMs: (timeout + 60) * 1000, logFile });
-  return { ...r, ...summarizeEvents(r.events), pack: newestPack(cwd || process.cwd(), started) };
+  let r;
+  let started;
+  for (let i = 0; ; i++) {
+    started = Date.now();
+    r = await runKane(args, { cwd, killAfterMs: (timeout + 60) * 1000, logFile });
+    if (!isTransient(r) || i >= backoff.length) break;
+    onRetry?.(i + 1, (r.stderr || r.stdout).trim().split('\n').pop());
+    await pause(backoff[i]);
+  }
+  return { ...r, ...summarizeEvents(r.events), pack: newestPack(cwd || process.cwd(), started), transient: isTransient(r) };
 }
 
 // Judge a sealed pack against a policy file; returns { verdict: pass|fail|errored|unknown, file, raw }.

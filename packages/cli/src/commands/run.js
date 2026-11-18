@@ -8,7 +8,7 @@ import { loadConfig, findTests } from '../config.js';
 import { runTest, verdict, metricFromVerdict, balance } from '../kane.js';
 import { profileEntry, summarize } from '../profile.js';
 import { generateAll, select } from '../../operators/index.js';
-import { appendLedger, readLedger, latest, score } from '../ledger.js';
+import { appendLedger, readLedger, latest, lastRunId, score } from '../ledger.js';
 import { writeReport } from '../report.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -28,6 +28,7 @@ const HELP = `tripwire run [options]
   --baseline-only       record the baseline and list mutants, replay nothing
   --dry-run             generate from the last baseline and print the plan
   --resume              continue the last run: reuse its baseline, skip mutants already in the ledger
+  --retry-errors        re-run only the mutants that hit a Kane error in the last run
   --dir <path>          state directory (default .tripwire)`;
 
 const readJson = (f) => { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch { return null; } };
@@ -67,7 +68,7 @@ export default async function run(argv, parseArgs) {
       tests: { type: 'string' }, app: { type: 'string' }, port: { type: 'string' },
       'max-mutants': { type: 'string' }, only: { type: 'string' }, since: { type: 'string' },
       'no-heal-check': { type: 'boolean' }, 'heal-budget': { type: 'string' }, timeout: { type: 'string' },
-      'baseline-only': { type: 'boolean' }, 'dry-run': { type: 'boolean' }, resume: { type: 'boolean' }, dir: { type: 'string' },
+      'baseline-only': { type: 'boolean' }, 'dry-run': { type: 'boolean' }, resume: { type: 'boolean' }, 'retry-errors': { type: 'boolean' }, dir: { type: 'string' },
       help: { type: 'boolean', short: 'h' }
     }
   });
@@ -80,6 +81,19 @@ export default async function run(argv, parseArgs) {
   if (values['no-heal-check']) cfg.healCheck = false;
   const dir = path.resolve(cfg.dir);
   fs.mkdirSync(dir, { recursive: true });
+  // --retry-errors: re-run only the mutants that ended in a Kane error (exit 2/3) in the last run,
+  // on that run's baseline. Their error rows are superseded by the new rows (latest row wins).
+  if (values['retry-errors']) {
+    const rows = readLedger(dir);
+    const last = lastRunId(rows);
+    const errored = latest(rows, last).filter((r) => r.status === 'error');
+    if (!errored.length) { console.log('No errored mutants in the last run.'); return 0; }
+    const kept = rows.filter((r) => !(r.run === last && r.status === 'error'));
+    fs.writeFileSync(path.join(dir, 'ledger.jsonl'), kept.map((r) => JSON.stringify(r)).join('\n') + (kept.length ? '\n' : ''));
+    fs.writeFileSync(path.join(dir, 'current-run.json'), JSON.stringify({ run: last, picked: latest(rows, last).map((r) => r.id) }));
+    console.log(`Retrying ${errored.length} errored mutants of run ${last}`);
+    values.resume = true;
+  }
   const resumeFrom = values.resume ? readJson(path.join(dir, 'current-run.json')) : null;
   if (values.resume && !resumeFrom) throw new Error('nothing to resume: no interrupted run found in ' + dir);
   const runId = resumeFrom?.run || stamp();
@@ -112,7 +126,7 @@ export default async function run(argv, parseArgs) {
       await tw.disarm();
       await resetApp(cfg, base);
       await tw.reset(t, true);
-      const r = await runTest(t, { timeout: cfg.timeout, logFile: path.join(runDir, `baseline_${slug(t)}.ndjson`) });
+      const r = await runTest(t, { timeout: cfg.timeout, logFile: path.join(runDir, `baseline_${slug(t)}.ndjson`), onRetry: hiccup });
       const v = await verdict(r.pack, path.join(POLICY_DIR, 'tripwire.clean.policy.yaml'));
       const withoutChecks = metricFromVerdict(v.raw, 'metrics.tests_without_checks');
       baseline.push({ test: t, code: r.code, durationMs: r.durationMs, pack: r.pack, verdict: v.verdict, testsWithoutChecks: withoutChecks, session: r.sessionId });
@@ -221,6 +235,8 @@ export function snapshotRecording(testFile) {
   };
 }
 
+const hiccup = (n, msg) => console.log(`    kane service hiccup (${msg}); waiting and retrying (${n}/3)`);
+
 const label = (s) => ({ killed: 'killed     ', survived: 'SURVIVED   ', masked: 'MASKED     ', 'not-reached': 'not reached', error: 'error      ' }[s] || s);
 
 // Arm one mutant, replay the tests that touch it (healing off) until one fails.
@@ -242,7 +258,7 @@ export async function runMutant(m, { tw, cfg, base, runDir, healAllowed }) {
       // failed runs), so every mutant run gets the real recording back afterwards.
       const restore = snapshotRecording(t);
       try {
-        r = await runTest(t, { timeout: cfg.timeout, logFile: path.join(mdir, `${slug(t)}_${attempt}.ndjson`) });
+        r = await runTest(t, { timeout: cfg.timeout, logFile: path.join(mdir, `${slug(t)}_${attempt}.ndjson`), onRetry: hiccup });
       } finally { restore(); }
       hits = (await tw.hit()).hits;
       attempt++;

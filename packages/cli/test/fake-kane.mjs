@@ -7,6 +7,19 @@ import fs from 'node:fs';
 const [cmd, sub, file] = process.argv.slice(2);
 const emit = (o) => process.stdout.write(JSON.stringify(o) + '\n');
 
+// FAKE_TRANSIENT=<counter file>:<n> fails the first n runs the way Kane does when Test Manager is down
+if (process.env.FAKE_TRANSIENT && cmd === 'testmd') {
+  const [file, n] = process.env.FAKE_TRANSIENT.split('|');
+  const seen = fs.existsSync(file) ? Number(fs.readFileSync(file, 'utf8')) : 0;
+  if (seen < Number(n)) {
+    fs.writeFileSync(file, String(seen + 1));
+    process.stderr.write('error: TMS did not return an org_id. Run `kane-cli login` again.\n');
+    process.exitCode = 2;
+    process.stdout.write('{"type":"stream_start"}\n');
+    await new Promise((r) => setTimeout(r, 10));
+    process.exit();
+  }
+}
 if (cmd === 'balance') { console.log('{"credits": 1000}'); process.exit(0); }
 if (cmd === 'evidence' && sub === 'verdict') { process.exit(0); }
 if (cmd !== 'testmd' || sub !== 'run') { console.error('fake-kane: unsupported'); process.exit(2); }

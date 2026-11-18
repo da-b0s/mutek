@@ -7,6 +7,6 @@
   "timeout": 180,
   "threshold": 80,
   "healCheck": true,
-  "healBudget": 10,
+  "healBudget": 5,
   "agent": "claude"
 }
