@@ -13,6 +13,7 @@ import { readLedger } from '../src/ledger.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 let shop, work, cwd0;
+const run_ = (args) => run(args, parseArgs);
 
 before(async () => {
   shop = await startShop();
@@ -67,6 +68,22 @@ test('run classifies mutants and writes ledger and report', async () => {
   assert.match(html, /automation bug<\/strong> \/ locator rot/);
   assert.equal(by('number-drift:GET /api/cart:$.total').runs.find((x) => x.code === 1).kaneTriage.category, 'locator_rot');
   assert.ok(fs.existsSync(path.join(work, '.tripwire/traffic.json')));
+});
+
+test('resume continues an interrupted run without redoing finished mutants', async () => {
+  const dir = path.join(work, '.tripwire');
+  const rows = readLedger(dir);
+  const run = rows.at(-1).run;
+  const mine = rows.filter((r) => r.run === run);
+  // pretend the run died after its first 3 mutants
+  fs.writeFileSync(path.join(dir, 'ledger.jsonl'), rows.filter((r) => r.run !== run).concat(mine.slice(0, 3)).map((r) => JSON.stringify(r)).join('\n') + '\n');
+  fs.writeFileSync(path.join(dir, 'current-run.json'), JSON.stringify({ run, picked: mine.map((r) => r.id) }));
+  assert.equal(await run_(['--resume']), 0);
+  const after = readLedger(dir).filter((r) => r.run === run);
+  assert.equal(after.length, mine.length, 'every picked mutant has exactly one row');
+  assert.deepEqual(after.slice(0, 3).map((r) => r.at), mine.slice(0, 3).map((r) => r.at), 'finished mutants were not re-run');
+  assert.ok(!fs.existsSync(path.join(dir, 'current-run.json')));
+  await assert.rejects(run_(['--resume']), /nothing to resume/);
 });
 
 test('check fails below the threshold and passes above it', async () => {

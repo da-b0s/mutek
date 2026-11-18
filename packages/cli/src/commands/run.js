@@ -27,8 +27,10 @@ const HELP = `tripwire run [options]
   --timeout <s>         per-step kane timeout (default 180)
   --baseline-only       record the baseline and list mutants, replay nothing
   --dry-run             generate from the last baseline and print the plan
+  --resume              continue the last run: reuse its baseline, skip mutants already in the ledger
   --dir <path>          state directory (default .tripwire)`;
 
+const readJson = (f) => { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch { return null; } };
 const sh = (cmd) => { try { return execSync(cmd, { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim(); } catch { return null; } };
 const stamp = () => new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
 const slug = (s) => s.replace(/[^\w.-]+/g, '_').slice(0, 80);
@@ -65,7 +67,7 @@ export default async function run(argv, parseArgs) {
       tests: { type: 'string' }, app: { type: 'string' }, port: { type: 'string' },
       'max-mutants': { type: 'string' }, only: { type: 'string' }, since: { type: 'string' },
       'no-heal-check': { type: 'boolean' }, 'heal-budget': { type: 'string' }, timeout: { type: 'string' },
-      'baseline-only': { type: 'boolean' }, 'dry-run': { type: 'boolean' }, dir: { type: 'string' },
+      'baseline-only': { type: 'boolean' }, 'dry-run': { type: 'boolean' }, resume: { type: 'boolean' }, dir: { type: 'string' },
       help: { type: 'boolean', short: 'h' }
     }
   });
@@ -78,7 +80,9 @@ export default async function run(argv, parseArgs) {
   if (values['no-heal-check']) cfg.healCheck = false;
   const dir = path.resolve(cfg.dir);
   fs.mkdirSync(dir, { recursive: true });
-  const runId = stamp();
+  const resumeFrom = values.resume ? readJson(path.join(dir, 'current-run.json')) : null;
+  if (values.resume && !resumeFrom) throw new Error('nothing to resume: no interrupted run found in ' + dir);
+  const runId = resumeFrom?.run || stamp();
   const runDir = path.join(dir, 'runs', runId);
   fs.mkdirSync(runDir, { recursive: true });
   const commit = sh('git rev-parse --short HEAD');
@@ -96,11 +100,15 @@ export default async function run(argv, parseArgs) {
 
   const creditsBefore = await balance();
   return withProxy(cfg, async (tw, base) => {
-    // ---------- 1. baseline ----------
-    console.log(`\nBaseline: ${tests.length} test(s) through the proxy at ${base}, healing off`);
-    const profile = { tests: [], created: new Date().toISOString(), commit };
-    const baseline = [];
-    for (const t of tests) {
+    // ---------- 1. baseline (reused when resuming) ----------
+    let profile = { tests: [], created: new Date().toISOString(), commit };
+    let baseline = [];
+    if (resumeFrom) {
+      profile = readJson(path.join(dir, 'traffic.json'));
+      baseline = readJson(path.join(dir, 'baseline.json'))?.tests || [];
+      console.log(`\nResuming run ${runId}: baseline from ${profile.created}`);
+    } else console.log(`\nBaseline: ${tests.length} test(s) through the proxy at ${base}, healing off`);
+    for (const t of resumeFrom ? [] : tests) {
       await tw.disarm();
       await resetApp(cfg, base);
       await tw.reset(t, true);
@@ -117,13 +125,19 @@ export default async function run(argv, parseArgs) {
       profile.tests.push(profileEntry(t, await tw.traffic(), await tw.dom()));
     }
     await tw.reset(null, false);
-    fs.writeFileSync(path.join(dir, 'traffic.json'), JSON.stringify(profile, null, 1));
-    fs.writeFileSync(path.join(dir, 'baseline.json'), JSON.stringify({ run: runId, commit, tests: baseline, routes: summarize(profile) }, null, 2));
+    if (!resumeFrom) {
+      fs.writeFileSync(path.join(dir, 'traffic.json'), JSON.stringify(profile, null, 1));
+      fs.writeFileSync(path.join(dir, 'baseline.json'), JSON.stringify({ run: runId, commit, tests: baseline, routes: summarize(profile) }, null, 2));
+    }
     const noChecks = baseline.filter((b) => b.testsWithoutChecks > 0);
     if (noChecks.length) console.log(`\n${noChecks.length} test(s) assert nothing at all: ${noChecks.map((b) => b.test).join(', ')}`);
 
     // ---------- 2. generate ----------
-    const { candidates, excluded, picked, counts } = plan_(profile, cfg, dir, values.only);
+    const plan = plan_(profile, cfg, dir, values.only);
+    const { candidates, excluded, counts } = plan;
+    // when resuming, replay exactly the mutants the interrupted run had picked
+    const picked = resumeFrom ? resumeFrom.picked.map((id) => candidates.find((m) => m.id === id)).filter(Boolean) : plan.picked;
+    if (!values['baseline-only']) fs.writeFileSync(path.join(dir, 'current-run.json'), JSON.stringify({ run: runId, picked: picked.map((m) => m.id), since: values.since || null }, null, 2));
     fs.writeFileSync(path.join(runDir, 'mutants.json'), JSON.stringify({ counts, picked, excluded: excluded.map((m) => m.id) }, null, 2));
     console.log(`\nGenerated ${candidates.length} mutants; replaying ${picked.length}${excluded.length ? ` (${excluded.length} excluded as equivalent)` : ''}`);
     if (values['baseline-only']) return 0;
@@ -148,6 +162,14 @@ export default async function run(argv, parseArgs) {
     const rows = [...carried];
     for (const r of carried) appendLedger(dir, r);
     let healChecks = 0;
+    if (resumeFrom) {
+      const done = latest(readLedger(dir), runId);
+      const doneIds = new Set(done.map((r) => r.id));
+      rows.push(...done);
+      healChecks = done.filter((r) => r.healChecked).length;
+      todo = todo.filter((m) => !doneIds.has(m.id));
+      console.log(`${done.length} mutants already done, ${todo.length} to go`);
+    }
     for (const [i, m] of todo.entries()) {
       const row = await runMutant(m, { tw, cfg, base, runDir, healAllowed: cfg.healCheck && healChecks < cfg.healBudget });
       if (row.healChecked) healChecks++;
@@ -157,6 +179,7 @@ export default async function run(argv, parseArgs) {
       console.log(`  [${String(i + 1).padStart(2)}/${todo.length}] ${label(row.status)} ${m.describe}${row.killed_by ? `  (by ${row.killed_by})` : ''}`);
     }
     await tw.disarm();
+    fs.rmSync(path.join(dir, 'current-run.json'), { force: true });
 
     // ---------- 4. score + report ----------
     const creditsAfter = await balance();
