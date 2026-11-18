@@ -8,6 +8,11 @@ recordings were copied into `tests/` unchanged.
 
 Allowed tools: Read, Write, Edit, Glob, Grep, and Bash limited to `kane-cli` and `ls`.
 
+Outcome: the agent wrote all six tests, but in that headless session every `kane-cli` call was
+refused for needing an approval, so it could not record them. The tests were then recorded,
+unedited, with `kane-cli testmd run <file> --agent --headless` (one run each, all six passed,
+about 440 credits). The transcript is in `agent-session.jsonl`.
+
 The exact prompt, everything below the line:
 
 ---
