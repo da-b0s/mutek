@@ -17,9 +17,34 @@ coding agent, which adds one plain-English assertion, and Kane proves it: the st
 
 ## Results
 
-<!-- RESULTS: filled in from demo/shop/.tripwire/report/score.json after the run -->
-See [the report](demo/shop/.tripwire/report/index.html) for every surviving bug with a screenshot
-of the broken page the suite passed on.
+On the demo shop, with a 6-test suite written by a fresh Claude Code session that was never told
+about Tripwire (run of 18 Nov 2026, Kane CLI 0.10.5):
+
+| | Score | Killed | Survived | Masked by heal | Not reached |
+|---|---|---|---|---|---|
+| Agent's first-draft suite | **83.3%** | 25 | 4 | 1 | 2 |
+| After `tripwire fix` (2 tests strengthened) | **90%** | 27 | 2 | 1 | 2 |
+
+Bugs the first-draft suite walked past, all green in Kane:
+
+- **Another customer's order (#91002) listed in "My orders".** Fixed: `cancel_order_test.md` now
+  checks the list holds exactly the user's own orders.
+- **A product price shown 10% too high** ($19.80 instead of $18.00). Fixed: `browse_test.md` now
+  checks a price in the product grid.
+- The "Keep order" button missing from the cancel dialog.
+- The "+" and "−" quantity buttons swapping labels (the test presses them by accessibility name,
+  so it never looks at what the user sees).
+
+Masked by healing: a one-off "session expired" (401) during cancel. Strict replay failed; with
+Kane's default adaptive healing the test re-authored itself past the sign-in page and passed.
+
+Each fix was proven on the first attempt by two Kane runs: pass on the real app, fail with the bug
+armed. Score = killed ÷ (killed + survived + masked) over 32 of 40 selected mutants; the remaining
+8 are queued (`tripwire run --resume`). The full [report](demo/shop/.tripwire/report/index.html)
+has a screenshot of every broken page the suite passed on, and Kane's own triage of every failure.
+
+**Cost:** baseline replay of 6 tests ≈ 4 credits; mutant runs ≈ 1 to 5 credits each (a failing
+replay costs more because Kane investigates it); a heal check ≈ 15 to 35; each proven fix ≈ 25.
 
 ## Quickstart
 
