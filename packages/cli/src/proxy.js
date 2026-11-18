@@ -6,11 +6,14 @@ import net from 'node:net';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import crypto from 'node:crypto';
 import { applyJsonOps, injectHtml, replaceHtml } from './actions.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const RECORDER_JS = fs.readFileSync(path.join(here, 'browser/recorder.js'), 'utf8');
 const MUTATE_JS = fs.readFileSync(path.join(here, 'browser/mutate.js'), 'utf8');
+// Fingerprint of the code a proxy serves; a runner refuses to reuse a proxy built from older code.
+export const PROXY_CODE = crypto.createHash('sha1').update(RECORDER_JS + MUTATE_JS + fs.readFileSync(fileURLToPath(import.meta.url), 'utf8')).digest('hex').slice(0, 12);
 
 const HOP = ['connection', 'keep-alive', 'proxy-connection', 'transfer-encoding', 'upgrade', 'te', 'trailer'];
 const MAX_BODY_SAMPLE = 256 * 1024;
@@ -110,7 +113,7 @@ export function createProxy({ target, port = 8080, log = () => {} }) {
   async function handleControl(req, res, url) {
     const body = req.method === 'POST' ? tryJson(await readBody(req)) ?? {} : {};
     switch (`${req.method} ${url.pathname}`) {
-      case 'GET /_tw/health': return send(res, 200, { ok: true, target, armed: state.armed?.id ?? null, record: state.record });
+      case 'GET /_tw/health': return send(res, 200, { ok: true, target, code: PROXY_CODE, armed: state.armed?.id ?? null, record: state.record });
       case 'POST /_tw/arm':
         if (!body || !body.id || !body.action) return send(res, 400, { error: 'mutant needs id and action' });
         state.armed = body; state.hits = 0; state.uses = 0; state.staleFor.clear(); state.lastGet.clear();

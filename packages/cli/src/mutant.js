@@ -9,7 +9,7 @@ const ACTIONS = {
   'inject-css': (a) => typeof a.css === 'string',
   'html-replace': (a) => typeof a.find === 'string' && typeof a.replace === 'string'
 };
-const DOM_OPS = ['hide', 'dead', 'swap-labels', 'replace-text', 'relink', 'remove-row-action'];
+const DOM_OPS = ['hide', 'dead', 'swap-labels', 'replace-text', 'relink', 'remove-row-action', 'drift-number'];
 const JSON_OPS = ['add', 'scale', 'set', 'remove-index', 'dup-index', 'swap', 'push'];
 
 export function validateMutant(m) {

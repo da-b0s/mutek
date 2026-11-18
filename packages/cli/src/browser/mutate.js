@@ -72,6 +72,22 @@
         report();
       });
     },
+    // A number shown on the page is off by one (works without any JSON API: SSR, local state).
+    // Re-applied after every re-render, but never twice to the same rendered value.
+    'drift-number': function () {
+      find(M.target).forEach(function (el) {
+        var t = clean(el.innerText || el.value);
+        if (el.dataset.twWrote === t) return;
+        // +1 unit, keeping the decimals ("2" -> "3", "18.00" -> "19.00")
+        var next = t.replace(/\d+(?:\.\d+)?/, function (n) {
+          return (Number(n) + 1).toFixed((n.split('.')[1] || '').length);
+        });
+        if (next === t) return;
+        setText(el, next);
+        el.dataset.twWrote = clean(el.innerText || el.value);
+        report();
+      });
+    },
     'remove-row-action': function () {
       var rows = document.querySelectorAll('tr, li');
       for (var i = 0; i < rows.length; i++) {

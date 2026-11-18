@@ -96,7 +96,7 @@ export function newestPack(cwd, sinceMs) {
 
 // Kane failures that happen before any step runs (no browser, no credits spent) and are worth
 // waiting out: Test Manager not answering during auth resolution, network resets, rate limits.
-export const TRANSIENT = /TMS did not return an org_id|auth resolution failed|ECONNRESET|ETIMEDOUT|ENOTFOUND|EAI_AGAIN|socket hang up|fetch failed|network error|\b429\b|\b50[234]\b/i;
+export const TRANSIENT = /TMS did not return an org_id|Token refresh failed|auth resolution failed|ECONNRESET|ETIMEDOUT|ENOTFOUND|EAI_AGAIN|socket hang up|fetch failed|network error|\b429\b|\b50[234]\b/i;
 export const isTransient = (r) => r.code === 2 && !r.events.some((e) => e.type === 'test_md_step_start') && TRANSIENT.test(r.stderr + r.stdout);
 
 const pause = (ms) => new Promise((res) => setTimeout(res, ms));

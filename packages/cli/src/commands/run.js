@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { createProxy, proxyClient } from '../proxy.js';
+import { createProxy, proxyClient, PROXY_CODE } from '../proxy.js';
 import { loadConfig, findTests } from '../config.js';
 import { runTest, verdict, metricFromVerdict, balance } from '../kane.js';
 import { profileEntry, summarize } from '../profile.js';
@@ -53,12 +53,18 @@ export async function resetApp(cfg, base) {
 export async function withProxy(cfg, fn) {
   // Reuse a proxy that is already running on the port (e.g. `tripwire proxy` in another terminal).
   const base = `http://localhost:${cfg.port}`;
-  try {
-    const h = await (await fetch(base + '/_tw/health')).json();
-    if (h.ok) return fn(proxyClient(base), base, false);
-  } catch { /* none running */ }
+  let h = null;
+  try { h = await (await fetch(base + '/_tw/health')).json(); } catch { /* nothing tripwire-like on the port */ }
+  if (h?.ok) {
+    if (h.code !== PROXY_CODE) throw new Error(`a tripwire proxy from different code is already running on port ${cfg.port} (its code ${h.code || 'unknown'}, this one ${PROXY_CODE}). Stop it, or let tripwire start its own.`);
+    if (h.target && h.target.replace(/\/$/, '') !== String(cfg.app).replace(/\/$/, '')) throw new Error(`the proxy on port ${cfg.port} points at ${h.target}, not ${cfg.app}`);
+    return fn(proxyClient(base), base, false);
+  }
   const p = createProxy({ target: cfg.app, port: Number(cfg.port), log: () => {} });
-  await p.listen();
+  await new Promise((resolve, reject) => {
+    p.server.once('error', (e) => reject(e.code === 'EADDRINUSE' ? new Error(`port ${cfg.port} is in use by something that is not a tripwire proxy; set "port" in tripwire.config.json`) : e));
+    p.listen().then(resolve, reject);
+  });
   try { return await fn(proxyClient(base), base, true); } finally { await p.close(); }
 }
 

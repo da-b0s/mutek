@@ -15,9 +15,9 @@ const profile = { tests: [profileEntry('tests/cart_test.md', fx.traffic, fx.dom)
 const { candidates } = generateAll(profile, { dir: path.join(here, 'no-such-dir') });
 const byOp = (op) => candidates.filter((m) => m.operator === op);
 
-test('17 built-in operators plus the saboteur', () => {
-  assert.equal(OPERATORS.length, 18);
-  assert.equal(new Set(OPERATORS.map((o) => o.name)).size, 18);
+test('18 built-in operators plus the saboteur', () => {
+  assert.equal(OPERATORS.length, 19);
+  assert.equal(new Set(OPERATORS.map((o) => o.name)).size, 19);
 });
 
 test('every generated mutant is valid and touches a test', () => {

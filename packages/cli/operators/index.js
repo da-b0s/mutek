@@ -5,6 +5,7 @@ import itemDup from './item-dup.js';
 import fieldSwap from './field-swap.js';
 import staleRead from './stale-read.js';
 import wrongOwner from './wrong-owner.js';
+import renderedNumberDrift from './rendered-number-drift.js';
 import silentFail from './silent-fail.js';
 import fakeSuccess from './fake-success.js';
 import doubleApply from './double-apply.js';
@@ -19,7 +20,7 @@ import missingRowAction from './missing-row-action.js';
 import agentProposed from './agent-proposed.js';
 
 export const OPERATORS = [
-  numberDrift, itemDrop, itemDup, fieldSwap, staleRead, wrongOwner,
+  numberDrift, itemDrop, itemDup, fieldSwap, staleRead, wrongOwner, renderedNumberDrift,
   silentFail, fakeSuccess, doubleApply, validationOff, authDrop,
   hideControl, deadControl, labelSwap, textChange, wrongLink, missingRowAction,
   agentProposed
