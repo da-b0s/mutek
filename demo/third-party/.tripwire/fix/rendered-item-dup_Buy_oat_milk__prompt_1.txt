@@ -1,0 +1,49 @@
+You are strengthening an end-to-end Kane CLI test (a *_test.md file). Do not change any application code.
+
+This bug was live in the app and the test below still PASSED:
+  The "Buy oat milk" row appears twice in the list
+What changed: On the page: {"op":"dup-row","target":{"role":"text","text":"Buy oat milk"}}
+
+A good test would: the test checks how many rows are listed.
+Screenshot of the broken page at the end of the test: C:\Users\DELL\Documents\Code\tripwire\demo\third-party\.tripwire\fix\rendered-item-dup_Buy_oat_milk_.jpg
+
+Test file: tests/edit_todo_test.md
+----- current contents -----
+---
+url: http://localhost:8180
+mode: testing
+max_steps: 30
+tags: [todomvc, edit]
+---
+
+# Edit a todo
+
+## Add a todo
+Type "Buy milk" into the "What needs to be done?" input and press Enter.
+Verify the todo list shows "Buy milk".
+
+## Edit the todo by double-clicking it
+Double-click the "Buy milk" todo text to enter edit mode.
+Clear the edit field, type "Buy oat milk" and press Enter.
+Verify the todo list shows "Buy oat milk" and no longer shows "Buy milk".
+Verify the footer item counter reads "1 item left".
+
+----- end -----
+
+Edit tests/edit_todo_test.md by APPENDING exactly one new step at the very end of the file:
+  ## <short heading>
+  <one or two plain-English sentences: navigate if needed, then "Verify ..." with the exact expected value>
+
+Rules:
+- Only append. Do not modify, reorder, weaken or delete any existing line (Kane re-records every step after an edit, so editing earlier steps is expensive and is rejected).
+- The new step must PASS on the real app and FAIL on the broken app described above.
+- Use exact expected values a user would see (amounts with currency symbol, item names, counts, status words).
+- Do not mention bugs, mutants or Tripwire in the test, and never name the broken value
+  (the wrong number, the extra record): assert the correct state, so the check stays general.
+
+Assertion patterns that worked before in this repo:
+- The test checks which rows are listed, or how many (caught: rendered-item-drop; I added a final step that tells Kane not to add, edit or re-enter any todo, then checks that the list shows exactly 3 visible rows and that the first one reads )
+- The test checks which rows are listed, or how many (caught: rendered-item-drop; I appended a step that checks, without typing anything or changing any todo, that the second visible row, directly below "Buy milk" and directly above "Read a b)
+- The test checks how many rows are listed (caught: rendered-item-dup; The screenshot shows why the earlier "exactly 3 rows" checks didn't catch this: the extra "Read a book" row is fourth, and the footer still says "3 items left",)
+
+Reply with one line describing the assertion you added.

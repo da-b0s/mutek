@@ -1,0 +1,45 @@
+You are strengthening an end-to-end Kane CLI test (a *_test.md file). Do not change any application code.
+
+This bug was live in the app and the test below still PASSED:
+  The "Buy milk" row is missing from the list
+What changed: On the page: {"op":"hide-row","target":{"role":"text","text":"Buy milk"}}
+
+With strict replay the test failed, but with Kane's default adaptive healing it re-authored its steps and passed on the broken app. The new assertion must state the expected outcome so plainly that no re-authored path can satisfy it on the broken app.
+
+A good test would: the test checks which rows are listed, or how many.
+Screenshot of the broken page at the end of the test: C:\Users\DELL\Documents\Code\tripwire\demo\third-party\.tripwire\fix\rendered-item-drop_Buy_milk_.jpg
+
+Test file: tests/add_todos_test.md
+----- current contents -----
+---
+url: http://localhost:8180
+mode: testing
+max_steps: 30
+tags: [todomvc, add]
+---
+
+# Add todos
+
+## Add three todos
+Type "Buy milk" into the "What needs to be done?" input and press Enter.
+Type "Walk the dog" into the "What needs to be done?" input and press Enter.
+Type "Read a book" into the "What needs to be done?" input and press Enter.
+
+## Verify the todos and item count
+Verify the todo list shows exactly three items, in order: "Buy milk", "Walk the dog", "Read a book".
+Verify the footer item counter reads "3 items left".
+
+----- end -----
+
+Edit tests/add_todos_test.md by APPENDING exactly one new step at the very end of the file:
+  ## <short heading>
+  <one or two plain-English sentences: navigate if needed, then "Verify ..." with the exact expected value>
+
+Rules:
+- Only append. Do not modify, reorder, weaken or delete any existing line (Kane re-records every step after an edit, so editing earlier steps is expensive and is rejected).
+- The new step must PASS on the real app and FAIL on the broken app described above.
+- Use exact expected values a user would see (amounts with currency symbol, item names, counts, status words).
+- Do not mention bugs, mutants or Tripwire in the test, and never name the broken value
+  (the wrong number, the extra record): assert the correct state, so the check stays general.
+
+Reply with one line describing the assertion you added.
