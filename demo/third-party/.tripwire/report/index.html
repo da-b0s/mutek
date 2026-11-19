@@ -24,14 +24,14 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 .note{color:var(--muted);font-size:.9rem;max-width:70ch}
 </style></head><body><main>
 <section class="top">
-  <div><h1>Tripwire</h1><p class="sub">Would the tests fail if the app were broken? Run 2026-11-19T06-29-26 · commit d097a88</p>
-  <div class="score" aria-label="mutation score">76.5%</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p>
+  <div><h1>Tripwire</h1><p class="sub">Would the tests fail if the app were broken? Run 2026-11-19T06-29-26 · commit c692958</p>
+  <div class="score" aria-label="mutation score">77.8%</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p>
   </div>
   <div class="counts">
-    <div class="count killed"><b>13</b>killed</div>
+    <div class="count killed"><b>14</b>killed</div>
     <div class="count survived"><b>2</b>survived</div>
     <div class="count masked"><b>2</b>masked by heal</div>
-    <div class="count nr"><b>1</b>not reached</div>
+    <div class="count nr"><b>0</b>not reached</div>
   </div>
 </section>
 
@@ -47,6 +47,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       
+      
       <figure><img src="shots/rendered-item-dup_Read_a_book_.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/add_todos_test.md. The test still passed.</figcaption></figure>
       <details><summary>Mutant id</summary><code>rendered-item-dup:&quot;Read a book&quot;</code></details>
     </article>
@@ -55,6 +56,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <h3>The &quot;Buy oat milk&quot; row appears twice in the list</h3>
       <p class="expect">A good test would: the test checks how many rows are listed.</p>
       <p class="meta">Tests that walked past it: <code>tests/edit_todo_test.md</code></p>
+      
       
       
       
@@ -70,6 +72,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <h3>The &quot;Buy milk&quot; row is missing from the list</h3>
       <p class="expect">A good test would: the test checks which rows are listed, or how many.</p>
       <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
       <p class="warn">With healing off, <code>tests/add_todos_test.md</code> failed. With Kane's default healing it re-authored its steps and <strong>passed on the broken app</strong>.</p>
       <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (96%). The app really was broken: this was a product bug.</p>
       
@@ -81,6 +84,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <h3>The &quot;Walk the dog&quot; row is missing from the list</h3>
       <p class="expect">A good test would: the test checks which rows are listed, or how many.</p>
       <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
       <p class="warn">With healing off, <code>tests/add_todos_test.md</code> failed. With Kane's default healing it re-authored its steps and <strong>passed on the broken app</strong>.</p>
       <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (97%). The app really was broken: this was a product bug.</p>
       
@@ -90,21 +94,22 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 
 <h2>Per test</h2>
 <table><thead><tr><th>Test</th><th>Mutants touched</th><th>Killed</th><th>Walked past</th><th>Score</th><th>Assertions</th></tr></thead><tbody>
-<tr><td><code>tests/add_todos_test.md</code></td><td>12</td><td>3</td><td>3</td><td><div class="bar" title="50%"><i style="width:50%"></i></div>50%</td><td>yes</td></tr><tr><td><code>tests/clear_completed_test.md</code></td><td>14</td><td>4</td><td>2</td><td><div class="bar" title="67%"><i style="width:67%"></i></div>67%</td><td>yes</td></tr><tr><td><code>tests/complete_todo_test.md</code></td><td>14</td><td>0</td><td>2</td><td><div class="bar" title="0%"><i style="width:0%"></i></div>0%</td><td>yes</td></tr><tr><td><code>tests/delete_todo_test.md</code></td><td>13</td><td>2</td><td>2</td><td><div class="bar" title="50%"><i style="width:50%"></i></div>50%</td><td>yes</td></tr><tr><td><code>tests/edit_todo_test.md</code></td><td>13</td><td>1</td><td>2</td><td><div class="bar" title="33%"><i style="width:33%"></i></div>33%</td><td>yes</td></tr><tr><td><code>tests/filters_test.md</code></td><td>14</td><td>3</td><td>2</td><td><div class="bar" title="60%"><i style="width:60%"></i></div>60%</td><td>yes</td></tr>
+<tr><td><code>tests/add_todos_test.md</code></td><td>12</td><td>3</td><td>3</td><td><div class="bar" title="50%"><i style="width:50%"></i></div>50%</td><td>yes</td></tr><tr><td><code>tests/clear_completed_test.md</code></td><td>14</td><td>4</td><td>2</td><td><div class="bar" title="67%"><i style="width:67%"></i></div>67%</td><td>yes</td></tr><tr><td><code>tests/complete_todo_test.md</code></td><td>14</td><td>0</td><td>2</td><td><div class="bar" title="0%"><i style="width:0%"></i></div>0%</td><td>yes</td></tr><tr><td><code>tests/delete_todo_test.md</code></td><td>13</td><td>3</td><td>2</td><td><div class="bar" title="60%"><i style="width:60%"></i></div>60%</td><td>yes</td></tr><tr><td><code>tests/edit_todo_test.md</code></td><td>13</td><td>1</td><td>2</td><td><div class="bar" title="33%"><i style="width:33%"></i></div>33%</td><td>yes</td></tr><tr><td><code>tests/filters_test.md</code></td><td>14</td><td>3</td><td>2</td><td><div class="bar" title="60%"><i style="width:60%"></i></div>60%</td><td>yes</td></tr>
 </tbody></table>
 
 
 
 <h2>How Kane's triage read the planted bugs</h2>
-<p class="note">Every mutant below was a real break in the app. Kane triaged 13 of the failing runs; it attributed <strong>12</strong> of them to the test rather than the product (typically "locator rot": the page changed, so the recording looks stale). From inside a single run a broken app and an outdated test look alike; Tripwire is the outside reference that tells them apart. Treat a triage of "automation bug" on a release branch as a prompt to look, not as a reason to re-record.</p>
+<p class="note">Every mutant below was a real break in the app. Kane triaged 14 of the failing runs; it attributed <strong>13</strong> of them to the test rather than the product (typically "locator rot": the page changed, so the recording looks stale). From inside a single run a broken app and an outdated test look alike; Tripwire is the outside reference that tells them apart. Treat a triage of "automation bug" on a release branch as a prompt to look, not as a reason to re-record.</p>
 
-<h2>Caught (13)</h2>
-<details><summary>Show all 13 killed mutants</summary><div class="grid">
+<h2>Caught (14)</h2>
+<details><summary>Show all 14 killed mutants</summary><div class="grid">
     <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">data · rendered-number-drift</span></header>
       <h3>The number in &quot;1 item left&quot; is off by one</h3>
       <p class="expect">A good test would: the test checks the exact number shown, not just that the element is there.</p>
       <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
       
       <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (98%). The app really was broken: this was a product bug.</p>
       
@@ -117,6 +122,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: the test checks which rows are listed, or how many.</p>
       <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code></p>
       
+      
       <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (98%). The app really was broken: this was a product bug.</p>
       
       
@@ -127,6 +133,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <h3>The &quot;Buy oat milk&quot; row is missing from the list</h3>
       <p class="expect">A good test would: the test checks which rows are listed, or how many.</p>
       <p class="meta">Tests that walked past it: <code>tests/edit_todo_test.md</code></p>
+      
       
       <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (91%). The app really was broken: this was a product bug.</p>
       
@@ -139,6 +146,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: the test checks how many rows are listed.</p>
       <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
       
+      
       <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (93%). It identified a product bug.</p>
       
       
@@ -149,6 +157,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <h3>The &quot;Walk the dog&quot; row appears twice in the list</h3>
       <p class="expect">A good test would: the test checks how many rows are listed.</p>
       <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
       
       <p class="triage">Kane's triage of the failure: <strong>environment issue</strong> / platform failure (96%). The app really was broken: this was a product bug.</p>
       
@@ -161,6 +170,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: the test checks what &quot;[input.toggle]&quot; is supposed to change.</p>
       <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
       
+      
       <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (98%). The app really was broken: this was a product bug.</p>
       
       
@@ -171,6 +181,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <h3>Clicking the unlabelled &quot;destroy&quot; button on the &quot;Buy milk&quot; row does nothing</h3>
       <p class="expect">A good test would: the test checks what &quot;[button.destroy]&quot; is supposed to change.</p>
       <p class="meta">Tests that walked past it: <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
       
       <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / config issue (97%). The app really was broken: this was a product bug.</p>
       
@@ -183,6 +194,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: the test checks what &quot;Clear completed&quot; is supposed to change.</p>
       <p class="meta">Tests that walked past it: <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/filters_test.md</code></p>
       
+      
       <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (93%). The app really was broken: this was a product bug.</p>
       
       
@@ -193,6 +205,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <h3>The &quot;Clear completed&quot; and &quot;[button.destroy]&quot; buttons have each other&#39;s labels</h3>
       <p class="expect">A good test would: the test checks the outcome of the button it pressed.</p>
       <p class="meta">Tests that walked past it: <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
       
       <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / config issue (97%). The app really was broken: this was a product bug.</p>
       
@@ -205,6 +218,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: the test checks it reached the right page or message.</p>
       <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
       
+      
       <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / config issue (99%). The app really was broken: this was a product bug.</p>
       
       
@@ -215,6 +229,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <h3>The &quot;All&quot; link goes to #/active instead of #/</h3>
       <p class="expect">A good test would: after following a link the test checks where it landed.</p>
       <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
       
       <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / navigation defect (91%). The app really was broken: this was a product bug.</p>
       
@@ -227,6 +242,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: after following a link the test checks where it landed.</p>
       <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
       
+      
       <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (93%). The app really was broken: this was a product bug.</p>
       
       
@@ -238,15 +254,28 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: after following a link the test checks where it landed.</p>
       <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
       
+      
       <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (93%). The app really was broken: this was a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>wrong-link:&quot;Completed&quot;-&gt;#/</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">interface · missing-row-action</span></header>
+      <h3>The first row loses the unlabelled &quot;destroy&quot; button</h3>
+      <p class="expect">A good test would: the test checks that each row offers &quot;[button.destroy]&quot;.</p>
+      <p class="meta">Tests that walked past it: <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / config issue (94%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>missing-row-action:&quot;[button.destroy]&quot;</code></details>
     </article></div></details>
 
-<h2>Not reached (1)</h2>
+<h2>Not reached (0)</h2>
 <p class="note">The mutant never fired during any test, so it says nothing about the assertions. It usually means no test exercises that path (for example, no test ever submits invalid input). Not counted in the score.</p>
-<details><summary>Show</summary><ul><li>The first row loses the unlabelled &quot;destroy&quot; button</li></ul></details>
+<details><summary>Show</summary><ul></ul></details>
 
 
 
@@ -258,7 +287,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 
 
 <h2>Cost</h2>
-<p>18 mutants · 50 minutes of Kane runs (167s per mutant). Replays run from Kane's cache with healing off.</p>
+<p>18 mutants · 48.39 minutes of Kane runs (161s per mutant). Replays run from Kane's cache with healing off.</p>
 
 <h2>What this does not measure</h2>
 <p class="note">Tripwire mutates traffic and the rendered page, not source code. It tells you whether the suite notices breakage a user would see. It does not replace unit-level mutation testing, and it cannot see server-side effects that never reach the browser.</p>
