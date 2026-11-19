@@ -24,71 +24,206 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 .note{color:var(--muted);font-size:.9rem;max-width:70ch}
 </style></head><body><main>
 <section class="top">
-  <div><h1>Tripwire</h1><p class="sub">Would the tests fail if the app were broken? Run 2026-11-18T02-45-14 · commit 9c58131</p>
-  <div class="score" aria-label="mutation score">91.9%</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p>
-  <p class="sub"><strong>78.4%</strong> for the first-draft suite → <strong>91.9%</strong> after <code>tripwire fix</code> strengthened 5 tests, each proven by Kane: pass on the real app, fail on the broken one.</p></div>
+  <div><h1>Tripwire</h1><p class="sub">Would the tests fail if the app were broken? Run 2026-11-19T06-42-01 · commit 53759a4</p>
+  <div class="score" aria-label="mutation score">76.6%</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p>
+  </div>
   <div class="counts">
-    <div class="count killed"><b>34</b>killed</div>
-    <div class="count survived"><b>2</b>survived</div>
-    <div class="count masked"><b>1</b>masked by heal</div>
+    <div class="count killed"><b>36</b>killed</div>
+    <div class="count survived"><b>11</b>survived</div>
+    <div class="count masked"><b>0</b>masked by heal</div>
     <div class="count nr"><b>3</b>not reached</div>
   </div>
 </section>
 
+<h2>Score over time</h2><div class="history"><div><b>91.9%</b><br><span class="sub">first run</span></div><div><b>76.6%</b><br><span class="sub">11-19 06-42</span></div></div>
 
-
-<h2>Bugs the suite walked past (2)</h2>
+<h2>Bugs the suite walked past (11)</h2>
 <div class="grid">
     <article class="mutant survived">
-      <header><span class="pill survived">survived</span><span class="op">data · item-dup</span></header>
-      <h3>&quot;Canvas Tote Bag&quot; appears twice in the items (1 → 2 items)</h3>
-      <p class="expect">A good test would: the list length or uniqueness is checked.</p>
-      <p class="meta">Tests that walked past it: <code>tests/checkout_test.md</code></p>
+      <header><span class="pill survived">survived</span><span class="op">saboteur · agent-proposed</span></header>
+      <h3>The SAVE10 coupon takes 20% off instead of 10%</h3>
+      <p class="expect">A good test would: after applying SAVE10 to a $34.50 cart, the Discount reads −$3.45 and the Total reads $36.04.</p>
+      <p class="meta">Tests that walked past it: <code>tests/coupon_test.md</code></p>
       
       
       
-      <figure><img src="shots/item-dup_GET_api_orders_1003_.items_0_.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/checkout_test.md. The test still passed.</figcaption></figure>
-      <details><summary>Mutant id</summary><code>item-dup:GET /api/orders/1003:$.items[0]</code></details>
+      
+      <figure><img src="shots/agent-proposed_save10-takes-20-percent.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/coupon_test.md. The test still passed.</figcaption></figure>
+      <details><summary>Mutant id</summary><code>agent-proposed:save10-takes-20-percent</code></details>
+    </article>
+    <article class="mutant survived">
+      <header><span class="pill survived">survived</span><span class="op">saboteur · agent-proposed</span></header>
+      <h3>Raising the quantity to 2 leaves the line total and subtotal at the single-item price</h3>
+      <p class="expect">A good test would: with quantity 2 of a $22.00 item, the line total and Subtotal read $44.00.</p>
+      <p class="meta">Tests that walked past it: <code>tests/cart_test.md</code></p>
+      
+      
+      
+      
+      <figure><img src="shots/agent-proposed_line-total-ignores-quantity.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/cart_test.md. The test still passed.</figcaption></figure>
+      <details><summary>Mutant id</summary><code>agent-proposed:line-total-ignores-quantity</code></details>
+    </article>
+    <article class="mutant survived">
+      <header><span class="pill survived">survived</span><span class="op">saboteur · agent-proposed</span></header>
+      <h3>Shipping is free on a $31.05 order even though free shipping starts at $50</h3>
+      <p class="expect">A good test would: with a discounted subtotal under $50, Shipping reads $4.99 and the Total includes it ($36.04).</p>
+      <p class="meta">Tests that walked past it: <code>tests/coupon_test.md</code></p>
+      
+      
+      
+      
+      <figure><img src="shots/agent-proposed_free-shipping-below-50.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/coupon_test.md. The test still passed.</figcaption></figure>
+      <details><summary>Mutant id</summary><code>agent-proposed:free-shipping-below-50</code></details>
+    </article>
+    <article class="mutant survived">
+      <header><span class="pill survived">survived</span><span class="op">saboteur · agent-proposed</span></header>
+      <h3>The order confirmation says $18.00 was charged although the cart total was $22.99 with shipping</h3>
+      <p class="expect">A good test would: the confirmation&#39;s &#39;Total charged&#39; matches the checkout total of $22.99, including $4.99 shipping.</p>
+      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code> <code>tests/checkout_test.md</code></p>
+      
+      
+      
+      
+      <figure><img src="shots/agent-proposed_confirmation-total-drops-shipping.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/cancel_order_test.md. The test still passed.</figcaption></figure>
+      <details><summary>Mutant id</summary><code>agent-proposed:confirmation-total-drops-shipping</code></details>
+    </article>
+    <article class="mutant survived">
+      <header><span class="pill survived">survived</span><span class="op">behaviour · silent-fail</span></header>
+      <h3>POST /api/orders/1002/cancel fails with a 500 and nothing is saved</h3>
+      <p class="expect">A good test would: the test checks the result of the action, not only that it clicked.</p>
+      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code></p>
+      
+      
+      
+      
+      
+      <details><summary>Mutant id</summary><code>silent-fail:POST /api/orders/1002/cancel</code></details>
+    </article>
+    <article class="mutant survived">
+      <header><span class="pill survived">survived</span><span class="op">data · stale-read</span></header>
+      <h3>/api/products keeps returning what it returned before the last change</h3>
+      <p class="expect">A good test would: the test checks that the change it just made is visible.</p>
+      <p class="meta">Tests that walked past it: <code>tests/browse_test.md</code> <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code> <code>tests/order_history_test.md</code></p>
+      <p class="warn">Suspected equivalent: The mutant fired, but no page showed anything the clean run did not show. If a person agrees, add it to <code>.tripwire/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>
+      
+      
+      
+      <figure><img src="shots/stale-read_GET_api_products.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/cancel_order_test.md. The test still passed.</figcaption></figure>
+      <details><summary>Mutant id</summary><code>stale-read:GET /api/products</code></details>
+    </article>
+    <article class="mutant survived">
+      <header><span class="pill survived">survived</span><span class="op">data · rendered-number-drift</span></header>
+      <h3>The number in &quot;Order #1002 cancelled&quot; is off by one</h3>
+      <p class="expect">A good test would: the test checks the exact number shown, not just that the element is there.</p>
+      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code></p>
+      
+      
+      
+      
+      <figure><img src="shots/rendered-number-drift_Order_1002_cancelled_.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/cancel_order_test.md. The test still passed.</figcaption></figure>
+      <details><summary>Mutant id</summary><code>rendered-number-drift:&quot;Order #1002 cancelled&quot;</code></details>
+    </article>
+    <article class="mutant survived">
+      <header><span class="pill survived">survived</span><span class="op">behaviour · double-apply</span></header>
+      <h3>POST /api/cart/coupon is applied twice</h3>
+      <p class="expect">A good test would: the test checks the exact quantity or number of records afterwards.</p>
+      <p class="meta">Tests that walked past it: <code>tests/coupon_test.md</code></p>
+      <p class="warn">Suspected equivalent: The mutant fired, but no page showed anything the clean run did not show. If a person agrees, add it to <code>.tripwire/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>
+      
+      
+      
+      <figure><img src="shots/double-apply_POST_api_cart_coupon.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/coupon_test.md. The test still passed.</figcaption></figure>
+      <details><summary>Mutant id</summary><code>double-apply:POST /api/cart/coupon</code></details>
+    </article>
+    <article class="mutant survived">
+      <header><span class="pill survived">survived</span><span class="op">interface · hide-control</span></header>
+      <h3>The &quot;Remove coupon&quot; button is missing</h3>
+      <p class="expect">A good test would: the test checks that the &quot;Remove coupon&quot; button is offered.</p>
+      <p class="meta">Tests that walked past it: <code>tests/coupon_test.md</code></p>
+      
+      
+      
+      
+      <figure><img src="shots/hide-control_button_Remove_coupon_.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/coupon_test.md. The test still passed.</figcaption></figure>
+      <details><summary>Mutant id</summary><code>hide-control:button:&quot;Remove coupon&quot;</code></details>
     </article>
     <article class="mutant survived">
       <header><span class="pill survived">survived</span><span class="op">data · number-drift</span></header>
-      <h3>subtotal from /api/orders/1003 shows 19.80 instead of 18</h3>
+      <h3>subtotal from /api/orders/1001 shows 20.90 instead of 19</h3>
       <p class="expect">A good test would: the displayed subtotal is checked against the expected value.</p>
-      <p class="meta">Tests that walked past it: <code>tests/checkout_test.md</code></p>
+      <p class="meta">Tests that walked past it: <code>tests/order_history_test.md</code></p>
       
       
       
-      <figure><img src="shots/number-drift_GET_api_orders_1003_.subtotal.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/checkout_test.md. The test still passed.</figcaption></figure>
-      <details><summary>Mutant id</summary><code>number-drift:GET /api/orders/1003:$.subtotal</code></details>
+      
+      <figure><img src="shots/number-drift_GET_api_orders_1001_.subtotal.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/order_history_test.md. The test still passed.</figcaption></figure>
+      <details><summary>Mutant id</summary><code>number-drift:GET /api/orders/1001:$.subtotal</code></details>
+    </article>
+    <article class="mutant survived">
+      <header><span class="pill survived">survived</span><span class="op">data · item-dup</span></header>
+      <h3>&quot;Notebook, Dot Grid&quot; appears twice in the items (1 → 2 items)</h3>
+      <p class="expect">A good test would: the list length or uniqueness is checked.</p>
+      <p class="meta">Tests that walked past it: <code>tests/order_history_test.md</code></p>
+      <p class="warn">Suspected equivalent: The mutant fired, but no page showed anything the clean run did not show. If a person agrees, add it to <code>.tripwire/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>
+      
+      
+      
+      <figure><img src="shots/item-dup_GET_api_orders_1001_.items_0_.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/order_history_test.md. The test still passed.</figcaption></figure>
+      <details><summary>Mutant id</summary><code>item-dup:GET /api/orders/1001:$.items[0]</code></details>
     </article></div>
 
-<h2>Masked by healing (1)</h2>
+<h2>Masked by healing (0)</h2>
 <p class="note">Strict replay caught these, but Kane's default adaptive healing re-authored the failing steps and the run passed on the broken app. Run suites that guard releases with <code>--no-adaptive-heal</code>, or gate on <code>metrics.heal.healed_tests</code>.</p>
-<div class="grid">
-    <article class="mutant masked">
-      <header><span class="pill masked">masked</span><span class="op">behaviour · auth-drop</span></header>
-      <h3>POST /api/orders/1002/cancel returns 401 once, mid-flow</h3>
-      <p class="expect">A good test would: the test checks the page it lands on after each step.</p>
-      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code></p>
-      <p class="warn">With healing off, <code>tests/cancel_order_test.md</code> failed. With Kane's default healing it re-authored its steps and <strong>passed on the broken app</strong>.</p>
-      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / state transition bug (96%). The app really was broken: this was a product bug.</p>
-      
-      
-      <details><summary>Mutant id</summary><code>auth-drop:POST /api/orders/1002/cancel</code></details>
-    </article></div>
+
 
 <h2>Per test</h2>
 <table><thead><tr><th>Test</th><th>Mutants touched</th><th>Killed</th><th>Walked past</th><th>Score</th><th>Assertions</th></tr></thead><tbody>
-<tr><td><code>tests/browse_test.md</code></td><td>10</td><td>4</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr><tr><td><code>tests/cancel_order_test.md</code></td><td>26</td><td>13</td><td>1</td><td><div class="bar" title="93%"><i style="width:93%"></i></div>93%</td><td>yes</td></tr><tr><td><code>tests/cart_test.md</code></td><td>17</td><td>8</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr><tr><td><code>tests/checkout_test.md</code></td><td>24</td><td>6</td><td>2</td><td><div class="bar" title="75%"><i style="width:75%"></i></div>75%</td><td>yes</td></tr><tr><td><code>tests/coupon_test.md</code></td><td>17</td><td>1</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr><tr><td><code>tests/order_history_test.md</code></td><td>20</td><td>2</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr>
+<tr><td><code>tests/coupon_test.md</code></td><td>21</td><td>2</td><td>5</td><td><div class="bar" title="29%"><i style="width:29%"></i></div>29%</td><td>yes</td></tr><tr><td><code>tests/cart_test.md</code></td><td>22</td><td>4</td><td>2</td><td><div class="bar" title="67%"><i style="width:67%"></i></div>67%</td><td>yes</td></tr><tr><td><code>tests/cancel_order_test.md</code></td><td>38</td><td>21</td><td>4</td><td><div class="bar" title="84%"><i style="width:84%"></i></div>84%</td><td>yes</td></tr><tr><td><code>tests/checkout_test.md</code></td><td>19</td><td>1</td><td>2</td><td><div class="bar" title="33%"><i style="width:33%"></i></div>33%</td><td>yes</td></tr><tr><td><code>tests/order_history_test.md</code></td><td>31</td><td>1</td><td>3</td><td><div class="bar" title="25%"><i style="width:25%"></i></div>25%</td><td>yes</td></tr><tr><td><code>tests/browse_test.md</code></td><td>15</td><td>7</td><td>1</td><td><div class="bar" title="88%"><i style="width:88%"></i></div>88%</td><td>yes</td></tr>
 </tbody></table>
 
 
 
 <h2>How Kane's triage read the planted bugs</h2>
-<p class="note">Every mutant below was a real break in the app. Kane triaged 27 of the failing runs; it attributed <strong>25</strong> of them to the test rather than the product (typically "locator rot": the page changed, so the recording looks stale). From inside a single run a broken app and an outdated test look alike; Tripwire is the outside reference that tells them apart. Treat a triage of "automation bug" on a release branch as a prompt to look, not as a reason to re-record.</p>
+<p class="note">Every mutant below was a real break in the app. Kane triaged 36 of the failing runs; it attributed <strong>35</strong> of them to the test rather than the product (typically "locator rot": the page changed, so the recording looks stale). From inside a single run a broken app and an outdated test look alike; Tripwire is the outside reference that tells them apart. Treat a triage of "automation bug" on a release branch as a prompt to look, not as a reason to re-record.</p>
 
-<h2>Caught (34)</h2>
-<details><summary>Show all 34 killed mutants</summary><div class="grid">
+<h2>Caught (36)</h2>
+<details><summary>Show all 36 killed mutants</summary><div class="grid">
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">saboteur · agent-proposed</span></header>
+      <h3>Adding one item makes the cart badge show 2</h3>
+      <p class="expect">A good test would: after adding one product to an empty cart, the header badge shows 1.</p>
+      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (94%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>agent-proposed:cart-badge-double-counts</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">saboteur · agent-proposed</span></header>
+      <h3>My orders also lists an order belonging to another customer</h3>
+      <p class="expect">A good test would: my orders lists exactly #1002 and #1001 and no order from another customer such as #91002.</p>
+      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code> <code>tests/order_history_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / test data issue (93%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>agent-proposed:orders-show-other-customer</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">saboteur · agent-proposed</span></header>
+      <h3>My orders lists the oldest order first instead of the newest</h3>
+      <p class="expect">A good test would: the first row in My orders is the newest order #1002, followed by #1001.</p>
+      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code> <code>tests/order_history_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / state transition bug (91%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>agent-proposed:orders-oldest-first</code></details>
+    </article>
     <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">data · number-drift</span></header>
       <h3>price from /api/products shows 19.80 instead of 18</h3>
@@ -96,6 +231,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="meta">Tests that walked past it: <code>tests/browse_test.md</code> <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code> <code>tests/order_history_test.md</code></p>
       
       
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui data defect (98%). The app really was broken: this was a product bug.</p>
       <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (be0e9d30-44e2-4b86-9591-97bb58a10f6d / 37941a82-323b-4986-b528-654aea340c26).</p>
       
       <details><summary>Mutant id</summary><code>number-drift:GET /api/products:$.products[0].price</code></details>
@@ -106,7 +242,8 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: the list length or a named item is checked.</p>
       <p class="meta">Tests that walked past it: <code>tests/browse_test.md</code> <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code> <code>tests/order_history_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui data defect (98%). The app really was broken: this was a product bug.</p>
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui data defect (96%). The app really was broken: this was a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>item-drop:GET /api/products:$.products[0]</code></details>
@@ -117,7 +254,8 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: the list length or uniqueness is checked.</p>
       <p class="meta">Tests that walked past it: <code>tests/browse_test.md</code> <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code> <code>tests/order_history_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / locator rot (84%). The app really was broken: this was a product bug.</p>
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui data defect (91%). The app really was broken: this was a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>item-dup:GET /api/products:$.products[0]</code></details>
@@ -128,7 +266,8 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: the name shown is checked, not just that something is shown.</p>
       <p class="meta">Tests that walked past it: <code>tests/browse_test.md</code> <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code> <code>tests/order_history_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui data defect (98%). The app really was broken: this was a product bug.</p>
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui data defect (94%). The app really was broken: this was a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>field-swap:GET /api/products:$.products[1].name&lt;-&gt;description</code></details>
@@ -139,7 +278,8 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: the test checks that the change it just made is visible.</p>
       <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code> <code>tests/order_history_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (91%). The app really was broken: this was a product bug.</p>
+      
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / agent misstep (82%). The app really was broken: this was a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>stale-read:GET /api/orders</code></details>
@@ -151,20 +291,46 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code> <code>tests/order_history_test.md</code></p>
       
       
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / test data issue (97%). The app really was broken: this was a product bug.</p>
       <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (fe400583-bd98-4ceb-96a8-aa034658e542 / 1a140dc3-9dfd-408d-b2c1-c9366ca01201).</p>
       
       <details><summary>Mutant id</summary><code>wrong-owner:GET /api/orders:$.orders</code></details>
     </article>
     <article class="mutant killed">
-      <header><span class="pill killed">killed</span><span class="op">behaviour · silent-fail</span></header>
-      <h3>POST /api/orders/1002/cancel fails with a 500 and nothing is saved</h3>
-      <p class="expect">A good test would: the test checks the result of the action, not only that it clicked.</p>
-      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code></p>
-      
-      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (90%). The app really was broken: this was a product bug.</p>
+      <header><span class="pill killed">killed</span><span class="op">data · rendered-number-drift</span></header>
+      <h3>The number in &quot;Cart 0&quot; is off by one</h3>
+      <p class="expect">A good test would: the test checks the exact number shown, not just that the element is there.</p>
+      <p class="meta">Tests that walked past it: <code>tests/browse_test.md</code> <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code> <code>tests/order_history_test.md</code></p>
       
       
-      <details><summary>Mutant id</summary><code>silent-fail:POST /api/orders/1002/cancel</code></details>
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / agent misstep (96%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>rendered-number-drift:&quot;N&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">data · rendered-item-drop</span></header>
+      <h3>The &quot;Canvas Tote Bag&quot; row is missing from the list</h3>
+      <p class="expect">A good test would: the test checks which rows are listed, or how many.</p>
+      <p class="meta">Tests that walked past it: <code>tests/browse_test.md</code> <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code> <code>tests/order_history_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui data defect (98%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>rendered-item-drop:&quot;Canvas Tote Bag&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">data · rendered-item-dup</span></header>
+      <h3>The &quot;Canvas Tote Bag&quot; row appears twice in the list</h3>
+      <p class="expect">A good test would: the test checks how many rows are listed.</p>
+      <p class="meta">Tests that walked past it: <code>tests/browse_test.md</code> <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code> <code>tests/order_history_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / locator rot (90%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>rendered-item-dup:&quot;Canvas Tote Bag&quot;</code></details>
     </article>
     <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">behaviour · fake-success</span></header>
@@ -172,7 +338,8 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: the test re-reads the data (reload or another page) after the change.</p>
       <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (93%). The app really was broken: this was a product bug.</p>
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (91%). The app really was broken: this was a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>fake-success:POST /api/orders/1002/cancel</code></details>
@@ -183,29 +350,44 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: the test checks the exact quantity or number of records afterwards.</p>
       <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / state transition bug (89%). The app really was broken: this was a product bug.</p>
+      
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / state transition bug (86%). The app really was broken: this was a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>double-apply:POST /api/orders/1002/cancel</code></details>
     </article>
     <article class="mutant killed">
-      <header><span class="pill killed">killed</span><span class="op">interface · hide-control</span></header>
-      <h3>The &quot;Keep order&quot; button is missing</h3>
-      <p class="expect">A good test would: the test checks that &quot;Keep order&quot; is offered.</p>
+      <header><span class="pill killed">killed</span><span class="op">behaviour · auth-drop</span></header>
+      <h3>POST /api/orders/1002/cancel returns 401 once, mid-flow</h3>
+      <p class="expect">A good test would: the test checks the page it lands on after each step.</p>
       <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code></p>
       
       
-      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (a8ef3518-50e5-42fa-a451-bfb4c579db39 / f4ed24c6-748e-4f90-b56f-405b69b74115).</p>
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / state transition bug (98%). The app really was broken: this was a product bug.</p>
       
-      <details><summary>Mutant id</summary><code>hide-control:button:&quot;Keep order&quot;</code></details>
+      
+      <details><summary>Mutant id</summary><code>auth-drop:POST /api/orders/1002/cancel</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">interface · hide-control</span></header>
+      <h3>The &quot;Remove&quot; button on the &quot;Canvas Tote Bag $18.00&quot; row is missing</h3>
+      <p class="expect">A good test would: the test checks that the &quot;Remove&quot; button on the &quot;Canvas Tote Bag $18.00&quot; row is offered.</p>
+      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / config issue (98%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>hide-control:button:&quot;Remove&quot;</code></details>
     </article>
     <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">interface · dead-control</span></header>
-      <h3>Clicking &quot;Add to cart&quot; does nothing</h3>
+      <h3>Clicking the &quot;Add to cart&quot; button on the &quot;BAGS&quot; row does nothing</h3>
       <p class="expect">A good test would: the test checks what &quot;Add to cart&quot; is supposed to change.</p>
       <p class="meta">Tests that walked past it: <code>tests/browse_test.md</code> <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code> <code>tests/order_history_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (95%). The app really was broken: this was a product bug.</p>
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (94%). The app really was broken: this was a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>dead-control:button:&quot;Add to cart&quot;</code></details>
@@ -216,7 +398,8 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: the test checks the outcome of the button it pressed.</p>
       <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code> <code>tests/order_history_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (96%). The app really was broken: this was a product bug.</p>
+      
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / locator rot (94%). The app really was broken: this was a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>label-swap:&quot;Cancel&quot;&lt;-&gt;&quot;Keep order&quot;</code></details>
@@ -225,31 +408,34 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <header><span class="pill killed">killed</span><span class="op">interface · text-change</span></header>
       <h3>The &quot;Placed&quot; status shows &quot;Delivered&quot;</h3>
       <p class="expect">A good test would: the test checks the status shown, not only that a row exists.</p>
-      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code> <code>tests/order_history_test.md</code></p>
+      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code> <code>tests/checkout_test.md</code> <code>tests/order_history_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / test data issue (89%). The app really was broken: this was a product bug.</p>
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (94%). The app really was broken: this was a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>text-change:status:&quot;Placed&quot;</code></details>
     </article>
     <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">interface · wrong-link</span></header>
-      <h3>The &quot;My orders&quot; link goes to #/ instead of #/orders</h3>
+      <h3>The &quot;Shop&quot; link goes to #/orders instead of #/</h3>
       <p class="expect">A good test would: after following a link the test checks where it landed.</p>
       <p class="meta">Tests that walked past it: <code>tests/browse_test.md</code> <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code> <code>tests/order_history_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / state transition bug (95%). The app really was broken: this was a product bug.</p>
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / navigation defect (90%). The app really was broken: this was a product bug.</p>
       
       
-      <details><summary>Mutant id</summary><code>wrong-link:&quot;My orders&quot;-&gt;#/</code></details>
+      <details><summary>Mutant id</summary><code>wrong-link:&quot;Shop&quot;-&gt;#/orders</code></details>
     </article>
     <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">interface · missing-row-action</span></header>
-      <h3>The first row has no &quot;Add to cart&quot; action</h3>
+      <h3>The first row loses the &quot;Add to cart&quot; button</h3>
       <p class="expect">A good test would: the test checks that each row offers &quot;Add to cart&quot;.</p>
       <p class="meta">Tests that walked past it: <code>tests/browse_test.md</code> <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code> <code>tests/order_history_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / locator rot (93%). The app really was broken: this was a product bug.</p>
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (90%). The app really was broken: this was a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>missing-row-action:&quot;Add to cart&quot;</code></details>
@@ -260,7 +446,8 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: the displayed total is checked against the expected value.</p>
       <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code> <code>tests/order_history_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / test data issue (93%). The app really was broken: this was a product bug.</p>
+      
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / config issue (96%). The app really was broken: this was a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>number-drift:GET /api/orders:$.orders[0].total</code></details>
@@ -270,6 +457,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <h3>&quot;1002&quot; is missing from the orders (2 → 1 items)</h3>
       <p class="expect">A good test would: the list length or a named item is checked.</p>
       <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code> <code>tests/order_history_test.md</code></p>
+      
       
       <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / test data issue (98%). The app really was broken: this was a product bug.</p>
       
@@ -282,7 +470,8 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: the list length or uniqueness is checked.</p>
       <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code> <code>tests/order_history_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / test data issue (93%). The app really was broken: this was a product bug.</p>
+      
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / state transition bug (93%). The app really was broken: this was a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>item-dup:GET /api/orders:$.orders[0]</code></details>
@@ -293,98 +482,95 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: the code shown is checked, not just that something is shown.</p>
       <p class="meta">Tests that walked past it: <code>tests/browse_test.md</code> <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code> <code>tests/order_history_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui data defect (94%). The app really was broken: this was a product bug.</p>
+      
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / config issue (96%). The app really was broken: this was a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>field-swap:GET /api/cart:$.coupon.code&lt;-&gt;label</code></details>
     </article>
     <article class="mutant killed">
-      <header><span class="pill killed">killed</span><span class="op">data · stale-read</span></header>
-      <h3>/api/cart keeps returning what it returned before the last change</h3>
-      <p class="expect">A good test would: the test checks that the change it just made is visible.</p>
+      <header><span class="pill killed">killed</span><span class="op">data · rendered-item-drop</span></header>
+      <h3>The &quot;Ceramic Pour-Over Set&quot; row is missing from the list</h3>
+      <p class="expect">A good test would: the test checks which rows are listed, or how many.</p>
       <p class="meta">Tests that walked past it: <code>tests/browse_test.md</code> <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code> <code>tests/order_history_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / state transition bug (98%). The app really was broken: this was a product bug.</p>
-      
-      
-      <details><summary>Mutant id</summary><code>stale-read:GET /api/cart</code></details>
-    </article>
-    <article class="mutant killed">
-      <header><span class="pill killed">killed</span><span class="op">behaviour · silent-fail</span></header>
-      <h3>POST /api/cart/items fails with a 500 and nothing is saved</h3>
-      <p class="expect">A good test would: the test checks the result of the action, not only that it clicked.</p>
-      <p class="meta">Tests that walked past it: <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code></p>
-      
-      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / api error (99%). It identified a product bug.</p>
-      
-      
-      <details><summary>Mutant id</summary><code>silent-fail:POST /api/cart/items</code></details>
-    </article>
-    <article class="mutant killed">
-      <header><span class="pill killed">killed</span><span class="op">behaviour · fake-success</span></header>
-      <h3>POST /api/cart/items reports success but the change is never saved</h3>
-      <p class="expect">A good test would: the test re-reads the data (reload or another page) after the change.</p>
-      <p class="meta">Tests that walked past it: <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code></p>
-      
-      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / state transition bug (98%). The app really was broken: this was a product bug.</p>
-      
-      
-      <details><summary>Mutant id</summary><code>fake-success:POST /api/cart/items</code></details>
-    </article>
-    <article class="mutant killed">
-      <header><span class="pill killed">killed</span><span class="op">behaviour · double-apply</span></header>
-      <h3>POST /api/cart/items is applied twice</h3>
-      <p class="expect">A good test would: the test checks the exact quantity or number of records afterwards.</p>
-      <p class="meta">Tests that walked past it: <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code></p>
       
       <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui data defect (98%). The app really was broken: this was a product bug.</p>
       
       
-      <details><summary>Mutant id</summary><code>double-apply:POST /api/cart/items</code></details>
+      <details><summary>Mutant id</summary><code>rendered-item-drop:&quot;Ceramic Pour-Over Set&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">data · rendered-item-dup</span></header>
+      <h3>The &quot;Ceramic Pour-Over Set&quot; row appears twice in the list</h3>
+      <p class="expect">A good test would: the test checks how many rows are listed.</p>
+      <p class="meta">Tests that walked past it: <code>tests/browse_test.md</code> <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code> <code>tests/order_history_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / locator rot (86%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>rendered-item-dup:&quot;Ceramic Pour-Over Set&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">behaviour · silent-fail</span></header>
+      <h3>PUT /api/cart/items/p3 fails with a 500 and nothing is saved</h3>
+      <p class="expect">A good test would: the test checks the result of the action, not only that it clicked.</p>
+      <p class="meta">Tests that walked past it: <code>tests/cart_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (90%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>silent-fail:PUT /api/cart/items/p3</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">behaviour · fake-success</span></header>
+      <h3>PUT /api/cart/items/p3 reports success but the change is never saved</h3>
+      <p class="expect">A good test would: the test re-reads the data (reload or another page) after the change.</p>
+      <p class="meta">Tests that walked past it: <code>tests/cart_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (91%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>fake-success:PUT /api/cart/items/p3</code></details>
     </article>
     <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">behaviour · auth-drop</span></header>
-      <h3>POST /api/cart/items returns 401 once, mid-flow</h3>
+      <h3>PUT /api/cart/items/p3 returns 401 once, mid-flow</h3>
       <p class="expect">A good test would: the test checks the page it lands on after each step.</p>
-      <p class="meta">Tests that walked past it: <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code></p>
-      
-      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / test data issue (99%). The app really was broken: this was a product bug.</p>
+      <p class="meta">Tests that walked past it: <code>tests/cart_test.md</code></p>
       
       
-      <details><summary>Mutant id</summary><code>auth-drop:POST /api/cart/items</code></details>
-    </article>
-    <article class="mutant killed">
-      <header><span class="pill killed">killed</span><span class="op">interface · hide-control</span></header>
-      <h3>The &quot;Remove&quot; button is missing</h3>
-      <p class="expect">A good test would: the test checks that &quot;Remove&quot; is offered.</p>
-      <p class="meta">Tests that walked past it: <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code></p>
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / state transition bug (98%). The app really was broken: this was a product bug.</p>
       
       
-      
-      
-      <details><summary>Mutant id</summary><code>hide-control:button:&quot;Remove&quot;</code></details>
+      <details><summary>Mutant id</summary><code>auth-drop:PUT /api/cart/items/p3</code></details>
     </article>
     <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">interface · dead-control</span></header>
-      <h3>Clicking &quot;Cancel&quot; does nothing</h3>
+      <h3>Clicking the &quot;Cancel&quot; button on the &quot;#1002 14 Nov 2026 2 $38.74 Placed Cancel&quot; row does nothing</h3>
       <p class="expect">A good test would: the test checks what &quot;Cancel&quot; is supposed to change.</p>
       <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code> <code>tests/order_history_test.md</code></p>
       
       
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (88%). The app really was broken: this was a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>dead-control:button:&quot;Cancel&quot;</code></details>
     </article>
     <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">interface · label-swap</span></header>
-      <h3>The &quot;+&quot; and &quot;−&quot; buttons have each other&#39;s labels</h3>
+      <h3>The &quot;Cancel&quot; and &quot;Yes, cancel order&quot; buttons have each other&#39;s labels</h3>
       <p class="expect">A good test would: the test checks the outcome of the button it pressed.</p>
-      <p class="meta">Tests that walked past it: <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code></p>
+      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code> <code>tests/order_history_test.md</code></p>
       
       
-      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (4af6470f-113b-4eb9-9b7a-8d52d2951ed8 / 4e363012-912c-4aae-9a31-040aae6bda48).</p>
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / locator rot (96%). The app really was broken: this was a product bug.</p>
       
-      <details><summary>Mutant id</summary><code>label-swap:&quot;+&quot;&lt;-&gt;&quot;−&quot;</code></details>
+      
+      <details><summary>Mutant id</summary><code>label-swap:&quot;Cancel&quot;&lt;-&gt;&quot;Yes, cancel order&quot;</code></details>
     </article>
     <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">interface · text-change</span></header>
@@ -392,7 +578,8 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: the test checks it reached the right page or message.</p>
       <p class="meta">Tests that walked past it: <code>tests/browse_test.md</code> <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code> <code>tests/order_history_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (98%). The app really was broken: this was a product bug.</p>
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (96%). The app really was broken: this was a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>text-change:heading:&quot;Shop&quot;</code></details>
@@ -403,70 +590,40 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <p class="expect">A good test would: after following a link the test checks where it landed.</p>
       <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code> <code>tests/order_history_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / state transition bug (99%). The app really was broken: this was a product bug.</p>
+      
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / timing sync (91%). The app really was broken: this was a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>wrong-link:&quot;#N&quot;-&gt;#/product/p1</code></details>
     </article>
     <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">interface · missing-row-action</span></header>
-      <h3>The first row has no &quot;Cancel&quot; action</h3>
+      <h3>The first row loses the &quot;Cancel&quot; button</h3>
       <p class="expect">A good test would: the test checks that each row offers &quot;Cancel&quot;.</p>
       <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code> <code>tests/order_history_test.md</code></p>
       
-      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (82%). The app really was broken: this was a product bug.</p>
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (97%). It identified a product bug.</p>
       
       
       <details><summary>Mutant id</summary><code>missing-row-action:&quot;Cancel&quot;</code></details>
     </article>
     <article class="mutant killed">
-      <header><span class="pill killed">killed</span><span class="op">behaviour · silent-fail</span></header>
-      <h3>POST /api/orders fails with a 500 and nothing is saved</h3>
-      <p class="expect">A good test would: the test checks the result of the action, not only that it clicked.</p>
-      <p class="meta">Tests that walked past it: <code>tests/checkout_test.md</code></p>
-      
-      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / state transition bug (93%). The app really was broken: this was a product bug.</p>
-      
-      
-      <details><summary>Mutant id</summary><code>silent-fail:POST /api/orders</code></details>
-    </article>
-    <article class="mutant killed">
-      <header><span class="pill killed">killed</span><span class="op">behaviour · fake-success</span></header>
-      <h3>POST /api/orders reports success but the change is never saved</h3>
-      <p class="expect">A good test would: the test re-reads the data (reload or another page) after the change.</p>
-      <p class="meta">Tests that walked past it: <code>tests/checkout_test.md</code></p>
-      
-      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (96%). The app really was broken: this was a product bug.</p>
-      
-      
-      <details><summary>Mutant id</summary><code>fake-success:POST /api/orders</code></details>
-    </article>
-    <article class="mutant killed">
-      <header><span class="pill killed">killed</span><span class="op">behaviour · double-apply</span></header>
-      <h3>POST /api/orders is applied twice</h3>
-      <p class="expect">A good test would: the test checks the exact quantity or number of records afterwards.</p>
-      <p class="meta">Tests that walked past it: <code>tests/checkout_test.md</code></p>
-      
-      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (94%). It identified a product bug.</p>
-      
-      
-      <details><summary>Mutant id</summary><code>double-apply:POST /api/orders</code></details>
-    </article>
-    <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">data · item-drop</span></header>
-      <h3>&quot;Canvas Tote Bag&quot; is missing from the items (1 → 0 items)</h3>
+      <h3>&quot;Notebook, Dot Grid&quot; is missing from the items (1 → 0 items)</h3>
       <p class="expect">A good test would: the list length or a named item is checked.</p>
-      <p class="meta">Tests that walked past it: <code>tests/checkout_test.md</code></p>
+      <p class="meta">Tests that walked past it: <code>tests/order_history_test.md</code></p>
       
       
-      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (3b55d265-707f-47fa-ad28-981540b397f2 / 78a3fa81-a9f7-422c-8f2a-c764e576224e).</p>
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui data defect (98%). The app really was broken: this was a product bug.</p>
       
-      <details><summary>Mutant id</summary><code>item-drop:GET /api/orders/1003:$.items[0]</code></details>
+      
+      <details><summary>Mutant id</summary><code>item-drop:GET /api/orders/1001:$.items[0]</code></details>
     </article></div></details>
 
 <h2>Not reached (3)</h2>
 <p class="note">The mutant never fired during any test, so it says nothing about the assertions. It usually means no test exercises that path (for example, no test ever submits invalid input). Not counted in the score.</p>
-<details><summary>Show</summary><ul><li>Invalid input to POST /api/orders/1002/cancel is treated as a success</li><li>Invalid input to POST /api/cart/items is treated as a success</li><li>Invalid input to POST /api/orders is treated as a success</li></ul></details>
+<details><summary>Show</summary><ul><li>Confirming a cancellation leaves the order showing status Placed</li><li>Invalid input to POST /api/orders/1002/cancel is treated as a success</li><li>Invalid input to PUT /api/cart/items/p3 is treated as a success</li></ul></details>
 
 
 
@@ -486,7 +643,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 </div>
 
 <h2>Cost</h2>
-<p>40 mutants · 71.15 minutes of Kane runs (107s per mutant). Replays run from Kane's cache with healing off.</p>
+<p>50 mutants · 96.27 minutes of Kane runs (116s per mutant). Replays run from Kane's cache with healing off.</p>
 
 <h2>What this does not measure</h2>
 <p class="note">Tripwire mutates traffic and the rendered page, not source code. It tells you whether the suite notices breakage a user would see. It does not replace unit-level mutation testing, and it cannot see server-side effects that never reach the browser.</p>

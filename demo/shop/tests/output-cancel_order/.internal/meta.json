@@ -1,25 +1,18 @@
 {
-  "commit_id": "fe400583-bd98-4ceb-96a8-aa034658e542",
-  "test_id": "2291dcee-594c-4ba9-8005-5a917c7f234a",
-  "testcase_id": "01M7PGD81HPNVRSB6QM1RC2KWW",
+  "test_id": "4631b7be-d8ee-48d7-89af-b3ad1dd8fea7",
   "project_id": "01M7M9W42DQ2WF7PHAFW4VB05W",
   "folder_id": "01M7M9W8E2KAA4V24RB8CY2TYE",
   "org_id": "3437033",
   "session_name": "cancel_order",
+  "commit_id": "3b5e749f-4229-468a-8a82-2f1724db9d66",
+  "testcase_id": "01M7V12EVGXYAXH1W3KP26DDWX",
   "executions": [
     {
-      "execution_id": "80e17aa1-9dba-4030-9619-c2e04f15973a",
+      "execution_id": "b1d5f776-e036-442e-94df-d3aeb8be322f",
       "run_kind": "author",
-      "status": "passed",
+      "status": "failed",
       "valid": true,
-      "at": "2026-11-18T13:20:03.415Z"
-    },
-    {
-      "execution_id": "a6d7844a-0a99-4f6a-8eb8-9757f0dbce3d",
-      "run_kind": "replay",
-      "status": "passed",
-      "valid": true,
-      "at": "2026-11-19T06:17:27.264Z"
+      "at": "2026-11-19T23:09:40.024Z"
     }
   ]
 }
