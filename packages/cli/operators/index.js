@@ -67,8 +67,9 @@ export function select(candidates, max) {
     while (queues.some((q) => q.length)) for (const q of queues) if (q.length) spread.push(q.shift());
     groups.set(k, spread);
   }
-  const order = [...groups.keys()].sort((a, b) => (a === 'agent-proposed' ? -1 : b === 'agent-proposed' ? 1 : 0));
-  const picked = [];
+  // Saboteur mutants are domain rules written from the acceptance criteria: all of them run first.
+  const picked = (groups.get('agent-proposed') || []).splice(0, max);
+  const order = [...groups.keys()].filter((k) => k !== 'agent-proposed');
   while (picked.length < max && order.some((k) => groups.get(k).length)) {
     for (const k of order) {
       if (picked.length >= max) break;

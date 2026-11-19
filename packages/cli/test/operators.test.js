@@ -66,6 +66,13 @@ test('links to other sites are not mutated', async () => {
   assert.equal(isExternal('http://localhost:8080/#/cart'), false);
 });
 
+test('select keeps every saboteur mutant, then spreads the rest', () => {
+  const sab = Array.from({ length: 6 }, (_, i) => ({ id: `s${i}`, operator: 'agent-proposed', touches_tests: ['t'] }));
+  const picked = select([...candidates, ...sab], 10);
+  assert.equal(picked.filter((m) => m.operator === 'agent-proposed').length, 6);
+  assert.equal(picked.length, 10);
+});
+
 test('select spreads across operators', () => {
   const picked = select(candidates, 15);
   assert.equal(picked.length, 15);
