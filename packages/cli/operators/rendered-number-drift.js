@@ -17,7 +17,7 @@ export default {
         match: { document: true },
         action: { type: 'dom', dom: { op: 'drift-number', target: targetOf(c) } },
         touches_tests: c.tests,
-        describe: `The number shown in "${c.text}" is off by one`,
+        describe: `The number in "${c.ctx || c.text}" is off by one`,
         expect: 'The test checks the exact number shown, not just that the element is there'
       }));
   }

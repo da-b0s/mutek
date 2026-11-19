@@ -100,6 +100,16 @@ export function controls(profile) {
 
 export const isExternal = (href) => /^(https?:)?\/\//i.test(href || '') && !/^(https?:)?\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?(\/|$)/i.test(href);
 
+// How a control reads in a sentence. "[button.destroy]" (no visible text) becomes
+// 'the "destroy" button on the "Buy milk" row'; a labelled one becomes 'the "Save" button'.
+export function labelOf(c) {
+  const anon = /^\[([a-z0-9-]+)(?:\.([\w-]+))?\]$/i.exec(c.text || '');
+  const kind = c.role === 'link' ? 'link' : c.role === 'checkbox' ? 'checkbox' : c.role === 'heading' ? 'heading' : 'button';
+  const name = anon ? `the unlabelled "${anon[2] || anon[1]}" ${kind}` : `the "${c.text}" ${kind}`;
+  return c.row && c.inRow && c.row !== c.text ? `${name} on the "${c.row}" row` : name;
+}
+export const sentence = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
 // The target a DOM mutant uses to find a control again in the page.
 export const targetOf = (c) => (c.pattern ? { role: c.role, text: c.text, pattern: c.pattern } : { role: c.role, text: c.text });
 

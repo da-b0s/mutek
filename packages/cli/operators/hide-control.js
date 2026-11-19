@@ -1,6 +1,6 @@
 // Interface: a button or link the tests saw but never clicked disappears.
 // Catches suites that never look at controls they do not use.
-import { controls, mutant, targetOf } from './_util.js';
+import { controls, mutant, targetOf, labelOf, sentence } from './_util.js';
 
 const domMutant = (op, c, extra = {}) => ({ type: 'dom', dom: { op, target: targetOf(c), ...extra } });
 
@@ -21,8 +21,8 @@ export default {
         match: { document: true },
         action: domMutant('hide', c),
         touches_tests: c.tests,
-        describe: `The "${c.text}" ${c.role} is missing`,
-        expect: `The test checks that "${c.text}" is offered`
+        describe: `${sentence(labelOf(c))} is missing`,
+        expect: `The test checks that ${labelOf(c)} is offered`
       }));
   }
 };

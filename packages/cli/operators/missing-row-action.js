@@ -1,5 +1,5 @@
 // Interface: the edit/delete/cancel action is missing from one row of a list or table.
-import { controls, mutant } from './_util.js';
+import { controls, mutant, labelOf } from './_util.js';
 import { domMutant } from './hide-control.js';
 
 export default {
@@ -17,7 +17,7 @@ export default {
         match: { document: true },
         action: domMutant('remove-row-action', c),
         touches_tests: c.tests,
-        describe: `The first row has no "${c.text}" action`,
+        describe: `The first row loses ${labelOf({ ...c, row: undefined })}`,
         expect: `The test checks that each row offers "${c.text}"`
       }));
   }

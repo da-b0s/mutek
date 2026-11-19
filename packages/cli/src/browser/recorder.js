@@ -35,6 +35,8 @@
       role: roleOf(el),
       text: textOf(el),
       row: row ? clean((row.innerText || '').split(/\n/)[0]).slice(0, 60) : undefined,
+      // the words around a short text ("3" inside "3 items left"), for readable descriptions
+      ctx: (el.parentElement && clean(el.innerText).length < 12) ? clean(el.parentElement.innerText).slice(0, 60) : undefined,
       label: clean(el.getAttribute('aria-label')),
       href: el.getAttribute('href') || undefined,
       inRow: !!el.closest('tr, li'),

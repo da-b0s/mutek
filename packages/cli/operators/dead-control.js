@@ -1,6 +1,6 @@
 // Interface: a control the test clicks no longer does anything. If the test passes anyway,
 // it never checked the effect of the click.
-import { controls, mutant } from './_util.js';
+import { controls, mutant, labelOf } from './_util.js';
 import { domMutant } from './hide-control.js';
 
 export default {
@@ -16,7 +16,7 @@ export default {
         match: { document: true },
         action: domMutant('dead', c),
         touches_tests: c.tests,
-        describe: c.role === 'checkbox' ? `Ticking ${c.row ? `"${c.row}"` : c.text} does nothing` : `Clicking "${c.text}" does nothing`,
+        describe: `${c.role === 'checkbox' ? 'Ticking' : 'Clicking'} ${labelOf(c)} does nothing`,
         expect: `The test checks what "${c.text}" is supposed to change`
       }));
   }
