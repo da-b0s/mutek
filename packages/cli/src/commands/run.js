@@ -200,7 +200,7 @@ export default async function run(argv, parseArgs) {
     }
     for (const [i, m] of todo.entries()) {
       if (!values.quiet) console.log(`  [${String(i + 1).padStart(2)}/${todo.length}] ${m.family} · ${m.operator}: ${m.describe}`);
-      const row = await runMutant(m, { tw, cfg, base, runDir, healAllowed: cfg.healCheck && healChecks < cfg.healBudget, progress: values.quiet ? undefined : (msg) => console.log(`          ${msg}`) });
+      const row = await runMutant(m, { tw, cfg, base, runDir, profile, healAllowed: cfg.healCheck && healChecks < cfg.healBudget, progress: values.quiet ? undefined : (msg) => console.log(`          ${msg}`) });
       if (row.healChecked) healChecks++;
       Object.assign(row, { run: runId, commit, at: new Date().toISOString() });
       rows.push(row);
@@ -254,8 +254,23 @@ const hiccup = (n, msg) => console.log(`    kane service hiccup (${msg}); waitin
 
 const label = (s) => ({ killed: 'killed     ', survived: 'SURVIVED   ', masked: 'MASKED     ', 'not-reached': 'not reached', error: 'error      ' }[s] || s);
 
+// Lines of text the pages of one test showed in the clean baseline.
+export function baselineLines(profile, test) {
+  const t = profile?.tests?.find((x) => x.test === test);
+  return new Set((t?.pages || []).flatMap((p) => (p.text || '').split(/\n/)).map((l) => l.replace(/\s+/g, ' ').trim()).filter(Boolean));
+}
+
+// Did any page of this mutant run show a line the clean run never showed?
+export function showedSomethingNew(dom, lines) {
+  for (const ev of dom) if (ev.kind === 'page') for (const l of (ev.text || '').split(/\n/)) {
+    const x = l.replace(/\s+/g, ' ').trim();
+    if (x && !lines.has(x)) return true;
+  }
+  return false;
+}
+
 // Arm one mutant, replay the tests that touch it (healing off) until one fails.
-export async function runMutant(m, { tw, cfg, base, runDir, healAllowed, progress = () => {} }) {
+export async function runMutant(m, { tw, cfg, base, runDir, healAllowed, progress = () => {}, profile }) {
   const row = { id: m.id, family: m.family, operator: m.operator, describe: m.describe, expect: m.expect, touches_tests: m.touches_tests, status: null, fired: false, runs: [] };
   const mdir = path.join(runDir, slug(m.id));
   fs.mkdirSync(mdir, { recursive: true });
@@ -267,7 +282,8 @@ export async function runMutant(m, { tw, cfg, base, runDir, healAllowed, progres
     do {
       await tw.disarm();
       await resetApp(cfg, base);
-      await tw.reset(t, false);
+      // the recorder stays on so we can tell whether the bug ever changed what the user saw
+      await tw.reset(t, true);
       await tw.arm(m);
       // Kane can rewrite a recording during any run against the broken app (observed even on
       // failed runs), so every mutant run gets the real recording back afterwards.
@@ -277,12 +293,13 @@ export async function runMutant(m, { tw, cfg, base, runDir, healAllowed, progres
         r = await runTest(t, { timeout: cfg.timeout, logFile: path.join(mdir, `${slug(t)}_${attempt}.ndjson`), onRetry: hiccup });
       } finally { restore(); }
       hits = (await tw.hit()).hits;
+      r.visibleChange = profile ? showedSomethingNew(await tw.dom(), baselineLines(profile, t)) : undefined;
       attempt++;
     } while ((r.code === 2 || r.code === 3) && attempt < 2); // infrastructure problem: retry once, never a kill
     const fired = hits > 0;
     row.fired = row.fired || fired;
     const v = r.code === 0 || r.code === 1 ? await verdict(r.pack, path.join(POLICY_DIR, 'tripwire.mutant.policy.yaml')) : { verdict: 'unknown' };
-    row.runs.push({ test: t, code: r.code, fired, hits, durationMs: r.durationMs, pack: r.pack, session: r.sessionId, policy: v.verdict, failure: r.failureReason, failedStep: r.failedStep, kaneTriage: r.bugVerdict, credits: r.credits || undefined });
+    row.runs.push({ test: t, code: r.code, fired, hits, durationMs: r.durationMs, pack: r.pack, session: r.sessionId, policy: v.verdict, visibleChange: r.visibleChange, failure: r.failureReason, failedStep: r.failedStep, kaneTriage: r.bugVerdict, credits: r.credits || undefined });
     if (r.code === 2 || r.code === 3) { infra++; continue; }
     if (r.code === 1 && fired) {
       row.status = 'killed';
@@ -293,6 +310,12 @@ export async function runMutant(m, { tw, cfg, base, runDir, healAllowed, progres
   if (!row.status) {
     if (!row.fired) row.status = infra === m.touches_tests.length ? 'error' : 'not-reached';
     else row.status = infra && !row.runs.some((x) => x.code === 0) ? 'error' : 'survived';
+  }
+  // A survivor that fired but never changed a single line on any page is probably equivalent
+  // (for example a write response the page ignores because it re-reads the data). Flag it for a
+  // human; it still counts until someone adds it to equivalents.json with a reason.
+  if (row.status === 'survived' && row.runs.length && row.runs.every((x) => x.visibleChange === false)) {
+    row.suspectedEquivalent = 'The mutant fired, but no page showed anything the clean run did not show.';
   }
   // Heal check: would Kane's default healing have re-authored its way past this bug?
   if (row.status === 'killed' && healAllowed) {

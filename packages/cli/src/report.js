@@ -85,6 +85,7 @@ export function writeReport(dir) {
       <h3>${esc(r.describe)}</h3>
       ${r.expect ? `<p class="expect">A good test would: ${esc(r.expect.charAt(0).toLowerCase() + r.expect.slice(1))}.</p>` : ''}
       <p class="meta">Tests that walked past it: ${(r.touches_tests || []).map((t) => `<code>${esc(t)}</code>`).join(' ')}</p>
+      ${r.suspectedEquivalent ? `<p class="warn">Suspected equivalent: ${esc(r.suspectedEquivalent)} If a person agrees, add it to <code>.tripwire/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>` : ''}
       ${r.status === 'masked' ? `<p class="warn">With healing off, <code>${esc(r.killed_by)}</code> failed. With Kane's default healing it re-authored its steps and <strong>passed on the broken app</strong>.</p>` : ''}
       ${triage(r)}
       ${fixFor.has(r.id) ? `<p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (${esc(fixFor.get(r.id).proof?.clean?.session || '')} / ${esc(fixFor.get(r.id).proof?.mutant?.session || '')}).</p>` : ''}

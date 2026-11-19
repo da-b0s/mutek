@@ -51,7 +51,7 @@ Write a JSON array to ${out} (create or overwrite the file). Each element:
      { "type": "respond", "status": 200, "body": { ...a whole fake response... } }
      { "type": "status-map", "from": [422], "to": 200 }
 }
-Use only routes and JSON paths that appear in the traffic below. Make every change consistent and visible (for a wrong discount, also set the total the page shows). Prefer rules from the acceptance criteria: discounts, thresholds, limits, ownership, state transitions.
+Use only routes and JSON paths that appear in the traffic below. Make every change consistent and visible (for a wrong discount, also set the total the page shows). Prefer rules from the acceptance criteria: discounts, thresholds, limits, ownership, state transitions. Prefer responses the page actually displays (usually GET responses): many pages ignore the body of a write response and re-read the data, so a bug placed only in a write response may never reach the screen.
 
 ${criteriaFiles.map((f) => `----- ${f} -----\n${fs.readFileSync(f, 'utf8').slice(0, 8000)}`).join('\n\n')}
 
