@@ -1,66 +1,66 @@
 {
-  "run": "2026-11-18T02-45-14",
-  "commit": "92ef8a5",
+  "run": "2026-11-19T06-42-01",
+  "commit": "d317ecd",
   "tests": [
     {
       "test": "tests/browse_test.md",
       "code": 0,
-      "durationMs": 39348,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\13324a5a-00f2-44cf-ac10-1e042f548e61.evidence",
+      "durationMs": 65494,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\84896a5f-4b4f-47b3-bc09-440e3b1039f7.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
-      "session": "6d49f662-f402-48e1-9ad9-1a2b86841ada"
+      "session": "c2bd5942-b2bc-46ba-a923-ee99857c4415"
     },
     {
       "test": "tests/cancel_order_test.md",
       "code": 0,
-      "durationMs": 32240,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\1684d6dd-f851-4372-9440-94dd7352c33d.evidence",
+      "durationMs": 101443,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\9ccbd9fc-4dc2-45d8-ac2e-e70e845faa0f.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
-      "session": "a2d36a3e-bee4-48e5-b120-bede39f93187"
+      "session": "ac5b075b-492f-4c6b-a948-83f830e51636"
     },
     {
       "test": "tests/cart_test.md",
       "code": 0,
-      "durationMs": 34687,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\c9e61061-ea4b-48eb-995f-24cdfcf502d4.evidence",
+      "durationMs": 83061,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\57a2887b-ae5f-48df-aa60-8e060f8e8031.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
-      "session": "9c5a2029-fa56-4cea-b796-ca3b958e73b4"
+      "session": "f99edc9d-1cd7-4c9e-bd1c-9cd5321b1acf"
     },
     {
       "test": "tests/checkout_test.md",
       "code": 0,
-      "durationMs": 56508,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\a65dcb6c-2299-4249-963e-15eab586112e.evidence",
+      "durationMs": 103755,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\768efe1f-baff-4757-9a21-0ba6b15ad794.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
-      "session": "121f7c61-ab62-4752-8349-27c4dba7bb31"
+      "session": "94fb44d8-fd86-4e8f-89f1-6e845cdb1d51"
     },
     {
       "test": "tests/coupon_test.md",
       "code": 0,
-      "durationMs": 45294,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\816098a1-c8e3-4946-85ce-96772f3c2a33.evidence",
+      "durationMs": 71041,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\826125cc-4359-488a-9cf9-32d99501b312.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
-      "session": "cd8a9ec6-d4dd-4983-b3b8-5d91c447a9a8"
+      "session": "0e92a285-18bc-4381-97f1-e552ba39f55c"
     },
     {
       "test": "tests/order_history_test.md",
       "code": 0,
-      "durationMs": 37607,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\3ee107e4-b9af-41d2-b6c3-c3b648f83c9b.evidence",
+      "durationMs": 68933,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\shop\\.testmuai\\evidence\\9b4228c9-0d2f-453e-8f3c-960cb08f5320.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
-      "session": "674d05cc-6612-462b-b03b-1b6dc0a27b74"
+      "session": "9c6bbf55-b2eb-4c3c-8439-efc54c2039f1"
     }
   ],
   "routes": [
     {
       "test": "tests/browse_test.md",
-      "requests": 4,
+      "requests": 5,
       "routes": [
         "GET /",
         "GET /api/products",
@@ -69,30 +69,51 @@
       ],
       "pages": [
         "/",
-        "/#/product/p2"
+        "/#/product/p2",
+        "/#/"
       ],
       "clicks": [
-        "link:Ceramic Pour-Over Set"
+        "link:Ceramic Pour-Over Set",
+        "link:← Back to shop"
       ]
     },
     {
       "test": "tests/cancel_order_test.md",
-      "requests": 6,
+      "requests": 13,
       "routes": [
         "GET /",
         "GET /api/products",
         "GET /api/cart",
         "GET /api/orders",
-        "POST /api/orders/1002/cancel"
+        "POST /api/orders/1002/cancel",
+        "POST /api/cart/items",
+        "POST /api/orders",
+        "GET /api/orders/1003"
       ],
       "pages": [
         "/",
-        "/#/orders"
+        "/#/orders",
+        "/#/",
+        "/#/cart",
+        "/#/checkout",
+        "/#/confirmation/1003",
+        "/#/orders/1003"
       ],
       "clicks": [
         "link:My orders",
         "button:Cancel",
-        "button:Yes, cancel order"
+        "button:Yes, cancel order",
+        "link:Shop",
+        "button:Add to cart",
+        "link:Cart 1",
+        "link:Go to checkout",
+        "text:Full name",
+        "text:Email",
+        "text:Delivery address",
+        "button:Place order",
+        "link:View order",
+        "button:Cancel order",
+        "button:Keep order"
       ]
     },
     {
@@ -118,7 +139,7 @@
     },
     {
       "test": "tests/checkout_test.md",
-      "requests": 8,
+      "requests": 9,
       "routes": [
         "GET /",
         "GET /api/products",
@@ -131,13 +152,18 @@
         "/",
         "/#/cart",
         "/#/checkout",
-        "/#/confirmation/1003"
+        "/#/confirmation/1003",
+        "/#/orders/1003"
       ],
       "clicks": [
         "button:Add to cart",
         "link:Cart 1",
         "link:Go to checkout",
-        "button:Place order"
+        "text:Full name",
+        "text:Email",
+        "text:Delivery address",
+        "button:Place order",
+        "link:View order"
       ]
     },
     {
@@ -157,6 +183,7 @@
       "clicks": [
         "button:Add to cart",
         "link:Cart 1",
+        "text:Coupon code",
         "button:Apply coupon"
       ]
     },

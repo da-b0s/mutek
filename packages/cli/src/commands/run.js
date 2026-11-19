@@ -30,6 +30,7 @@ const HELP = `tripwire run [options]
   --dry-run             generate from the last baseline and print the plan
   --resume              continue the last run: reuse its baseline, skip mutants already in the ledger
   --retry-errors        re-run only the mutants that hit a Kane error in the last run
+  --redo <id,...>       re-run these mutants of the last run (e.g. after fixing an operator)
   -q, --quiet           one line per mutant, no per-replay progress
   --dir <path>          state directory (default .tripwire)`;
 
@@ -76,7 +77,7 @@ export default async function run(argv, parseArgs) {
       tests: { type: 'string' }, app: { type: 'string' }, port: { type: 'string' },
       'max-mutants': { type: 'string' }, only: { type: 'string' }, since: { type: 'string' },
       'no-heal-check': { type: 'boolean' }, 'heal-budget': { type: 'string' }, timeout: { type: 'string' },
-      'baseline-only': { type: 'boolean' }, 'dry-run': { type: 'boolean' }, resume: { type: 'boolean' }, 'retry-errors': { type: 'boolean' }, quiet: { type: 'boolean', short: 'q' }, dir: { type: 'string' },
+      'baseline-only': { type: 'boolean' }, 'dry-run': { type: 'boolean' }, resume: { type: 'boolean' }, 'retry-errors': { type: 'boolean' }, redo: { type: 'string' }, quiet: { type: 'boolean', short: 'q' }, dir: { type: 'string' },
       help: { type: 'boolean', short: 'h' }
     }
   });
@@ -91,19 +92,23 @@ export default async function run(argv, parseArgs) {
   fs.mkdirSync(dir, { recursive: true });
   // --retry-errors: re-run only the mutants that ended in a Kane error (exit 2/3) in the last run,
   // on that run's baseline. Their error rows are superseded by the new rows (latest row wins).
-  if (values['retry-errors']) {
+  // --redo <id,...>: the same, for named mutants (for example after fixing an operator).
+  if (values['retry-errors'] || values.redo) {
     const rows = readLedger(dir);
     const last = lastRunId(rows);
-    const errored = latest(rows, last).filter((r) => r.status === 'error');
+    const redo = new Set((values.redo || '').split(',').map((s) => s.trim()).filter(Boolean));
+    const again = (r) => (values['retry-errors'] && r.status === 'error') || redo.has(r.id);
+    const errored = latest(rows, last).filter(again);
     const pending = readJson(path.join(dir, 'current-run.json'));
+    if (redo.size && errored.length < redo.size) throw new Error(`not in the last run: ${[...redo].filter((id) => !errored.some((r) => r.id === id)).join(', ')}`);
     if (!errored.length && !(pending?.run === last)) { console.log('No errored mutants in the last run.'); return 0; }
-    const kept = rows.filter((r) => !(r.run === last && r.status === 'error'));
+    const kept = rows.filter((r) => !(r.run === last && again(r)));
     fs.writeFileSync(path.join(dir, 'ledger.jsonl'), kept.map((r) => JSON.stringify(r)).join('\n') + (kept.length ? '\n' : ''));
     // keep every mutant the run picked, including ones an interrupted run never reached
     const prev = readJson(path.join(dir, 'current-run.json'));
     const picked = [...new Set([...(prev?.run === last ? prev.picked : []), ...latest(rows, last).map((r) => r.id)])];
     fs.writeFileSync(path.join(dir, 'current-run.json'), JSON.stringify({ run: last, picked }));
-    console.log(`Retrying ${errored.length} errored mutants of run ${last}`);
+    console.log(`Re-running ${errored.length} mutant(s) of run ${last}`);
     values.resume = true;
   }
   const resumeFrom = values.resume ? readJson(path.join(dir, 'current-run.json')) : null;
