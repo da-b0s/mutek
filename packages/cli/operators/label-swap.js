@@ -7,7 +7,7 @@ export default {
   family: 'interface',
   summary: 'Two button labels on the same page are exchanged.',
   generate(profile) {
-    const buttons = controls(profile).filter((c) => c.role === 'button' && c.text.length <= 40 && !c.pattern);
+    const buttons = controls(profile).filter((c) => c.role === 'button' && c.text.length <= 40 && !c.pattern && !c.text.startsWith('['));
     const out = new Map();
     for (const a of buttons) {
       for (const b of buttons) {
