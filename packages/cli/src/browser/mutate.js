@@ -114,9 +114,11 @@
       report();
     },
     'remove-row-action': function () {
+      // the same lookup as everywhere else (text, pattern or "[tag.class]"), kept to the first row
+      var matching = find({ role: M.target.role, text: M.target.text, pattern: M.target.pattern });
       var rows = document.querySelectorAll('tr, li');
       for (var i = 0; i < rows.length; i++) {
-        var els = Array.prototype.filter.call(rows[i].querySelectorAll(ROLE_SEL[M.target.role] || ROLE_SEL.button), function (el) { return clean(el.innerText || el.value) === M.target.text; });
+        var els = matching.filter(function (el) { return rows[i].contains(el); });
         if (!els.length) continue;
         if (rows[i].dataset.twDone) return;
         rows[i].dataset.twDone = '1';

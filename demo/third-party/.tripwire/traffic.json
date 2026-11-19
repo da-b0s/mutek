@@ -4,7 +4,7 @@
    "test": "tests/add_todos_test.md",
    "traffic": [
     {
-     "seq": 14,
+     "seq": 1,
      "test": "tests/add_todos_test.md",
      "method": "GET",
      "path": "/",
@@ -14,7 +14,7 @@
      "document": true
     },
     {
-     "seq": 15,
+     "seq": 2,
      "test": "tests/add_todos_test.md",
      "method": "GET",
      "path": "/learn.json",
@@ -31,6 +31,7 @@
       {
        "role": "heading",
        "text": "todos",
+       "ctx": "todos",
        "label": "",
        "inRow": false,
        "tag": "h1",
@@ -57,6 +58,7 @@
       {
        "role": "link",
        "text": "TodoMVC",
+       "ctx": "Part of TodoMVC",
        "label": "",
        "href": "http://todomvc.com",
        "inRow": false,
@@ -64,8 +66,49 @@
        "count": 1
       },
       {
+       "role": "checkbox",
+       "text": "[input.toggle-all]",
+       "ctx": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "input",
+       "cls": "toggle-all",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "label",
+       "cls": "toggle-all-label",
+       "count": 1
+      },
+      {
+       "role": "checkbox",
+       "text": "[input.toggle]",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "input",
+       "cls": "toggle",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Buy milk",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "label",
+       "count": 1
+      },
+      {
        "role": "text",
        "text": "1",
+       "ctx": "1 item left",
        "label": "",
        "inRow": false,
        "tag": "strong",
@@ -74,6 +117,8 @@
       {
        "role": "link",
        "text": "All",
+       "row": "All",
+       "ctx": "All",
        "label": "",
        "href": "#/",
        "inRow": true,
@@ -84,6 +129,8 @@
       {
        "role": "link",
        "text": "Active",
+       "row": "Active",
+       "ctx": "Active",
        "label": "",
        "href": "#/active",
        "inRow": true,
@@ -93,6 +140,8 @@
       {
        "role": "link",
        "text": "Completed",
+       "row": "Completed",
+       "ctx": "Completed",
        "label": "",
        "href": "#/completed",
        "inRow": true,
@@ -100,16 +149,59 @@
        "count": 1
       },
       {
+       "role": "checkbox",
+       "text": "[input.toggle]",
+       "row": "Walk the dog",
+       "ctx": "Walk the dog",
+       "label": "",
+       "inRow": true,
+       "tag": "input",
+       "cls": "toggle",
+       "count": 2
+      },
+      {
+       "role": "text",
+       "text": "Walk the dog",
+       "row": "Walk the dog",
+       "label": "",
+       "inRow": true,
+       "tag": "label",
+       "count": 1
+      },
+      {
        "role": "text",
        "text": "2",
+       "ctx": "2 items left",
        "label": "",
        "inRow": false,
        "tag": "strong",
        "count": 1
       },
       {
+       "role": "checkbox",
+       "text": "[input.toggle]",
+       "row": "Read a book",
+       "ctx": "Read a book",
+       "label": "",
+       "inRow": true,
+       "tag": "input",
+       "cls": "toggle",
+       "count": 3
+      },
+      {
+       "role": "text",
+       "text": "Read a book",
+       "row": "Read a book",
+       "ctx": "Read a book",
+       "label": "",
+       "inRow": true,
+       "tag": "label",
+       "count": 1
+      },
+      {
        "role": "text",
        "text": "3",
+       "ctx": "3 items left",
        "label": "",
        "inRow": false,
        "tag": "strong",
@@ -125,7 +217,7 @@
    "test": "tests/clear_completed_test.md",
    "traffic": [
     {
-     "seq": 16,
+     "seq": 3,
      "test": "tests/clear_completed_test.md",
      "method": "GET",
      "path": "/",
@@ -135,7 +227,7 @@
      "document": true
     },
     {
-     "seq": 17,
+     "seq": 4,
      "test": "tests/clear_completed_test.md",
      "method": "GET",
      "path": "/learn.json",
@@ -152,6 +244,7 @@
       {
        "role": "heading",
        "text": "todos",
+       "ctx": "todos",
        "label": "",
        "inRow": false,
        "tag": "h1",
@@ -178,6 +271,7 @@
       {
        "role": "link",
        "text": "TodoMVC",
+       "ctx": "Part of TodoMVC",
        "label": "",
        "href": "http://todomvc.com",
        "inRow": false,
@@ -185,8 +279,49 @@
        "count": 1
       },
       {
+       "role": "checkbox",
+       "text": "[input.toggle-all]",
+       "ctx": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "input",
+       "cls": "toggle-all",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "label",
+       "cls": "toggle-all-label",
+       "count": 1
+      },
+      {
+       "role": "checkbox",
+       "text": "[input.toggle]",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "input",
+       "cls": "toggle",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Buy milk",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "label",
+       "count": 1
+      },
+      {
        "role": "text",
        "text": "1",
+       "ctx": "1 item left",
        "label": "",
        "inRow": false,
        "tag": "strong",
@@ -195,6 +330,8 @@
       {
        "role": "link",
        "text": "All",
+       "row": "All",
+       "ctx": "All",
        "label": "",
        "href": "#/",
        "inRow": true,
@@ -205,6 +342,8 @@
       {
        "role": "link",
        "text": "Active",
+       "row": "Active",
+       "ctx": "Active",
        "label": "",
        "href": "#/active",
        "inRow": true,
@@ -214,10 +353,43 @@
       {
        "role": "link",
        "text": "Completed",
+       "row": "Completed",
+       "ctx": "Completed",
        "label": "",
        "href": "#/completed",
        "inRow": true,
        "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "[button.destroy]",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "cls": "destroy",
+       "count": 1
+      },
+      {
+       "role": "checkbox",
+       "text": "[input.toggle]",
+       "row": "Walk the dog",
+       "ctx": "Walk the dog",
+       "label": "",
+       "inRow": true,
+       "tag": "input",
+       "cls": "toggle",
+       "count": 2
+      },
+      {
+       "role": "text",
+       "text": "Walk the dog",
+       "row": "Walk the dog",
+       "label": "",
+       "inRow": true,
+       "tag": "label",
        "count": 1
       },
       {
@@ -235,6 +407,16 @@
    ],
    "clicks": [
     {
+     "role": "checkbox",
+     "text": "[input.toggle]",
+     "row": "Buy milk",
+     "ctx": "Buy milk",
+     "label": "",
+     "inRow": true,
+     "tag": "input",
+     "cls": "toggle"
+    },
+    {
      "role": "button",
      "text": "Clear completed",
      "label": "",
@@ -248,7 +430,7 @@
    "test": "tests/complete_todo_test.md",
    "traffic": [
     {
-     "seq": 18,
+     "seq": 5,
      "test": "tests/complete_todo_test.md",
      "method": "GET",
      "path": "/",
@@ -258,7 +440,7 @@
      "document": true
     },
     {
-     "seq": 19,
+     "seq": 6,
      "test": "tests/complete_todo_test.md",
      "method": "GET",
      "path": "/learn.json",
@@ -275,6 +457,7 @@
       {
        "role": "heading",
        "text": "todos",
+       "ctx": "todos",
        "label": "",
        "inRow": false,
        "tag": "h1",
@@ -301,6 +484,7 @@
       {
        "role": "link",
        "text": "TodoMVC",
+       "ctx": "Part of TodoMVC",
        "label": "",
        "href": "http://todomvc.com",
        "inRow": false,
@@ -308,8 +492,49 @@
        "count": 1
       },
       {
+       "role": "checkbox",
+       "text": "[input.toggle-all]",
+       "ctx": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "input",
+       "cls": "toggle-all",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "label",
+       "cls": "toggle-all-label",
+       "count": 1
+      },
+      {
+       "role": "checkbox",
+       "text": "[input.toggle]",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "input",
+       "cls": "toggle",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Buy milk",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "label",
+       "count": 1
+      },
+      {
        "role": "text",
        "text": "1",
+       "ctx": "1 item left",
        "label": "",
        "inRow": false,
        "tag": "strong",
@@ -318,6 +543,8 @@
       {
        "role": "link",
        "text": "All",
+       "row": "All",
+       "ctx": "All",
        "label": "",
        "href": "#/",
        "inRow": true,
@@ -328,6 +555,8 @@
       {
        "role": "link",
        "text": "Active",
+       "row": "Active",
+       "ctx": "Active",
        "label": "",
        "href": "#/active",
        "inRow": true,
@@ -337,6 +566,8 @@
       {
        "role": "link",
        "text": "Completed",
+       "row": "Completed",
+       "ctx": "Completed",
        "label": "",
        "href": "#/completed",
        "inRow": true,
@@ -344,11 +575,43 @@
        "count": 1
       },
       {
+       "role": "checkbox",
+       "text": "[input.toggle]",
+       "row": "Walk the dog",
+       "ctx": "Walk the dog",
+       "label": "",
+       "inRow": true,
+       "tag": "input",
+       "cls": "toggle",
+       "count": 2
+      },
+      {
+       "role": "text",
+       "text": "Walk the dog",
+       "row": "Walk the dog",
+       "label": "",
+       "inRow": true,
+       "tag": "label",
+       "count": 1
+      },
+      {
        "role": "text",
        "text": "2",
+       "ctx": "2 items left",
        "label": "",
        "inRow": false,
        "tag": "strong",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "[button.destroy]",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "cls": "destroy",
        "count": 1
       },
       {
@@ -364,13 +627,24 @@
      "text": "todos\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy milk\n1 item left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy milk\nWalk the dog\n2 items left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy milk\nWalk the dog\n1 item left\nAll Active Completed\nClear completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC"
     }
    ],
-   "clicks": []
+   "clicks": [
+    {
+     "role": "checkbox",
+     "text": "[input.toggle]",
+     "row": "Buy milk",
+     "ctx": "Buy milk",
+     "label": "",
+     "inRow": true,
+     "tag": "input",
+     "cls": "toggle"
+    }
+   ]
   },
   {
    "test": "tests/delete_todo_test.md",
    "traffic": [
     {
-     "seq": 20,
+     "seq": 7,
      "test": "tests/delete_todo_test.md",
      "method": "GET",
      "path": "/",
@@ -380,7 +654,7 @@
      "document": true
     },
     {
-     "seq": 21,
+     "seq": 8,
      "test": "tests/delete_todo_test.md",
      "method": "GET",
      "path": "/learn.json",
@@ -397,6 +671,7 @@
       {
        "role": "heading",
        "text": "todos",
+       "ctx": "todos",
        "label": "",
        "inRow": false,
        "tag": "h1",
@@ -423,6 +698,7 @@
       {
        "role": "link",
        "text": "TodoMVC",
+       "ctx": "Part of TodoMVC",
        "label": "",
        "href": "http://todomvc.com",
        "inRow": false,
@@ -430,8 +706,49 @@
        "count": 1
       },
       {
+       "role": "checkbox",
+       "text": "[input.toggle-all]",
+       "ctx": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "input",
+       "cls": "toggle-all",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "label",
+       "cls": "toggle-all-label",
+       "count": 1
+      },
+      {
+       "role": "checkbox",
+       "text": "[input.toggle]",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "input",
+       "cls": "toggle",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Buy milk",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "label",
+       "count": 1
+      },
+      {
        "role": "text",
        "text": "1",
+       "ctx": "1 item left",
        "label": "",
        "inRow": false,
        "tag": "strong",
@@ -440,6 +757,8 @@
       {
        "role": "link",
        "text": "All",
+       "row": "All",
+       "ctx": "All",
        "label": "",
        "href": "#/",
        "inRow": true,
@@ -450,6 +769,8 @@
       {
        "role": "link",
        "text": "Active",
+       "row": "Active",
+       "ctx": "Active",
        "label": "",
        "href": "#/active",
        "inRow": true,
@@ -459,6 +780,8 @@
       {
        "role": "link",
        "text": "Completed",
+       "row": "Completed",
+       "ctx": "Completed",
        "label": "",
        "href": "#/completed",
        "inRow": true,
@@ -466,11 +789,43 @@
        "count": 1
       },
       {
+       "role": "checkbox",
+       "text": "[input.toggle]",
+       "row": "Walk the dog",
+       "ctx": "Walk the dog",
+       "label": "",
+       "inRow": true,
+       "tag": "input",
+       "cls": "toggle",
+       "count": 2
+      },
+      {
+       "role": "text",
+       "text": "Walk the dog",
+       "row": "Walk the dog",
+       "label": "",
+       "inRow": true,
+       "tag": "label",
+       "count": 1
+      },
+      {
        "role": "text",
        "text": "2",
+       "ctx": "2 items left",
        "label": "",
        "inRow": false,
        "tag": "strong",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "[button.destroy]",
+       "row": "Walk the dog",
+       "ctx": "Walk the dog",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "cls": "destroy",
        "count": 1
       }
      ],
@@ -480,7 +835,9 @@
    "clicks": [
     {
      "role": "button",
-     "text": "",
+     "text": "[button.destroy]",
+     "row": "Buy milk",
+     "ctx": "Buy milk",
      "label": "",
      "inRow": true,
      "tag": "button",
@@ -492,7 +849,7 @@
    "test": "tests/edit_todo_test.md",
    "traffic": [
     {
-     "seq": 22,
+     "seq": 9,
      "test": "tests/edit_todo_test.md",
      "method": "GET",
      "path": "/",
@@ -502,7 +859,7 @@
      "document": true
     },
     {
-     "seq": 23,
+     "seq": 10,
      "test": "tests/edit_todo_test.md",
      "method": "GET",
      "path": "/learn.json",
@@ -519,6 +876,7 @@
       {
        "role": "heading",
        "text": "todos",
+       "ctx": "todos",
        "label": "",
        "inRow": false,
        "tag": "h1",
@@ -545,6 +903,7 @@
       {
        "role": "link",
        "text": "TodoMVC",
+       "ctx": "Part of TodoMVC",
        "label": "",
        "href": "http://todomvc.com",
        "inRow": false,
@@ -552,8 +911,49 @@
        "count": 1
       },
       {
+       "role": "checkbox",
+       "text": "[input.toggle-all]",
+       "ctx": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "input",
+       "cls": "toggle-all",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "label",
+       "cls": "toggle-all-label",
+       "count": 1
+      },
+      {
+       "role": "checkbox",
+       "text": "[input.toggle]",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "input",
+       "cls": "toggle",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Buy milk",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "label",
+       "count": 1
+      },
+      {
        "role": "text",
        "text": "1",
+       "ctx": "1 item left",
        "label": "",
        "inRow": false,
        "tag": "strong",
@@ -562,6 +962,8 @@
       {
        "role": "link",
        "text": "All",
+       "row": "All",
+       "ctx": "All",
        "label": "",
        "href": "#/",
        "inRow": true,
@@ -572,6 +974,8 @@
       {
        "role": "link",
        "text": "Active",
+       "row": "Active",
+       "ctx": "Active",
        "label": "",
        "href": "#/active",
        "inRow": true,
@@ -581,23 +985,64 @@
       {
        "role": "link",
        "text": "Completed",
+       "row": "Completed",
+       "ctx": "Completed",
        "label": "",
        "href": "#/completed",
        "inRow": true,
        "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Buy oat milk",
+       "row": "Buy oat milk",
+       "label": "",
+       "inRow": true,
+       "tag": "label",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "[button.destroy]",
+       "row": "Buy oat milk",
+       "ctx": "Buy oat milk",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "cls": "destroy",
        "count": 1
       }
      ],
      "text": "todos\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy milk\n1 item left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\n1 item left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy oat milk\n1 item left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC"
     }
    ],
-   "clicks": []
+   "clicks": [
+    {
+     "role": "text",
+     "text": "Buy milk",
+     "row": "Buy milk",
+     "ctx": "Buy milk",
+     "label": "",
+     "inRow": true,
+     "tag": "label"
+    },
+    {
+     "role": "text",
+     "text": "Buy milk",
+     "row": "Buy milk",
+     "ctx": "Buy milk",
+     "label": "",
+     "inRow": true,
+     "tag": "label"
+    }
+   ]
   },
   {
    "test": "tests/filters_test.md",
    "traffic": [
     {
-     "seq": 24,
+     "seq": 11,
      "test": "tests/filters_test.md",
      "method": "GET",
      "path": "/",
@@ -607,7 +1052,7 @@
      "document": true
     },
     {
-     "seq": 25,
+     "seq": 12,
      "test": "tests/filters_test.md",
      "method": "GET",
      "path": "/learn.json",
@@ -624,6 +1069,7 @@
       {
        "role": "heading",
        "text": "todos",
+       "ctx": "todos",
        "label": "",
        "inRow": false,
        "tag": "h1",
@@ -650,6 +1096,7 @@
       {
        "role": "link",
        "text": "TodoMVC",
+       "ctx": "Part of TodoMVC",
        "label": "",
        "href": "http://todomvc.com",
        "inRow": false,
@@ -657,8 +1104,49 @@
        "count": 1
       },
       {
+       "role": "checkbox",
+       "text": "[input.toggle-all]",
+       "ctx": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "input",
+       "cls": "toggle-all",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "label",
+       "cls": "toggle-all-label",
+       "count": 1
+      },
+      {
+       "role": "checkbox",
+       "text": "[input.toggle]",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "input",
+       "cls": "toggle",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Buy milk",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "label",
+       "count": 1
+      },
+      {
        "role": "text",
        "text": "1",
+       "ctx": "1 item left",
        "label": "",
        "inRow": false,
        "tag": "strong",
@@ -667,6 +1155,8 @@
       {
        "role": "link",
        "text": "All",
+       "row": "All",
+       "ctx": "All",
        "label": "",
        "href": "#/",
        "inRow": true,
@@ -677,6 +1167,8 @@
       {
        "role": "link",
        "text": "Active",
+       "row": "Active",
+       "ctx": "Active",
        "label": "",
        "href": "#/active",
        "inRow": true,
@@ -686,10 +1178,43 @@
       {
        "role": "link",
        "text": "Completed",
+       "row": "Completed",
+       "ctx": "Completed",
        "label": "",
        "href": "#/completed",
        "inRow": true,
        "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "[button.destroy]",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "cls": "destroy",
+       "count": 1
+      },
+      {
+       "role": "checkbox",
+       "text": "[input.toggle]",
+       "row": "Walk the dog",
+       "ctx": "Walk the dog",
+       "label": "",
+       "inRow": true,
+       "tag": "input",
+       "cls": "toggle",
+       "count": 2
+      },
+      {
+       "role": "text",
+       "text": "Walk the dog",
+       "row": "Walk the dog",
+       "label": "",
+       "inRow": true,
+       "tag": "label",
        "count": 1
       },
       {
@@ -710,14 +1235,55 @@
       {
        "role": "heading",
        "text": "todos",
+       "ctx": "todos",
        "label": "",
        "inRow": false,
        "tag": "h1",
        "count": 1
       },
       {
+       "role": "checkbox",
+       "text": "[input.toggle-all]",
+       "ctx": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "input",
+       "cls": "toggle-all",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "label",
+       "cls": "toggle-all-label",
+       "count": 1
+      },
+      {
+       "role": "checkbox",
+       "text": "[input.toggle]",
+       "row": "Walk the dog",
+       "ctx": "Walk the dog",
+       "label": "",
+       "inRow": true,
+       "tag": "input",
+       "cls": "toggle",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Walk the dog",
+       "row": "Walk the dog",
+       "label": "",
+       "inRow": true,
+       "tag": "label",
+       "count": 1
+      },
+      {
        "role": "text",
        "text": "1",
+       "ctx": "1 item left",
        "label": "",
        "inRow": false,
        "tag": "strong",
@@ -726,6 +1292,8 @@
       {
        "role": "link",
        "text": "All",
+       "row": "All",
+       "ctx": "All",
        "label": "",
        "href": "#/",
        "inRow": true,
@@ -735,6 +1303,8 @@
       {
        "role": "link",
        "text": "Active",
+       "row": "Active",
+       "ctx": "Active",
        "label": "",
        "href": "#/active",
        "inRow": true,
@@ -745,6 +1315,8 @@
       {
        "role": "link",
        "text": "Completed",
+       "row": "Completed",
+       "ctx": "Completed",
        "label": "",
        "href": "#/completed",
        "inRow": true,
@@ -781,6 +1353,7 @@
       {
        "role": "link",
        "text": "TodoMVC",
+       "ctx": "Part of TodoMVC",
        "label": "",
        "href": "http://todomvc.com",
        "inRow": false,
@@ -796,14 +1369,56 @@
       {
        "role": "heading",
        "text": "todos",
+       "ctx": "todos",
        "label": "",
        "inRow": false,
        "tag": "h1",
        "count": 1
       },
       {
+       "role": "checkbox",
+       "text": "[input.toggle-all]",
+       "ctx": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "input",
+       "cls": "toggle-all",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "label",
+       "cls": "toggle-all-label",
+       "count": 1
+      },
+      {
+       "role": "checkbox",
+       "text": "[input.toggle]",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "input",
+       "cls": "toggle",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Buy milk",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "label",
+       "count": 1
+      },
+      {
        "role": "text",
        "text": "1",
+       "ctx": "1 item left",
        "label": "",
        "inRow": false,
        "tag": "strong",
@@ -812,6 +1427,8 @@
       {
        "role": "link",
        "text": "All",
+       "row": "All",
+       "ctx": "All",
        "label": "",
        "href": "#/",
        "inRow": true,
@@ -821,6 +1438,8 @@
       {
        "role": "link",
        "text": "Active",
+       "row": "Active",
+       "ctx": "Active",
        "label": "",
        "href": "#/active",
        "inRow": true,
@@ -830,6 +1449,8 @@
       {
        "role": "link",
        "text": "Completed",
+       "row": "Completed",
+       "ctx": "Completed",
        "label": "",
        "href": "#/completed",
        "inRow": true,
@@ -867,6 +1488,7 @@
       {
        "role": "link",
        "text": "TodoMVC",
+       "ctx": "Part of TodoMVC",
        "label": "",
        "href": "http://todomvc.com",
        "inRow": false,
@@ -882,14 +1504,87 @@
       {
        "role": "heading",
        "text": "todos",
+       "ctx": "todos",
        "label": "",
        "inRow": false,
        "tag": "h1",
        "count": 1
       },
       {
+       "role": "checkbox",
+       "text": "[input.toggle-all]",
+       "ctx": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "input",
+       "cls": "toggle-all",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Mark all as complete",
+       "label": "",
+       "inRow": false,
+       "tag": "label",
+       "cls": "toggle-all-label",
+       "count": 1
+      },
+      {
+       "role": "checkbox",
+       "text": "[input.toggle]",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "input",
+       "cls": "toggle",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "Buy milk",
+       "row": "Buy milk",
+       "ctx": "Buy milk",
+       "label": "",
+       "inRow": true,
+       "tag": "label",
+       "count": 1
+      },
+      {
+       "role": "checkbox",
+       "text": "[input.toggle]",
+       "row": "Walk the dog",
+       "ctx": "Walk the dog",
+       "label": "",
+       "inRow": true,
+       "tag": "input",
+       "cls": "toggle",
+       "count": 2
+      },
+      {
+       "role": "text",
+       "text": "Walk the dog",
+       "row": "Walk the dog",
+       "label": "",
+       "inRow": true,
+       "tag": "label",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "[button.destroy]",
+       "row": "Walk the dog",
+       "ctx": "Walk the dog",
+       "label": "",
+       "inRow": true,
+       "tag": "button",
+       "cls": "destroy",
+       "count": 1
+      },
+      {
        "role": "text",
        "text": "1",
+       "ctx": "1 item left",
        "label": "",
        "inRow": false,
        "tag": "strong",
@@ -898,6 +1593,8 @@
       {
        "role": "link",
        "text": "All",
+       "row": "All",
+       "ctx": "All",
        "label": "",
        "href": "#/",
        "inRow": true,
@@ -908,6 +1605,8 @@
       {
        "role": "link",
        "text": "Active",
+       "row": "Active",
+       "ctx": "Active",
        "label": "",
        "href": "#/active",
        "inRow": true,
@@ -917,6 +1616,8 @@
       {
        "role": "link",
        "text": "Completed",
+       "row": "Completed",
+       "ctx": "Completed",
        "label": "",
        "href": "#/completed",
        "inRow": true,
@@ -953,6 +1654,7 @@
       {
        "role": "link",
        "text": "TodoMVC",
+       "ctx": "Part of TodoMVC",
        "label": "",
        "href": "http://todomvc.com",
        "inRow": false,
@@ -965,8 +1667,20 @@
    ],
    "clicks": [
     {
+     "role": "checkbox",
+     "text": "[input.toggle]",
+     "row": "Buy milk",
+     "ctx": "Buy milk",
+     "label": "",
+     "inRow": true,
+     "tag": "input",
+     "cls": "toggle"
+    },
+    {
      "role": "link",
      "text": "Active",
+     "row": "Active",
+     "ctx": "Active",
      "label": "",
      "href": "#/active",
      "inRow": true,
@@ -975,6 +1689,8 @@
     {
      "role": "link",
      "text": "Completed",
+     "row": "Completed",
+     "ctx": "Completed",
      "label": "",
      "href": "#/completed",
      "inRow": true,
@@ -983,6 +1699,8 @@
     {
      "role": "link",
      "text": "All",
+     "row": "All",
+     "ctx": "All",
      "label": "",
      "href": "#/",
      "inRow": true,
@@ -991,6 +1709,6 @@
    ]
   }
  ],
- "created": "2026-11-18T13:18:20.357Z",
- "commit": "4ff36be"
+ "created": "2026-11-19T06:29:28.458Z",
+ "commit": "d097a88"
 }
