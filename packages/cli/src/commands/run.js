@@ -10,6 +10,7 @@ import { profileEntry, summarize } from '../profile.js';
 import { generateAll, select } from '../../operators/index.js';
 import { appendLedger, readLedger, latest, lastRunId, score } from '../ledger.js';
 import { writeReport } from '../report.js';
+import { findOrphanKaneBrowsers } from '../orphans.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const POLICY_DIR = path.resolve(here, '../../policies');
@@ -123,6 +124,8 @@ export default async function run(argv, parseArgs) {
     return 0;
   }
 
+  const orphans = findOrphanKaneBrowsers(120);
+  if (orphans.length) console.log(`warning: ${orphans.length} Kane browser(s) from earlier runs are still open (oldest ${Math.round(Math.max(...orphans.map((o) => o.ageMinutes)) / 60)} h). They can change a shared app's state mid-run. Stop them: tripwire doctor --kill`);
   const creditsBefore = await balance();
   return withProxy(cfg, async (tw, base) => {
     // ---------- 1. baseline (reused when resuming) ----------

@@ -12,6 +12,7 @@ Usage:
   tripwire list                                           show the mutant catalogue for the last baseline
   tripwire check   [--threshold 80]                      exit 1 if the score is below the threshold (for hooks)
   tripwire coverage [--criteria ACCEPTANCE.md]            acceptance criteria: owed, proven, or proven but unguarded
+  tripwire doctor  [--kill]                              check kane-cli, login, and leftover Kane browsers
 
 Run "tripwire <command> --help" for the options of one command.`;
 
@@ -32,6 +33,7 @@ export async function main(argv) {
     case 'list': return (await import('./commands/list.js')).default(rest, parseArgs);
     case 'check': return (await import('./commands/check.js')).default(rest, parseArgs);
     case 'coverage': return (await import('./commands/coverage.js')).default(rest, parseArgs);
+    case 'doctor': return (await import('./commands/doctor.js')).default(rest, parseArgs);
     default:
       console.error(`Unknown command "${cmd}".\n\n${HELP}`);
       return 2;
