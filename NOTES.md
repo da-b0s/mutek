@@ -19,17 +19,56 @@ Other observations:
 - One run ended with exit 2, `TMS did not return an org_id` (transient, on a flaky connection). The runner retries exit 2 and 3 once and never counts them as kills.
 - Kane's optional Windows packages (~100 MB) failed to download silently on the first install. Fix: `npm install -g @testmuai/kane-cli-win-x64@0.10.5 @testmuai/kane-cli-node-win-x64@24.22.2 @testmuai/kane-cli-assurance-win-x64@0.10.5`.
 
-## Credit budget (from the measurements)
+## What the real runs found (18 to 19 Nov 2026)
 
-| Item | Estimate |
-|------|----------|
-| Author the demo suite (6 tests, ~4 steps) | ~400 |
-| Baseline replay | ~15 |
-| 40 mutants (~2 touching tests, ~3 credits each) | ~250 |
-| Heal checks (5 × ~15) | ~75 |
-| `tripwire fix` (~8 survivors × ~1.5 attempts × ~25) | ~300 |
-| Third-party app suite + run | ~300 |
-| **Total** | **~1,350** (balance after checks: 1,127) |
+**Default healing passed a bug Kane's own triage had just diagnosed.** TodoMVC, with the "Buy milk"
+row hidden by CSS. Strict replay failed, and Kane's triage said: application issue, major, 0.96,
+"The page says there are 3 items left but shows only 'Walk the dog' and 'Read a book'; the
+expected 'Buy milk' item is missing." With healing on, Kane re-authored the check, extracted
+"Buy milk, Walk the dog, Read a book" (the hidden row is still in the DOM) and passed. Happened
+twice (Buy milk, Walk the dog). On the shop, a one-off 401 during cancel was masked the same way.
+
+**A replayed "exactly three items" check passed with four rows on screen.** TodoMVC, "Read a book"
+duplicated. The evidence-pack screenshot shows four rows and "3 items left"; the replayed
+assertion still passed. The log does not show what it extracted, so the cause is not known.
+
+**Triage is right sometimes and wrong sometimes.** On the hidden row it correctly said "product
+bug". On a changed confirmation text it said "automation bug / locator rot" (0.96). Tripwire is
+the outside reference that knows which it was; the report shows each triage next to the bug.
+
+**Leftover Kane browsers corrupt shared state.** Kane's private headless Chrome
+(`kane-clean-*` profile) can outlive a run killed from outside. Three of them, up to two days old,
+added an item to the shop's shared cart and broke a green baseline. `tripwire doctor --kill`
+stops them; `tripwire run` warns about any older than two hours.
+
+**Kane service hiccups.** `TMS did not return an org_id` and `Token refresh failed` happen before
+any step runs (no browser, no credits). Twelve mutants errored in a row once. Tripwire now waits
+them out (15, 45, 90 s) and offers `--retry-errors`; errors are never counted.
+
+**Write-response mutants are often equivalent.** The saboteur put several bugs in write responses
+(coupon, quantity change, place order). The shop re-reads the data after every write, so the
+rewritten numbers never reach the screen and the tests are right to pass. Tripwire now keeps the
+recorder on during mutant runs and flags a survivor whose pages never showed anything new as a
+*suspected equivalent*; a person decides, and only then does it leave the score.
+
+**The agent that writes tests also breaks its own runs.** The fresh agent that wrote the shop suite
+ran curl experiments against the shared shop while its own Kane run was in progress, and its
+coupon test failed for that reason (the network log shows a stray item removed and a reset).
+
+## Credits actually spent
+
+| Item | Credits |
+|------|---------|
+| First-hour checks (probe) | ~75 |
+| Shop suite written and recorded by the fresh agent (incl. its reruns) | ~590 |
+| First shop run, 40 mutants with 10 heal checks | ~400 |
+| `tripwire fix`, 8 attempts across 7 survivors | ~200 |
+| TodoMVC suite recorded (6 tests) | ~440 |
+| TodoMVC run, 18 mutants | ~60 |
+| Measured re-run of the strengthened shop suite (50 mutants) | in progress |
+
+A passing replay costs about 0.7 credits per test; a failing one about 5 (Kane investigates it);
+a heal check 15 to 35; recording a new step about 15 to 25.
 
 ## Design decisions made while building
 
@@ -48,6 +87,16 @@ Other observations:
   silently disables a mutant.
 - **Reset between runs.** Every run starts from `POST /api/__reset` (configurable as a URL or a
   shell command) so results do not depend on test order.
+- **Apps without a JSON API get in-page data mutants.** rendered-number-drift, rendered-item-drop
+  and rendered-item-dup change what the page shows directly; unlabelled controls (icon buttons,
+  checkboxes) are identified as `[tag.class]` with their row. Links to other sites are never mutated.
+- **Proven fixes supersede survivors in the same run**, marked `fixed`, because appending a step
+  cannot un-catch any other mutant. A full re-run of the strengthened suite then measures the
+  result independently.
+- **Recordings are restored after every mutant run**, not only heal runs: Kane rewrote recordings
+  even during failed runs.
+- **A proxy built from different code is refused.** The proxy reports a fingerprint of its code;
+  a long-running proxy with an old in-page script once silently ignored a new mutant type.
 
 ## Known Kane issues steered around
 
