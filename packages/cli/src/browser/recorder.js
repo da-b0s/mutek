@@ -29,12 +29,19 @@
     if (el.tagName === 'INPUT' && /checkbox|radio/.test(el.type)) return clean(el.getAttribute('aria-label') || el.title) || anonKey(el);
     return clean(el.innerText || (el.tagName === 'INPUT' ? el.value : '') || el.getAttribute('aria-label') || el.title) || (el.tagName === 'BUTTON' ? anonKey(el) : '');
   };
+  // A row is named by its title (heading, label or link), else its first cell, else its first line.
+  var rowName = function (row) {
+    var t = row.querySelector('h1, h2, h3, h4, label, a[href]');
+    var cell = row.tagName === 'TR' ? row.querySelector('td, th') : null;
+    var s = (t && clean(t.innerText)) || (cell && clean(cell.innerText)) || clean((row.innerText || '').split(/\n|\t/)[0]);
+    return s.slice(0, 60);
+  };
   var describe = function (el) {
     var row = el.closest('tr, li');
     return {
       role: roleOf(el),
       text: textOf(el),
-      row: row ? clean((row.innerText || '').split(/\n/)[0]).slice(0, 60) : undefined,
+      row: row ? rowName(row) : undefined,
       // the words around a short text ("3" inside "3 items left"), for readable descriptions
       ctx: (el.parentElement && clean(el.innerText).length < 12) ? clean(el.parentElement.innerText).slice(0, 60) : undefined,
       label: clean(el.getAttribute('aria-label')),
