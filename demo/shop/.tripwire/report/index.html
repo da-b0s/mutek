@@ -25,11 +25,11 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 </style></head><body><main>
 <section class="top">
   <div><h1>Tripwire</h1><p class="sub">Would the tests fail if the app were broken? Run 2026-11-18T02-45-14 · commit 9c58131</p>
-  <div class="score" aria-label="mutation score">83.8%</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p>
-  <p class="sub"><strong>78.4%</strong> for the first-draft suite → <strong>83.8%</strong> after <code>tripwire fix</code> strengthened 2 tests, each proven by Kane: pass on the real app, fail on the broken one.</p></div>
+  <div class="score" aria-label="mutation score">91.9%</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p>
+  <p class="sub"><strong>78.4%</strong> for the first-draft suite → <strong>91.9%</strong> after <code>tripwire fix</code> strengthened 5 tests, each proven by Kane: pass on the real app, fail on the broken one.</p></div>
   <div class="counts">
-    <div class="count killed"><b>31</b>killed</div>
-    <div class="count survived"><b>5</b>survived</div>
+    <div class="count killed"><b>34</b>killed</div>
+    <div class="count survived"><b>2</b>survived</div>
     <div class="count masked"><b>1</b>masked by heal</div>
     <div class="count nr"><b>3</b>not reached</div>
   </div>
@@ -37,30 +37,8 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 
 
 
-<h2>Bugs the suite walked past (5)</h2>
+<h2>Bugs the suite walked past (2)</h2>
 <div class="grid">
-    <article class="mutant survived">
-      <header><span class="pill survived">survived</span><span class="op">interface · hide-control</span></header>
-      <h3>The &quot;Keep order&quot; button is missing</h3>
-      <p class="expect">A good test would: the test checks that &quot;Keep order&quot; is offered.</p>
-      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code></p>
-      
-      
-      
-      <figure><img src="shots/hide-control_button_Keep_order_.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/cancel_order_test.md. The test still passed.</figcaption></figure>
-      <details><summary>Mutant id</summary><code>hide-control:button:&quot;Keep order&quot;</code></details>
-    </article>
-    <article class="mutant survived">
-      <header><span class="pill survived">survived</span><span class="op">interface · label-swap</span></header>
-      <h3>The &quot;+&quot; and &quot;−&quot; buttons have each other&#39;s labels</h3>
-      <p class="expect">A good test would: the test checks the outcome of the button it pressed.</p>
-      <p class="meta">Tests that walked past it: <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code></p>
-      
-      
-      
-      <figure><img src="shots/label-swap_-_.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/cart_test.md. The test still passed.</figcaption></figure>
-      <details><summary>Mutant id</summary><code>label-swap:&quot;+&quot;&lt;-&gt;&quot;−&quot;</code></details>
-    </article>
     <article class="mutant survived">
       <header><span class="pill survived">survived</span><span class="op">data · item-dup</span></header>
       <h3>&quot;Canvas Tote Bag&quot; appears twice in the items (1 → 2 items)</h3>
@@ -82,17 +60,6 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       <figure><img src="shots/number-drift_GET_api_orders_1003_.subtotal.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/checkout_test.md. The test still passed.</figcaption></figure>
       <details><summary>Mutant id</summary><code>number-drift:GET /api/orders/1003:$.subtotal</code></details>
-    </article>
-    <article class="mutant survived">
-      <header><span class="pill survived">survived</span><span class="op">data · item-drop</span></header>
-      <h3>&quot;Canvas Tote Bag&quot; is missing from the items (1 → 0 items)</h3>
-      <p class="expect">A good test would: the list length or a named item is checked.</p>
-      <p class="meta">Tests that walked past it: <code>tests/checkout_test.md</code></p>
-      
-      
-      
-      <figure><img src="shots/item-drop_GET_api_orders_1003_.items_0_.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/checkout_test.md. The test still passed.</figcaption></figure>
-      <details><summary>Mutant id</summary><code>item-drop:GET /api/orders/1003:$.items[0]</code></details>
     </article></div>
 
 <h2>Masked by healing (1)</h2>
@@ -112,7 +79,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 
 <h2>Per test</h2>
 <table><thead><tr><th>Test</th><th>Mutants touched</th><th>Killed</th><th>Walked past</th><th>Score</th><th>Assertions</th></tr></thead><tbody>
-<tr><td><code>tests/browse_test.md</code></td><td>10</td><td>4</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr><tr><td><code>tests/cancel_order_test.md</code></td><td>26</td><td>12</td><td>2</td><td><div class="bar" title="86%"><i style="width:86%"></i></div>86%</td><td>yes</td></tr><tr><td><code>tests/cart_test.md</code></td><td>17</td><td>7</td><td>1</td><td><div class="bar" title="88%"><i style="width:88%"></i></div>88%</td><td>yes</td></tr><tr><td><code>tests/checkout_test.md</code></td><td>24</td><td>5</td><td>4</td><td><div class="bar" title="56%"><i style="width:56%"></i></div>56%</td><td>yes</td></tr><tr><td><code>tests/coupon_test.md</code></td><td>17</td><td>1</td><td>1</td><td><div class="bar" title="50%"><i style="width:50%"></i></div>50%</td><td>yes</td></tr><tr><td><code>tests/order_history_test.md</code></td><td>20</td><td>2</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr>
+<tr><td><code>tests/browse_test.md</code></td><td>10</td><td>4</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr><tr><td><code>tests/cancel_order_test.md</code></td><td>26</td><td>13</td><td>1</td><td><div class="bar" title="93%"><i style="width:93%"></i></div>93%</td><td>yes</td></tr><tr><td><code>tests/cart_test.md</code></td><td>17</td><td>8</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr><tr><td><code>tests/checkout_test.md</code></td><td>24</td><td>6</td><td>2</td><td><div class="bar" title="75%"><i style="width:75%"></i></div>75%</td><td>yes</td></tr><tr><td><code>tests/coupon_test.md</code></td><td>17</td><td>1</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr><tr><td><code>tests/order_history_test.md</code></td><td>20</td><td>2</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr>
 </tbody></table>
 
 
@@ -120,8 +87,8 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 <h2>How Kane's triage read the planted bugs</h2>
 <p class="note">Every mutant below was a real break in the app. Kane triaged 27 of the failing runs; it attributed <strong>25</strong> of them to the test rather than the product (typically "locator rot": the page changed, so the recording looks stale). From inside a single run a broken app and an outdated test look alike; Tripwire is the outside reference that tells them apart. Treat a triage of "automation bug" on a release branch as a prompt to look, not as a reason to re-record.</p>
 
-<h2>Caught (31)</h2>
-<details><summary>Show all 31 killed mutants</summary><div class="grid">
+<h2>Caught (34)</h2>
+<details><summary>Show all 34 killed mutants</summary><div class="grid">
     <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">data · number-drift</span></header>
       <h3>price from /api/products shows 19.80 instead of 18</h3>
@@ -220,6 +187,17 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       <details><summary>Mutant id</summary><code>double-apply:POST /api/orders/1002/cancel</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">interface · hide-control</span></header>
+      <h3>The &quot;Keep order&quot; button is missing</h3>
+      <p class="expect">A good test would: the test checks that &quot;Keep order&quot; is offered.</p>
+      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code></p>
+      
+      
+      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (a8ef3518-50e5-42fa-a451-bfb4c579db39 / f4ed24c6-748e-4f90-b56f-405b69b74115).</p>
+      
+      <details><summary>Mutant id</summary><code>hide-control:button:&quot;Keep order&quot;</code></details>
     </article>
     <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">interface · dead-control</span></header>
@@ -398,6 +376,17 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <details><summary>Mutant id</summary><code>dead-control:button:&quot;Cancel&quot;</code></details>
     </article>
     <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">interface · label-swap</span></header>
+      <h3>The &quot;+&quot; and &quot;−&quot; buttons have each other&#39;s labels</h3>
+      <p class="expect">A good test would: the test checks the outcome of the button it pressed.</p>
+      <p class="meta">Tests that walked past it: <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code></p>
+      
+      
+      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (4af6470f-113b-4eb9-9b7a-8d52d2951ed8 / 4e363012-912c-4aae-9a31-040aae6bda48).</p>
+      
+      <details><summary>Mutant id</summary><code>label-swap:&quot;+&quot;&lt;-&gt;&quot;−&quot;</code></details>
+    </article>
+    <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">interface · text-change</span></header>
       <h3>The heading &quot;Shop&quot; reads &quot;My orders&quot;</h3>
       <p class="expect">A good test would: the test checks it reached the right page or message.</p>
@@ -462,6 +451,17 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       <details><summary>Mutant id</summary><code>double-apply:POST /api/orders</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">data · item-drop</span></header>
+      <h3>&quot;Canvas Tote Bag&quot; is missing from the items (1 → 0 items)</h3>
+      <p class="expect">A good test would: the list length or a named item is checked.</p>
+      <p class="meta">Tests that walked past it: <code>tests/checkout_test.md</code></p>
+      
+      
+      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (3b55d265-707f-47fa-ad28-981540b397f2 / 78a3fa81-a9f7-422c-8f2a-c764e576224e).</p>
+      
+      <details><summary>Mutant id</summary><code>item-drop:GET /api/orders/1003:$.items[0]</code></details>
     </article></div></details>
 
 <h2>Not reached (3)</h2>
@@ -473,12 +473,16 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 <h2>Excluded as equivalent (0)</h2>
 <p class="note">None. Mutants are excluded only with a human-approved reason in <code>.tripwire/equivalents.json</code>.</p>
 
-<h2>Strengthened tests (2 of 2 attempts)</h2><table><thead><tr><th>Mutant</th><th>Test</th><th>Result</th><th>Attempts</th></tr></thead><tbody><tr><td>price from /api/products shows 19.80 instead of 18</td><td><code>tests/browse_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>Another user&#39;s record (owner=&quot;tw-other-user&quot;) appears in the orders</td><td><code>tests/cancel_order_test.md</code></td><td>killed</td><td>1</td></tr></tbody></table>
+<h2>Strengthened tests (5 of 9 attempts)</h2><table><thead><tr><th>Mutant</th><th>Test</th><th>Result</th><th>Attempts</th></tr></thead><tbody><tr><td>price from /api/products shows 19.80 instead of 18</td><td><code>tests/browse_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>Another user&#39;s record (owner=&quot;tw-other-user&quot;) appears in the orders</td><td><code>tests/cancel_order_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>POST /api/orders/1002/cancel returns 401 once, mid-flow</td><td><code>tests/cancel_order_test.md</code></td><td>gave-up</td><td>2</td></tr><tr><td>The &quot;Keep order&quot; button is missing</td><td><code>tests/cancel_order_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>The &quot;+&quot; and &quot;−&quot; buttons have each other&#39;s labels</td><td><code>tests/cart_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>&quot;Canvas Tote Bag&quot; appears twice in the items (1 → 2 items)</td><td><code>tests/checkout_test.md</code></td><td>gave-up</td><td>2</td></tr><tr><td>subtotal from /api/orders/1003 shows 19.80 instead of 18</td><td><code>tests/checkout_test.md</code></td><td>gave-up</td><td>2</td></tr><tr><td>&quot;Canvas Tote Bag&quot; is missing from the items (1 → 0 items)</td><td><code>tests/checkout_test.md</code></td><td>lost</td><td>1</td></tr><tr><td>&quot;Canvas Tote Bag&quot; is missing from the items (1 → 0 items)</td><td><code>tests/checkout_test.md</code></td><td>killed</td><td>1</td></tr></tbody></table>
 
 <h2>Lessons for the test-writing agent</h2><div class="lessons"># Assertion patterns that caught real bugs in this repo
 
 - The displayed price is checked against the expected value (caught: number-drift; I appended one step that goes back to the shop list and checks that the &quot;Canvas Tote Bag&quot; card shows &quot;$18.00&quot;. The broken app would show &quot;$19.80&quot; there. I haven)
 - The test checks exactly which records are listed (caught: wrong-owner; I added a final step to `tests/cancel_order_test.md` that checks the My orders table shows exactly 2 orders, &quot;#1002&quot; and &quot;#1001&quot;, with no other rows such as &quot;#9)
+- The test checks that &quot;Keep order&quot; is offered (caught: hide-control; `npx tripwire check` exiting 0 confirms it&#39;s done. If a `tripwire fix` run is still waiting on my earlier reply, let it finish first.)
+- The test checks the outcome of the button it pressed (caught: label-swap; I added a step checking the &quot;Wool Beanie&quot; row shows &quot;−&quot; left of the quantity and &quot;+&quot; to its right.)
+- The list length or a named item is checked (caught: item-drop; Alternatively, allow `npx tripwire` in the project&#39;s permissions and start me again.)
+- The list length or a named item is checked (caught: item-drop; I added a final step to `tests/checkout_test.md` that clicks &quot;View order&quot; and checks that the &quot;Order #1003&quot; page lists exactly one item row: &quot;Canvas Tote Bag&quot;, )
 </div>
 
 <h2>Cost</h2>

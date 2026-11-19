@@ -1,0 +1,55 @@
+You are strengthening an end-to-end Kane CLI test (a *_test.md file). Do not change any application code.
+
+This bug was live in the app and the test below still PASSED:
+  The "+" and "−" buttons have each other's labels
+What changed: On the page: {"op":"swap-labels","target":{"role":"button","text":"+"},"other":{"role":"button","text":"−"}}
+
+A good test would: the test checks the outcome of the button it pressed.
+Screenshot of the broken page at the end of the test: C:\Users\DELL\Documents\Code\tripwire\demo\shop\.tripwire\fix\label-swap_-_.jpg
+
+Test file: tests/cart_test.md
+----- current contents -----
+---
+url: http://localhost:8080
+mode: testing
+max_steps: 30
+tags: [shop, cart]
+---
+
+# Cart: add an item and change its quantity
+
+## Add an item to the cart
+On the Shop page, click the "Add to cart" button on the "Wool Beanie" card.
+Verify the cart count badge in the top navigation shows "1".
+
+## Open the cart
+Click the "Cart" link in the top navigation.
+Verify the "Your cart" table has one row, "Wool Beanie", with quantity 1 and a line total of "$22.00".
+
+## Increase the quantity
+Click the "+" (increase quantity) button on the "Wool Beanie" row.
+Verify the "Wool Beanie" row now shows quantity 2 and a line total of "$44.00", and the Subtotal reads "$44.00".
+
+## Decrease the quantity
+Click the "−" (decrease quantity) button on the "Wool Beanie" row.
+Verify the "Wool Beanie" row shows quantity 1 again and the Subtotal reads "$22.00".
+
+----- end -----
+
+Edit tests/cart_test.md by APPENDING exactly one new step at the very end of the file:
+  ## <short heading>
+  <one or two plain-English sentences: navigate if needed, then "Verify ..." with the exact expected value>
+
+Rules:
+- Only append. Do not modify, reorder, weaken or delete any existing line (Kane re-records every step after an edit, so editing earlier steps is expensive and is rejected).
+- The new step must PASS on the real app and FAIL on the broken app described above.
+- Use exact expected values a user would see (amounts with currency symbol, item names, counts, status words).
+- Do not mention bugs, mutants or Tripwire in the test, and never name the broken value
+  (the wrong number, the extra record): assert the correct state, so the check stays general.
+
+Assertion patterns that worked before in this repo:
+- The displayed price is checked against the expected value (caught: number-drift; I appended one step that goes back to the shop list and checks that the "Canvas Tote Bag" card shows "$18.00". The broken app would show "$19.80" there. I haven)
+- The test checks exactly which records are listed (caught: wrong-owner; I added a final step to `tests/cancel_order_test.md` that checks the My orders table shows exactly 2 orders, "#1002" and "#1001", with no other rows such as "#9)
+- The test checks that "Keep order" is offered (caught: hide-control; `npx tripwire check` exiting 0 confirms it's done. If a `tripwire fix` run is still waiting on my earlier reply, let it finish first.)
+
+Reply with one line describing the assertion you added.

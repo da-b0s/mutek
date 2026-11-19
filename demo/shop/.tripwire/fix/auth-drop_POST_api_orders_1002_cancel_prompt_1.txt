@@ -1,0 +1,51 @@
+You are strengthening an end-to-end Kane CLI test (a *_test.md file). Do not change any application code.
+
+This bug was live in the app and the test below still PASSED:
+  POST /api/orders/1002/cancel returns 401 once, mid-flow
+What changed: POST /api/orders/1002/cancel answers 401 without reaching the app
+
+With strict replay the test failed, but with Kane's default adaptive healing it re-authored its steps and passed on the broken app. The new assertion must state the expected outcome so plainly that no re-authored path can satisfy it on the broken app.
+
+A good test would: the test checks the page it lands on after each step.
+Screenshot of the broken page at the end of the test: C:\Users\DELL\Documents\Code\tripwire\demo\shop\.tripwire\fix\auth-drop_POST_api_orders_1002_cancel.jpg
+
+Test file: tests/cancel_order_test.md
+----- current contents -----
+---
+url: http://localhost:8080
+mode: testing
+max_steps: 30
+tags: [shop, orders, cancel]
+---
+
+# Cancel order: cancel the order that is still "Placed"
+
+## Open My orders
+Click the "My orders" link in the top navigation.
+Verify order "#1002" has status "Placed" with a "Cancel" button, and order "#1001" has status "Delivered".
+
+## Cancel the placed order
+Click the "Cancel" button on the "#1002" row, then in the "Cancel order #1002?" dialog click "Yes, cancel order".
+Verify the "#1002" row now shows status "Cancelled" and no longer has a "Cancel" button, and "#1001" still shows status "Delivered".
+
+## Check only my orders are listed
+Verify the My orders table lists exactly 2 orders, "#1002" and "#1001", and no other order rows (for example, no "#91002").
+
+----- end -----
+
+Edit tests/cancel_order_test.md by APPENDING exactly one new step at the very end of the file:
+  ## <short heading>
+  <one or two plain-English sentences: navigate if needed, then "Verify ..." with the exact expected value>
+
+Rules:
+- Only append. Do not modify, reorder, weaken or delete any existing line (Kane re-records every step after an edit, so editing earlier steps is expensive and is rejected).
+- The new step must PASS on the real app and FAIL on the broken app described above.
+- Use exact expected values a user would see (amounts with currency symbol, item names, counts, status words).
+- Do not mention bugs, mutants or Tripwire in the test, and never name the broken value
+  (the wrong number, the extra record): assert the correct state, so the check stays general.
+
+Assertion patterns that worked before in this repo:
+- The displayed price is checked against the expected value (caught: number-drift; I appended one step that goes back to the shop list and checks that the "Canvas Tote Bag" card shows "$18.00". The broken app would show "$19.80" there. I haven)
+- The test checks exactly which records are listed (caught: wrong-owner; I added a final step to `tests/cancel_order_test.md` that checks the My orders table shows exactly 2 orders, "#1002" and "#1001", with no other rows such as "#9)
+
+Reply with one line describing the assertion you added.

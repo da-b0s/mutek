@@ -9,7 +9,7 @@ export default {
   summary: 'A number shown on the page (a count, an amount) is off by one, changed in the page itself.',
   generate(profile) {
     return controls(profile)
-      .filter((c) => c.role === 'text' && /\d/.test(c.text) && c.text.length <= 40)
+      .filter((c) => c.role === 'text' && (c.pattern || /\d/.test(c.text)) && c.text.length <= 40)
       .slice(0, 8)
       .map((c) => mutant({
         id: `rendered-number-drift:"${c.text}"`,

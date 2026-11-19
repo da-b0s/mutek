@@ -94,8 +94,11 @@ export function controls(profile) {
     }
     for (const c of t.clicks) { const k = keyOf(c); if (by.has(k)) by.get(k).clicked = true; }
   }
-  return [...by.values()].map((c) => ({ ...c, tests: [...c.tests], pages: [...c.pages] }));
+  // Links to other sites (author credits, social links) are not part of the app under test.
+  return [...by.values()].filter((c) => !(c.role === 'link' && isExternal(c.href))).map((c) => ({ ...c, tests: [...c.tests], pages: [...c.pages] }));
 }
+
+export const isExternal = (href) => /^(https?:)?\/\//i.test(href || '') && !/^(https?:)?\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?(\/|$)/i.test(href);
 
 // The target a DOM mutant uses to find a control again in the page.
 export const targetOf = (c) => (c.pattern ? { role: c.role, text: c.text, pattern: c.pattern } : { role: c.role, text: c.text });

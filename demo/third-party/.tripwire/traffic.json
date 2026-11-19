@@ -1,0 +1,996 @@
+{
+ "tests": [
+  {
+   "test": "tests/add_todos_test.md",
+   "traffic": [
+    {
+     "seq": 14,
+     "test": "tests/add_todos_test.md",
+     "method": "GET",
+     "path": "/",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": true
+    },
+    {
+     "seq": 15,
+     "test": "tests/add_todos_test.md",
+     "method": "GET",
+     "path": "/learn.json",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": false
+    }
+   ],
+   "pages": [
+    {
+     "url": "/",
+     "controls": [
+      {
+       "role": "heading",
+       "text": "todos",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Oscar Godson",
+       "label": "",
+       "href": "http://twitter.com/oscargodson",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Christoph Burgmer",
+       "label": "",
+       "href": "https://github.com/cburgmer",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "TodoMVC",
+       "label": "",
+       "href": "http://todomvc.com",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "1",
+       "label": "",
+       "inRow": false,
+       "tag": "strong",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "All",
+       "label": "",
+       "href": "#/",
+       "inRow": true,
+       "tag": "a",
+       "cls": "selected",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Active",
+       "label": "",
+       "href": "#/active",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Completed",
+       "label": "",
+       "href": "#/completed",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "2",
+       "label": "",
+       "inRow": false,
+       "tag": "strong",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "3",
+       "label": "",
+       "inRow": false,
+       "tag": "strong",
+       "count": 1
+      }
+     ],
+     "text": "todos\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy milk\n1 item left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy milk\nWalk the dog\n2 items left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy milk\nWalk the dog\nRead a book\n3 items left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC"
+    }
+   ],
+   "clicks": []
+  },
+  {
+   "test": "tests/clear_completed_test.md",
+   "traffic": [
+    {
+     "seq": 16,
+     "test": "tests/clear_completed_test.md",
+     "method": "GET",
+     "path": "/",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": true
+    },
+    {
+     "seq": 17,
+     "test": "tests/clear_completed_test.md",
+     "method": "GET",
+     "path": "/learn.json",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": false
+    }
+   ],
+   "pages": [
+    {
+     "url": "/",
+     "controls": [
+      {
+       "role": "heading",
+       "text": "todos",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Oscar Godson",
+       "label": "",
+       "href": "http://twitter.com/oscargodson",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Christoph Burgmer",
+       "label": "",
+       "href": "https://github.com/cburgmer",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "TodoMVC",
+       "label": "",
+       "href": "http://todomvc.com",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "1",
+       "label": "",
+       "inRow": false,
+       "tag": "strong",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "All",
+       "label": "",
+       "href": "#/",
+       "inRow": true,
+       "tag": "a",
+       "cls": "selected",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Active",
+       "label": "",
+       "href": "#/active",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Completed",
+       "label": "",
+       "href": "#/completed",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Clear completed",
+       "label": "",
+       "inRow": false,
+       "tag": "button",
+       "cls": "clear-completed",
+       "count": 1
+      }
+     ],
+     "text": "todos\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy milk\n1 item left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy milk\nWalk the dog\n1 item left\nAll Active Completed\nClear completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nWalk the dog\n1 item left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC"
+    }
+   ],
+   "clicks": [
+    {
+     "role": "button",
+     "text": "Clear completed",
+     "label": "",
+     "inRow": false,
+     "tag": "button",
+     "cls": "clear-completed"
+    }
+   ]
+  },
+  {
+   "test": "tests/complete_todo_test.md",
+   "traffic": [
+    {
+     "seq": 18,
+     "test": "tests/complete_todo_test.md",
+     "method": "GET",
+     "path": "/",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": true
+    },
+    {
+     "seq": 19,
+     "test": "tests/complete_todo_test.md",
+     "method": "GET",
+     "path": "/learn.json",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": false
+    }
+   ],
+   "pages": [
+    {
+     "url": "/",
+     "controls": [
+      {
+       "role": "heading",
+       "text": "todos",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Oscar Godson",
+       "label": "",
+       "href": "http://twitter.com/oscargodson",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Christoph Burgmer",
+       "label": "",
+       "href": "https://github.com/cburgmer",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "TodoMVC",
+       "label": "",
+       "href": "http://todomvc.com",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "1",
+       "label": "",
+       "inRow": false,
+       "tag": "strong",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "All",
+       "label": "",
+       "href": "#/",
+       "inRow": true,
+       "tag": "a",
+       "cls": "selected",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Active",
+       "label": "",
+       "href": "#/active",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Completed",
+       "label": "",
+       "href": "#/completed",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "2",
+       "label": "",
+       "inRow": false,
+       "tag": "strong",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Clear completed",
+       "label": "",
+       "inRow": false,
+       "tag": "button",
+       "cls": "clear-completed",
+       "count": 1
+      }
+     ],
+     "text": "todos\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy milk\n1 item left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy milk\nWalk the dog\n2 items left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy milk\nWalk the dog\n1 item left\nAll Active Completed\nClear completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC"
+    }
+   ],
+   "clicks": []
+  },
+  {
+   "test": "tests/delete_todo_test.md",
+   "traffic": [
+    {
+     "seq": 20,
+     "test": "tests/delete_todo_test.md",
+     "method": "GET",
+     "path": "/",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": true
+    },
+    {
+     "seq": 21,
+     "test": "tests/delete_todo_test.md",
+     "method": "GET",
+     "path": "/learn.json",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": false
+    }
+   ],
+   "pages": [
+    {
+     "url": "/",
+     "controls": [
+      {
+       "role": "heading",
+       "text": "todos",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Oscar Godson",
+       "label": "",
+       "href": "http://twitter.com/oscargodson",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Christoph Burgmer",
+       "label": "",
+       "href": "https://github.com/cburgmer",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "TodoMVC",
+       "label": "",
+       "href": "http://todomvc.com",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "1",
+       "label": "",
+       "inRow": false,
+       "tag": "strong",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "All",
+       "label": "",
+       "href": "#/",
+       "inRow": true,
+       "tag": "a",
+       "cls": "selected",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Active",
+       "label": "",
+       "href": "#/active",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Completed",
+       "label": "",
+       "href": "#/completed",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "2",
+       "label": "",
+       "inRow": false,
+       "tag": "strong",
+       "count": 1
+      }
+     ],
+     "text": "todos\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy milk\n1 item left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy milk\nWalk the dog\n2 items left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nWalk the dog\n1 item left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC"
+    }
+   ],
+   "clicks": [
+    {
+     "role": "button",
+     "text": "",
+     "label": "",
+     "inRow": true,
+     "tag": "button",
+     "cls": "destroy"
+    }
+   ]
+  },
+  {
+   "test": "tests/edit_todo_test.md",
+   "traffic": [
+    {
+     "seq": 22,
+     "test": "tests/edit_todo_test.md",
+     "method": "GET",
+     "path": "/",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": true
+    },
+    {
+     "seq": 23,
+     "test": "tests/edit_todo_test.md",
+     "method": "GET",
+     "path": "/learn.json",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": false
+    }
+   ],
+   "pages": [
+    {
+     "url": "/",
+     "controls": [
+      {
+       "role": "heading",
+       "text": "todos",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Oscar Godson",
+       "label": "",
+       "href": "http://twitter.com/oscargodson",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Christoph Burgmer",
+       "label": "",
+       "href": "https://github.com/cburgmer",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "TodoMVC",
+       "label": "",
+       "href": "http://todomvc.com",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "1",
+       "label": "",
+       "inRow": false,
+       "tag": "strong",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "All",
+       "label": "",
+       "href": "#/",
+       "inRow": true,
+       "tag": "a",
+       "cls": "selected",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Active",
+       "label": "",
+       "href": "#/active",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Completed",
+       "label": "",
+       "href": "#/completed",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      }
+     ],
+     "text": "todos\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy milk\n1 item left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\n1 item left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy oat milk\n1 item left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC"
+    }
+   ],
+   "clicks": []
+  },
+  {
+   "test": "tests/filters_test.md",
+   "traffic": [
+    {
+     "seq": 24,
+     "test": "tests/filters_test.md",
+     "method": "GET",
+     "path": "/",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": true
+    },
+    {
+     "seq": 25,
+     "test": "tests/filters_test.md",
+     "method": "GET",
+     "path": "/learn.json",
+     "status": 200,
+     "type": "html",
+     "mutated": false,
+     "document": false
+    }
+   ],
+   "pages": [
+    {
+     "url": "/",
+     "controls": [
+      {
+       "role": "heading",
+       "text": "todos",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Oscar Godson",
+       "label": "",
+       "href": "http://twitter.com/oscargodson",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Christoph Burgmer",
+       "label": "",
+       "href": "https://github.com/cburgmer",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "TodoMVC",
+       "label": "",
+       "href": "http://todomvc.com",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "1",
+       "label": "",
+       "inRow": false,
+       "tag": "strong",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "All",
+       "label": "",
+       "href": "#/",
+       "inRow": true,
+       "tag": "a",
+       "cls": "selected",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Active",
+       "label": "",
+       "href": "#/active",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Completed",
+       "label": "",
+       "href": "#/completed",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Clear completed",
+       "label": "",
+       "inRow": false,
+       "tag": "button",
+       "cls": "clear-completed",
+       "count": 1
+      }
+     ],
+     "text": "todos\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy milk\n1 item left\nAll Active Completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC\ntodos\nMark all as complete\nBuy milk\nWalk the dog\n1 item left\nAll Active Completed\nClear completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC"
+    },
+    {
+     "url": "/#/active",
+     "controls": [
+      {
+       "role": "heading",
+       "text": "todos",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "1",
+       "label": "",
+       "inRow": false,
+       "tag": "strong",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "All",
+       "label": "",
+       "href": "#/",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Active",
+       "label": "",
+       "href": "#/active",
+       "inRow": true,
+       "tag": "a",
+       "cls": "selected",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Completed",
+       "label": "",
+       "href": "#/completed",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Clear completed",
+       "label": "",
+       "inRow": false,
+       "tag": "button",
+       "cls": "clear-completed",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Oscar Godson",
+       "label": "",
+       "href": "http://twitter.com/oscargodson",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Christoph Burgmer",
+       "label": "",
+       "href": "https://github.com/cburgmer",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "TodoMVC",
+       "label": "",
+       "href": "http://todomvc.com",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      }
+     ],
+     "text": "todos\nMark all as complete\nWalk the dog\n1 item left\nAll Active Completed\nClear completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC"
+    },
+    {
+     "url": "/#/completed",
+     "controls": [
+      {
+       "role": "heading",
+       "text": "todos",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "1",
+       "label": "",
+       "inRow": false,
+       "tag": "strong",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "All",
+       "label": "",
+       "href": "#/",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Active",
+       "label": "",
+       "href": "#/active",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Completed",
+       "label": "",
+       "href": "#/completed",
+       "inRow": true,
+       "tag": "a",
+       "cls": "selected",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Clear completed",
+       "label": "",
+       "inRow": false,
+       "tag": "button",
+       "cls": "clear-completed",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Oscar Godson",
+       "label": "",
+       "href": "http://twitter.com/oscargodson",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Christoph Burgmer",
+       "label": "",
+       "href": "https://github.com/cburgmer",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "TodoMVC",
+       "label": "",
+       "href": "http://todomvc.com",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      }
+     ],
+     "text": "todos\nMark all as complete\nBuy milk\n1 item left\nAll Active Completed\nClear completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC"
+    },
+    {
+     "url": "/#/",
+     "controls": [
+      {
+       "role": "heading",
+       "text": "todos",
+       "label": "",
+       "inRow": false,
+       "tag": "h1",
+       "count": 1
+      },
+      {
+       "role": "text",
+       "text": "1",
+       "label": "",
+       "inRow": false,
+       "tag": "strong",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "All",
+       "label": "",
+       "href": "#/",
+       "inRow": true,
+       "tag": "a",
+       "cls": "selected",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Active",
+       "label": "",
+       "href": "#/active",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Completed",
+       "label": "",
+       "href": "#/completed",
+       "inRow": true,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "button",
+       "text": "Clear completed",
+       "label": "",
+       "inRow": false,
+       "tag": "button",
+       "cls": "clear-completed",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Oscar Godson",
+       "label": "",
+       "href": "http://twitter.com/oscargodson",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "Christoph Burgmer",
+       "label": "",
+       "href": "https://github.com/cburgmer",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      },
+      {
+       "role": "link",
+       "text": "TodoMVC",
+       "label": "",
+       "href": "http://todomvc.com",
+       "inRow": false,
+       "tag": "a",
+       "count": 1
+      }
+     ],
+     "text": "todos\nMark all as complete\nBuy milk\nWalk the dog\n1 item left\nAll Active Completed\nClear completed\n\nDouble-click to edit a todo\n\nCreated by Oscar Godson\n\nRefactored by Christoph Burgmer\n\nMaintenanced by the TodoMVC team\n\nPart of TodoMVC"
+    }
+   ],
+   "clicks": [
+    {
+     "role": "link",
+     "text": "Active",
+     "label": "",
+     "href": "#/active",
+     "inRow": true,
+     "tag": "a"
+    },
+    {
+     "role": "link",
+     "text": "Completed",
+     "label": "",
+     "href": "#/completed",
+     "inRow": true,
+     "tag": "a"
+    },
+    {
+     "role": "link",
+     "text": "All",
+     "label": "",
+     "href": "#/",
+     "inRow": true,
+     "tag": "a"
+    }
+   ]
+  }
+ ],
+ "created": "2026-11-18T13:18:20.357Z",
+ "commit": "4ff36be"
+}

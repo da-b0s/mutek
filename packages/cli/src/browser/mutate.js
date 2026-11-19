@@ -11,7 +11,8 @@
     button: 'button, [role=button], input[type=submit], input[type=button]',
     link: 'a[href]',
     heading: 'h1, h2, h3',
-    text: '[role=status], .status, .badge, .tag, strong, p, span, td, dd, h1, h2, h3'
+    text: '[role=status], .status, .badge, .tag, strong, label, p, span, td, dd, h1, h2, h3',
+    checkbox: 'input[type=checkbox]'
   };
   function report() {
     if (fired) return;
@@ -19,6 +20,12 @@
     try { navigator.sendBeacon('/_tw/fired', new Blob([JSON.stringify({ id: M.id })], { type: 'application/json' })); } catch (e) { /* ignore */ }
   }
   function find(target) {
+    // "[tag.class]" targets a control that has no visible text
+    var anon = /^\[([a-z0-9-]+)(?:\.([\w-]+))?\]$/i.exec(target.text || '');
+    if (anon) {
+      var els = Array.prototype.slice.call(document.querySelectorAll(anon[1] + (anon[2] ? '.' + anon[2] : '')));
+      return target.count ? (els[target.count - 1] ? [els[target.count - 1]] : []) : els;
+    }
     var all = Array.prototype.slice.call(document.querySelectorAll(ROLE_SEL[target.role] || ROLE_SEL.text));
     var re = target.pattern ? new RegExp(target.pattern) : null;
     var hits = all.filter(function (el) {
@@ -87,6 +94,24 @@
         el.dataset.twWrote = clean(el.innerText || el.value);
         report();
       });
+    },
+    // A list row the user saw disappears, or shows twice (the in-page form of item-drop/item-dup).
+    'hide-row': function () {
+      var el = find(M.target)[0];
+      var row = el && el.closest('li, tr');
+      if (!row || row.dataset.twDone) return;
+      row.dataset.twDone = '1';
+      row.style.setProperty('display', 'none', 'important');
+      report();
+    },
+    'dup-row': function () {
+      var el = find(M.target)[0];
+      var row = el && el.closest('li, tr');
+      if (!row || row.dataset.twDone) return;
+      row.dataset.twDone = '1';
+      var copy = row.cloneNode(true);
+      row.parentNode.insertBefore(copy, row.nextSibling);
+      report();
     },
     'remove-row-action': function () {
       var rows = document.querySelectorAll('tr, li');

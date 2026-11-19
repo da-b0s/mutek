@@ -18,3 +18,7 @@ Verify the "Checkout" page shows an order summary with "1 × Canvas Tote Bag" an
 ## Fill in the details and place the order
 Type "Ada Obi" into the "Full name" field, "ada@example.com" into the "Email" field and "7 Marina Street, Lagos" into the "Delivery address" field, then click "Place order".
 Verify the confirmation page shows the heading "Thank you, Ada!", the text "Your order #1003 has been placed.", "Total charged: $22.99" and "We will email a receipt to ada@example.com."
+
+## Check the placed order's items
+Click "View order".
+Verify the "Order #1003" page lists exactly one item row, "Canvas Tote Bag" with price "$18.00", quantity 1 and line total "$18.00".

@@ -22,3 +22,6 @@ Verify the "Wool Beanie" row now shows quantity 2 and a line total of "$44.00", 
 ## Decrease the quantity
 Click the "−" (decrease quantity) button on the "Wool Beanie" row.
 Verify the "Wool Beanie" row shows quantity 1 again and the Subtotal reads "$22.00".
+
+## Check the quantity button labels
+On the "Wool Beanie" row, verify the button immediately to the left of the quantity shows the text "−" and the button immediately to the right of the quantity shows the text "+".

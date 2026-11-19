@@ -15,9 +15,9 @@ const profile = { tests: [profileEntry('tests/cart_test.md', fx.traffic, fx.dom)
 const { candidates } = generateAll(profile, { dir: path.join(here, 'no-such-dir') });
 const byOp = (op) => candidates.filter((m) => m.operator === op);
 
-test('18 built-in operators plus the saboteur', () => {
-  assert.equal(OPERATORS.length, 19);
-  assert.equal(new Set(OPERATORS.map((o) => o.name)).size, 19);
+test('20 built-in operators plus the saboteur', () => {
+  assert.equal(OPERATORS.length, 21);
+  assert.equal(new Set(OPERATORS.map((o) => o.name)).size, 21);
 });
 
 test('every generated mutant is valid and touches a test', () => {
@@ -48,6 +48,22 @@ test('behaviour mutants come from the writes the suite made', () => {
   const fake = byOp('fake-success').find((m) => m.match.path === '/api/cart/items');
   assert.equal(fake.action.body.count, 1, 'replays the recorded success body');
   assert.equal(byOp('stale-read')[0].match.path, '/api/cart');
+});
+
+test('the in-page recorder and mutator scripts parse', () => {
+  for (const f of ['recorder.js', 'mutate.js']) {
+    const src = fs.readFileSync(path.join(here, '../src/browser', f), 'utf8');
+    assert.doesNotThrow(() => new Function(src), f);
+  }
+});
+
+test('links to other sites are not mutated', async () => {
+  const { isExternal } = await import('../operators/_util.js');
+  assert.equal(isExternal('http://twitter.com/x'), true);
+  assert.equal(isExternal('//cdn.example.com/a'), true);
+  assert.equal(isExternal('#/active'), false);
+  assert.equal(isExternal('/orders'), false);
+  assert.equal(isExternal('http://localhost:8080/#/cart'), false);
 });
 
 test('select spreads across operators', () => {

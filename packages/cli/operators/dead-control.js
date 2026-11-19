@@ -9,14 +9,14 @@ export default {
   summary: 'The click handler of a control is disabled by an injected script.',
   generate(profile) {
     return controls(profile)
-      .filter((c) => c.role === 'button' && c.clicked)
+      .filter((c) => (c.role === 'button' || c.role === 'checkbox') && c.clicked)
       .map((c) => mutant({
-        id: `dead-control:button:"${c.text}"`,
+        id: `dead-control:${c.role}:"${c.text}"`,
         family: 'interface', operator: 'dead-control',
         match: { document: true },
         action: domMutant('dead', c),
         touches_tests: c.tests,
-        describe: `Clicking "${c.text}" does nothing`,
+        describe: c.role === 'checkbox' ? `Ticking ${c.row ? `"${c.row}"` : c.text} does nothing` : `Clicking "${c.text}" does nothing`,
         expect: `The test checks what "${c.text}" is supposed to change`
       }));
   }

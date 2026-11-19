@@ -11,6 +11,7 @@
     if (t === 'BUTTON' || el.getAttribute('role') === 'button' || (t === 'INPUT' && /submit|button/.test(el.type))) return 'button';
     if (t === 'A' && el.hasAttribute('href')) return 'link';
     if (/^H[1-3]$/.test(t)) return 'heading';
+    if (t === 'INPUT' && el.type === 'checkbox') return 'checkbox';
     return 'text';
   };
   var visible = function (el) {
@@ -18,10 +19,22 @@
     var cs = getComputedStyle(el);
     return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && cs.display !== 'none';
   };
+  // A control without visible text (icon button, checkbox) is identified by tag and first class:
+  // "[input.toggle]". The mutator finds it again the same way.
+  var anonKey = function (el) {
+    var c = (typeof el.className === 'string' && el.className.trim().split(/\s+/)[0]) || '';
+    return '[' + el.tagName.toLowerCase() + (c ? '.' + c : '') + ']';
+  };
+  var textOf = function (el) {
+    if (el.tagName === 'INPUT' && /checkbox|radio/.test(el.type)) return clean(el.getAttribute('aria-label') || el.title) || anonKey(el);
+    return clean(el.innerText || (el.tagName === 'INPUT' ? el.value : '') || el.getAttribute('aria-label') || el.title) || (el.tagName === 'BUTTON' ? anonKey(el) : '');
+  };
   var describe = function (el) {
+    var row = el.closest('tr, li');
     return {
       role: roleOf(el),
-      text: clean(el.innerText || el.value || el.getAttribute('aria-label')),
+      text: textOf(el),
+      row: row ? clean((row.innerText || '').split(/\n/)[0]).slice(0, 60) : undefined,
       label: clean(el.getAttribute('aria-label')),
       href: el.getAttribute('href') || undefined,
       inRow: !!el.closest('tr, li'),
@@ -29,7 +42,7 @@
       cls: (el.className && typeof el.className === 'string') ? el.className.slice(0, 60) : undefined
     };
   };
-  var SELECTOR = 'button, [role=button], a[href], input[type=submit], h1, h2, h3, [role=status], .status, .badge, .tag, strong';
+  var SELECTOR = 'button, [role=button], a[href], input[type=submit], input[type=checkbox], label, h1, h2, h3, [role=status], .status, .badge, .tag, strong';
   var queue = [];
   var timer = null;
   function snapshot() {

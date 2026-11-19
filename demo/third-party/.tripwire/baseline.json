@@ -1,0 +1,145 @@
+{
+  "run": "2026-11-18T13-18-18",
+  "commit": "4ff36be",
+  "tests": [
+    {
+      "test": "tests/add_todos_test.md",
+      "code": 0,
+      "durationMs": 28505,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\33caf545-9453-4c41-93ce-ee4bdc3ac4af.evidence",
+      "verdict": "pass",
+      "testsWithoutChecks": 0,
+      "session": "8f25ece5-e833-4e3a-9a94-c87f242755ce"
+    },
+    {
+      "test": "tests/clear_completed_test.md",
+      "code": 0,
+      "durationMs": 30074,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\ea9fa432-9b75-4874-bc1d-b4fcc1bac29b.evidence",
+      "verdict": "pass",
+      "testsWithoutChecks": 0,
+      "session": "f90d7eff-2ea7-4176-bb3d-79f72b98a678"
+    },
+    {
+      "test": "tests/complete_todo_test.md",
+      "code": 0,
+      "durationMs": 28912,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\4dfb4f74-684f-4a36-a820-1ecb507ef698.evidence",
+      "verdict": "pass",
+      "testsWithoutChecks": 0,
+      "session": "0ec6363a-3334-43f7-a7a7-87eba13b9c3d"
+    },
+    {
+      "test": "tests/delete_todo_test.md",
+      "code": 0,
+      "durationMs": 49615,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\8c7014ed-35d7-4a40-8af3-21da19c5d20c.evidence",
+      "verdict": "pass",
+      "testsWithoutChecks": 0,
+      "session": "ee670059-fbe7-43a2-9787-3fb939fcbb92"
+    },
+    {
+      "test": "tests/edit_todo_test.md",
+      "code": 0,
+      "durationMs": 51715,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\8794d233-321f-4ff1-9a66-f7b77d24535c.evidence",
+      "verdict": "pass",
+      "testsWithoutChecks": 0,
+      "session": "dbeb1a19-a4b3-435c-af3b-1d7d875eac4a"
+    },
+    {
+      "test": "tests/filters_test.md",
+      "code": 0,
+      "durationMs": 60292,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\4f165e41-60d0-45fe-85bb-5075d73f5688.evidence",
+      "verdict": "pass",
+      "testsWithoutChecks": 0,
+      "session": "bfb1a467-d5b8-4817-957a-e612f5123397"
+    }
+  ],
+  "routes": [
+    {
+      "test": "tests/add_todos_test.md",
+      "requests": 2,
+      "routes": [
+        "GET /",
+        "GET /learn.json"
+      ],
+      "pages": [
+        "/"
+      ],
+      "clicks": []
+    },
+    {
+      "test": "tests/clear_completed_test.md",
+      "requests": 2,
+      "routes": [
+        "GET /",
+        "GET /learn.json"
+      ],
+      "pages": [
+        "/"
+      ],
+      "clicks": [
+        "button:Clear completed"
+      ]
+    },
+    {
+      "test": "tests/complete_todo_test.md",
+      "requests": 2,
+      "routes": [
+        "GET /",
+        "GET /learn.json"
+      ],
+      "pages": [
+        "/"
+      ],
+      "clicks": []
+    },
+    {
+      "test": "tests/delete_todo_test.md",
+      "requests": 2,
+      "routes": [
+        "GET /",
+        "GET /learn.json"
+      ],
+      "pages": [
+        "/"
+      ],
+      "clicks": [
+        "button:"
+      ]
+    },
+    {
+      "test": "tests/edit_todo_test.md",
+      "requests": 2,
+      "routes": [
+        "GET /",
+        "GET /learn.json"
+      ],
+      "pages": [
+        "/"
+      ],
+      "clicks": []
+    },
+    {
+      "test": "tests/filters_test.md",
+      "requests": 2,
+      "routes": [
+        "GET /",
+        "GET /learn.json"
+      ],
+      "pages": [
+        "/",
+        "/#/active",
+        "/#/completed",
+        "/#/"
+      ],
+      "clicks": [
+        "link:Active",
+        "link:Completed",
+        "link:All"
+      ]
+    }
+  ]
+}

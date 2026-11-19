@@ -8,25 +8,18 @@
   "session_name": "cancel_order",
   "executions": [
     {
-      "execution_id": "b59476f3-4cea-4b37-8ab7-eacae7ef404f",
+      "execution_id": "80e17aa1-9dba-4030-9619-c2e04f15973a",
       "run_kind": "author",
       "status": "passed",
       "valid": true,
-      "at": "2026-11-18T05:12:50.306Z"
+      "at": "2026-11-18T13:20:03.415Z"
     },
     {
-      "execution_id": "5c6a7c58-81dc-4e3a-a3f8-5d6797732228",
-      "run_kind": "replay",
-      "status": "broken",
-      "valid": true,
-      "at": "2026-11-18T05:14:55.517Z"
-    },
-    {
-      "execution_id": "71a0eb85-43c7-4c3b-91a1-b104794f6f69",
+      "execution_id": "a6d7844a-0a99-4f6a-8eb8-9757f0dbce3d",
       "run_kind": "replay",
       "status": "passed",
       "valid": true,
-      "at": "2026-11-18T05:18:23.596Z"
+      "at": "2026-11-19T06:17:27.264Z"
     }
   ]
 }

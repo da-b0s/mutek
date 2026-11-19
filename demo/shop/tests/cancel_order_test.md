@@ -17,3 +17,7 @@ Verify the "#1002" row now shows status "Cancelled" and no longer has a "Cancel"
 
 ## Check only my orders are listed
 Verify the My orders table lists exactly 2 orders, "#1002" and "#1001", and no other order rows (for example, no "#91002").
+
+## Keep an order from the cancel dialog
+Add the "Canvas Tote Bag" to the cart from the Shop, go to checkout, fill in Full name "Ada Lovelace", Email "ada@example.com" and Delivery address "12 Analytical Row, London", click "Place order", click "View order", then click "Cancel order".
+Verify the cancel dialog offers a "Keep order" button next to "Yes, cancel order", click "Keep order", and verify the order still shows status "Placed".
