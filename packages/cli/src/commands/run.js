@@ -34,6 +34,12 @@ const HELP = `tripwire run [options]
   -q, --quiet           one line per mutant, no per-replay progress
   --dir <path>          state directory (default .tripwire)`;
 
+export const normalizePath = (p) => p.replace(/\\/g, '/').replace(/^\.\//, '');
+// Test files changed according to `git diff --name-only --relative` output.
+export function changedTests(diffOutput) {
+  return new Set(String(diffOutput || '').split(/\r?\n/).map((s) => normalizePath(s.trim())).filter((s) => s.endsWith('_test.md')));
+}
+
 const readJson = (f) => { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch { return null; } };
 const sh = (cmd) => { try { return execSync(cmd, { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim(); } catch { return null; } };
 const stamp = () => new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
@@ -179,16 +185,19 @@ export default async function run(argv, parseArgs) {
     let carried = [];
     let todo = picked;
     if (values.since) {
-      const changed = new Set((sh(`git diff --name-only ${values.since} --`) || '').split('\n').filter(Boolean));
+      // --relative: paths relative to this folder, the same form touches_tests uses
+      const diff = sh(`git diff --name-only --relative ${values.since} --`);
+      if (diff === null) throw new Error(`--since ${values.since}: git diff failed (not a git repository, or unknown commit)`);
+      const changed = changedTests(diff);
       const prev = new Map(latest(readLedger(dir)).map((r) => [r.id, r]));
       todo = [];
       for (const m of picked) {
         const p = prev.get(m.id);
-        const touchedChanged = m.touches_tests.some((t) => changed.has(t));
+        const touchedChanged = m.touches_tests.some((t) => changed.has(normalizePath(t)));
         if (p && p.status === 'killed' && !touchedChanged) carried.push({ ...p, run: runId, carried: true });
         else todo.push(m);
       }
-      console.log(`Incremental since ${values.since}: ${carried.length} earlier kills trusted, ${todo.length} to run`);
+      console.log(`Incremental since ${values.since}: ${changed.size} changed test(s); ${carried.length} earlier kills trusted, ${todo.length} to run`);
     }
 
     // ---------- 3. replay each mutant ----------
