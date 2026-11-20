@@ -57,6 +57,17 @@ jobs:
           else
             npx tripwire run --quiet --no-heal-check --max-mutants 20
           fi
+      - name: Score summary
+        if: always()
+        working-directory: demo/shop
+        run: |
+          {
+            echo "## Tripwire"
+            echo '```'
+            npx tripwire check --threshold 0 || true
+            echo '```'
+            node -e "const fs=require('fs');const f='.tripwire/ledger.jsonl';if(!fs.existsSync(f))process.exit();const rows=fs.readFileSync(f,'utf8').trim().split('\n').map(JSON.parse);const run=rows.at(-1).run;const by=new Map();for(const r of rows)if(r.run===run)by.set(r.id,r);const bad=[...by.values()].filter(r=>r.status!=='killed');if(bad.length){console.log('| Status | Mutant |');console.log('|---|---|');for(const r of bad)console.log('| '+r.status+(r.suspectedEquivalent?' (suspected equivalent)':'')+' | '+r.describe.replace(/\|/g,'/')+' |')}"
+          } >> "$GITHUB_STEP_SUMMARY"
       - name: Gate on the score
         working-directory: demo/shop
         run: npx tripwire check
