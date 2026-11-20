@@ -90,3 +90,16 @@ test('check fails below the threshold and passes above it', async () => {
   assert.equal(await check(['--threshold', '100'], parseArgs), 1);
   assert.equal(await check(['--threshold', '0'], parseArgs), 0);
 });
+
+test('the gate can set aside flagged suspected equivalents; the score still counts them', async () => {
+  const { gateScore } = await import('../src/commands/check.js');
+  const rows = [
+    { id: 'a', status: 'killed' }, { id: 'b', status: 'killed' }, { id: 'c', status: 'killed' },
+    { id: 'd', status: 'survived', suspectedEquivalent: 'no page changed' },
+    { id: 'e', status: 'survived' }
+  ];
+  assert.equal(gateScore(rows, false).score, 60);
+  const g = gateScore(rows, true);
+  assert.equal(g.score, 75, 'only the flagged survivor is set aside');
+  assert.equal(g.setAside, 1);
+});

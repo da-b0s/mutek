@@ -118,7 +118,8 @@ named mutants. Kane service hiccups before a run starts are waited out automatic
 Score = killed ÷ (killed + survived + masked). Kane errors and timeouts are retried and never
 counted. A survivor whose pages never showed anything different from the clean run is flagged as a
 *suspected equivalent*; it is excluded only when a person adds it to `.tripwire/equivalents.json`
-with a reason, and every exclusion is listed in the report.
+with a reason, and every exclusion is listed in the report. A gate can set flagged ones aside
+without changing the score: `tripwire check --allow-suspected-equivalents` (this repo's CI does).
 
 ## The operators
 
