@@ -101,6 +101,14 @@ export const isTransient = (r) => r.code === 2 && !r.events.some((e) => e.type =
 
 const pause = (ms) => new Promise((res) => setTimeout(res, ms));
 
+// kane-cli's --timeout is per step, so the safety timer around a whole test allows every step its
+// timeout, plus time for Kane to triage a failure and seal the evidence pack (issue #207 guard).
+export function killAfterFor(file, timeout, cwd = process.cwd()) {
+  let steps = 1;
+  try { steps = Math.max(1, (fs.readFileSync(path.resolve(cwd, file), 'utf8').match(/^## /gm) || []).length); } catch { /* unreadable: one step */ }
+  return (timeout * steps + 180) * 1000;
+}
+
 // One test against whatever the proxy currently serves. Transient pre-run failures are retried
 // with backoff (15 s, 45 s, 90 s) since they cost nothing and usually clear on their own.
 export async function runTest(file, { heal = false, timeout = 180, cwd, logFile, extra = [], backoff = [15000, 45000, 90000], onRetry } = {}) {
@@ -111,7 +119,7 @@ export async function runTest(file, { heal = false, timeout = 180, cwd, logFile,
   let started;
   for (let i = 0; ; i++) {
     started = Date.now();
-    r = await runKane(args, { cwd, killAfterMs: (timeout + 60) * 1000, logFile });
+    r = await runKane(args, { cwd, killAfterMs: killAfterFor(file, timeout, cwd), logFile });
     if (!isTransient(r) || i >= backoff.length) break;
     onRetry?.(i + 1, (r.stderr || r.stdout).trim().split('\n').pop());
     await pause(backoff[i]);

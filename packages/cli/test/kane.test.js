@@ -51,3 +51,11 @@ test('summarizeEvents reads the failing step and Kane triage', () => {
   assert.equal(s.healEvents, 1);
   assert.equal(s.sessionId, 's1');
 });
+
+test('the whole-test safety timer allows every step its timeout', async () => {
+  const { killAfterFor } = await import('../src/kane.js');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tw-timer-'));
+  fs.writeFileSync(path.join(dir, 'x_test.md'), '## A\na\n## B\nb\n## C\nc\n');
+  assert.equal(killAfterFor('x_test.md', 180, dir), (180 * 3 + 180) * 1000);
+  assert.equal(killAfterFor('missing_test.md', 180, dir), (180 + 180) * 1000);
+});
