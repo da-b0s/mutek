@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { createProxy, proxyClient, PROXY_CODE } from '../proxy.js';
 import { loadConfig, findTests } from '../config.js';
 import { runTest, verdict, metricFromVerdict, balance } from '../kane.js';
-import { profileEntry, summarize } from '../profile.js';
+import { profileEntry, summarize, lineCounts } from '../profile.js';
 import { generateAll, select } from '../../operators/index.js';
 import { appendLedger, readLedger, latest, lastRunId, score } from '../ledger.js';
 import { writeReport } from '../report.js';
@@ -269,19 +269,31 @@ const hiccup = (n, msg) => console.log(`    kane service hiccup (${msg}); waitin
 const label = (s) => ({ killed: 'killed     ', survived: 'SURVIVED   ', masked: 'MASKED     ', 'not-reached': 'not reached', error: 'error      ' }[s] || s);
 
 // Lines of text the pages of one test showed in the clean baseline.
+// line -> the most times the clean run showed it in one page snapshot. `counted` is false for
+// baselines recorded before per-snapshot counts existed (then only new lines can be detected).
 export function baselineLines(profile, test) {
   const t = profile?.tests?.find((x) => x.test === test);
-  return new Set((t?.pages || []).flatMap((p) => (p.text || '').split(/\n/)).map((l) => l.replace(/\s+/g, ' ').trim()).filter(Boolean));
+  const max = new Map();
+  let counted = true;
+  for (const p of t?.pages || []) {
+    if (!p.maxCounts) counted = false;
+    const counts = p.maxCounts ? Object.entries(p.maxCounts) : [...lineCounts(p.text)].map(([l]) => [l, Infinity]);
+    for (const [l, n] of counts) if (!(max.get(l) >= n)) max.set(l, n);
+  }
+  max.counted = counted;
+  return max;
 }
 
-// Did any page of this mutant run show a line the clean run never showed?
+// Did any page of this mutant run show a line the clean run never showed, or show a line more
+// often than any clean snapshot did (a duplicated row)?
 export function showedSomethingNew(dom, lines) {
-  for (const ev of dom) if (ev.kind === 'page') for (const l of (ev.text || '').split(/\n/)) {
-    const x = l.replace(/\s+/g, ' ').trim();
-    if (x && !lines.has(x)) return true;
+  for (const ev of dom) if (ev.kind === 'page') for (const [l, n] of lineCounts(ev.text)) {
+    if (!lines.has(l) || n > lines.get(l)) return true;
   }
   return false;
 }
+
+const DUPLICATING = new Set(['item-dup', 'rendered-item-dup', 'double-apply']);
 
 // Arm one mutant, replay the tests that touch it (healing off) until one fails.
 export async function runMutant(m, { tw, cfg, base, runDir, healAllowed, progress = () => {}, profile }) {
@@ -328,7 +340,9 @@ export async function runMutant(m, { tw, cfg, base, runDir, healAllowed, progres
   // A survivor that fired but never changed a single line on any page is probably equivalent
   // (for example a write response the page ignores because it re-reads the data). Flag it for a
   // human; it still counts until someone adds it to equivalents.json with a reason.
-  if (row.status === 'survived' && row.runs.length && row.runs.every((x) => x.visibleChange === false)) {
+  // Without per-snapshot counts a duplicate cannot be seen, so duplicating mutants are not flagged.
+  const canTell = !DUPLICATING.has(m.operator) || profile?.tests?.every((t) => t.pages.every((p) => p.maxCounts));
+  if (row.status === 'survived' && canTell && row.runs.length && row.runs.every((x) => x.visibleChange === false)) {
     row.suspectedEquivalent = 'The mutant fired, but no page showed anything the clean run did not show.';
   }
   // Heal check: would Kane's default healing have re-authored its way past this bug?

@@ -24,27 +24,27 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 .note{color:var(--muted);font-size:.9rem;max-width:70ch}
 </style></head><body><main>
 <section class="top">
-  <div><h1>Tripwire</h1><p class="sub">Would the tests fail if the app were broken? Run 2026-11-19T06-42-01 · commit 53759a4</p>
-  <div class="score" aria-label="mutation score">76.6%</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p>
+  <div><h1>Tripwire</h1><p class="sub">Would the tests fail if the app were broken? Run 2026-11-19T06-42-01 · commit 68a1334</p>
+  <div class="score" aria-label="mutation score">80.4%</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p>
   </div>
   <div class="counts">
-    <div class="count killed"><b>36</b>killed</div>
-    <div class="count survived"><b>11</b>survived</div>
+    <div class="count killed"><b>37</b>killed</div>
+    <div class="count survived"><b>9</b>survived</div>
     <div class="count masked"><b>0</b>masked by heal</div>
     <div class="count nr"><b>3</b>not reached</div>
   </div>
 </section>
 
-<h2>Score over time</h2><div class="history"><div><b>91.9%</b><br><span class="sub">first run</span></div><div><b>76.6%</b><br><span class="sub">11-19 06-42</span></div></div>
+<h2>Score over time</h2><div class="history"><div><b>91.9%</b><br><span class="sub">first run</span></div><div><b>80.4%</b><br><span class="sub">11-19 06-42</span></div></div>
 
-<h2>Bugs the suite walked past (11)</h2>
+<h2>Bugs the suite walked past (9)</h2>
 <div class="grid">
     <article class="mutant survived">
       <header><span class="pill survived">survived</span><span class="op">saboteur · agent-proposed</span></header>
       <h3>The SAVE10 coupon takes 20% off instead of 10%</h3>
       <p class="expect">A good test would: after applying SAVE10 to a $34.50 cart, the Discount reads −$3.45 and the Total reads $36.04.</p>
       <p class="meta">Tests that walked past it: <code>tests/coupon_test.md</code></p>
-      
+      <p class="warn">Suspected equivalent: The mutant fired, but no page showed anything the clean run did not show. If a person agrees, add it to <code>.tripwire/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>
       
       
       
@@ -56,7 +56,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <h3>Raising the quantity to 2 leaves the line total and subtotal at the single-item price</h3>
       <p class="expect">A good test would: with quantity 2 of a $22.00 item, the line total and Subtotal read $44.00.</p>
       <p class="meta">Tests that walked past it: <code>tests/cart_test.md</code></p>
-      
+      <p class="warn">Suspected equivalent: The mutant fired, but no page showed anything the clean run did not show. If a person agrees, add it to <code>.tripwire/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>
       
       
       
@@ -68,7 +68,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <h3>Shipping is free on a $31.05 order even though free shipping starts at $50</h3>
       <p class="expect">A good test would: with a discounted subtotal under $50, Shipping reads $4.99 and the Total includes it ($36.04).</p>
       <p class="meta">Tests that walked past it: <code>tests/coupon_test.md</code></p>
-      
+      <p class="warn">Suspected equivalent: The mutant fired, but no page showed anything the clean run did not show. If a person agrees, add it to <code>.tripwire/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>
       
       
       
@@ -84,20 +84,8 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       
-      <figure><img src="shots/agent-proposed_confirmation-total-drops-shipping.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/cancel_order_test.md. The test still passed.</figcaption></figure>
+      <figure><img src="shots/agent-proposed_confirmation-total-drops-shipping.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/checkout_test.md. The test still passed.</figcaption></figure>
       <details><summary>Mutant id</summary><code>agent-proposed:confirmation-total-drops-shipping</code></details>
-    </article>
-    <article class="mutant survived">
-      <header><span class="pill survived">survived</span><span class="op">behaviour · silent-fail</span></header>
-      <h3>POST /api/orders/1002/cancel fails with a 500 and nothing is saved</h3>
-      <p class="expect">A good test would: the test checks the result of the action, not only that it clicked.</p>
-      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code></p>
-      
-      
-      
-      
-      
-      <details><summary>Mutant id</summary><code>silent-fail:POST /api/orders/1002/cancel</code></details>
     </article>
     <article class="mutant survived">
       <header><span class="pill survived">survived</span><span class="op">data · stale-read</span></header>
@@ -108,20 +96,8 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       
-      <figure><img src="shots/stale-read_GET_api_products.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/cancel_order_test.md. The test still passed.</figcaption></figure>
+      
       <details><summary>Mutant id</summary><code>stale-read:GET /api/products</code></details>
-    </article>
-    <article class="mutant survived">
-      <header><span class="pill survived">survived</span><span class="op">data · rendered-number-drift</span></header>
-      <h3>The number in &quot;Order #1002 cancelled&quot; is off by one</h3>
-      <p class="expect">A good test would: the test checks the exact number shown, not just that the element is there.</p>
-      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code></p>
-      
-      
-      
-      
-      <figure><img src="shots/rendered-number-drift_Order_1002_cancelled_.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/cancel_order_test.md. The test still passed.</figcaption></figure>
-      <details><summary>Mutant id</summary><code>rendered-number-drift:&quot;Order #1002 cancelled&quot;</code></details>
     </article>
     <article class="mutant survived">
       <header><span class="pill survived">survived</span><span class="op">behaviour · double-apply</span></header>
@@ -178,16 +154,16 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 
 <h2>Per test</h2>
 <table><thead><tr><th>Test</th><th>Mutants touched</th><th>Killed</th><th>Walked past</th><th>Score</th><th>Assertions</th></tr></thead><tbody>
-<tr><td><code>tests/coupon_test.md</code></td><td>21</td><td>2</td><td>5</td><td><div class="bar" title="29%"><i style="width:29%"></i></div>29%</td><td>yes</td></tr><tr><td><code>tests/cart_test.md</code></td><td>22</td><td>4</td><td>2</td><td><div class="bar" title="67%"><i style="width:67%"></i></div>67%</td><td>yes</td></tr><tr><td><code>tests/cancel_order_test.md</code></td><td>38</td><td>21</td><td>4</td><td><div class="bar" title="84%"><i style="width:84%"></i></div>84%</td><td>yes</td></tr><tr><td><code>tests/checkout_test.md</code></td><td>19</td><td>1</td><td>2</td><td><div class="bar" title="33%"><i style="width:33%"></i></div>33%</td><td>yes</td></tr><tr><td><code>tests/order_history_test.md</code></td><td>31</td><td>1</td><td>3</td><td><div class="bar" title="25%"><i style="width:25%"></i></div>25%</td><td>yes</td></tr><tr><td><code>tests/browse_test.md</code></td><td>15</td><td>7</td><td>1</td><td><div class="bar" title="88%"><i style="width:88%"></i></div>88%</td><td>yes</td></tr>
+<tr><td><code>tests/cancel_order_test.md</code></td><td>38</td><td>22</td><td>2</td><td><div class="bar" title="92%"><i style="width:92%"></i></div>92%</td><td>yes</td></tr><tr><td><code>tests/cart_test.md</code></td><td>22</td><td>4</td><td>2</td><td><div class="bar" title="67%"><i style="width:67%"></i></div>67%</td><td>yes</td></tr><tr><td><code>tests/checkout_test.md</code></td><td>19</td><td>1</td><td>2</td><td><div class="bar" title="33%"><i style="width:33%"></i></div>33%</td><td>yes</td></tr><tr><td><code>tests/coupon_test.md</code></td><td>21</td><td>2</td><td>5</td><td><div class="bar" title="29%"><i style="width:29%"></i></div>29%</td><td>yes</td></tr><tr><td><code>tests/order_history_test.md</code></td><td>31</td><td>1</td><td>3</td><td><div class="bar" title="25%"><i style="width:25%"></i></div>25%</td><td>yes</td></tr><tr><td><code>tests/browse_test.md</code></td><td>15</td><td>7</td><td>1</td><td><div class="bar" title="88%"><i style="width:88%"></i></div>88%</td><td>yes</td></tr>
 </tbody></table>
 
 
 
 <h2>How Kane's triage read the planted bugs</h2>
-<p class="note">Every mutant below was a real break in the app. Kane triaged 36 of the failing runs; it attributed <strong>35</strong> of them to the test rather than the product (typically "locator rot": the page changed, so the recording looks stale). From inside a single run a broken app and an outdated test look alike; Tripwire is the outside reference that tells them apart. Treat a triage of "automation bug" on a release branch as a prompt to look, not as a reason to re-record.</p>
+<p class="note">Every mutant below was a real break in the app. Kane triaged 37 of the failing runs; it attributed <strong>35</strong> of them to the test rather than the product (typically "locator rot": the page changed, so the recording looks stale). From inside a single run a broken app and an outdated test look alike; Tripwire is the outside reference that tells them apart. Treat a triage of "automation bug" on a release branch as a prompt to look, not as a reason to re-record.</p>
 
-<h2>Caught (36)</h2>
-<details><summary>Show all 36 killed mutants</summary><div class="grid">
+<h2>Caught (37)</h2>
+<details><summary>Show all 37 killed mutants</summary><div class="grid">
     <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">saboteur · agent-proposed</span></header>
       <h3>Adding one item makes the cart badge show 2</h3>
@@ -619,13 +595,25 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       <details><summary>Mutant id</summary><code>item-drop:GET /api/orders/1001:$.items[0]</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">behaviour · silent-fail</span></header>
+      <h3>POST /api/orders/1002/cancel fails with a 500 and nothing is saved</h3>
+      <p class="expect">A good test would: the test checks the result of the action, not only that it clicked.</p>
+      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / api error (99%). It identified a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>silent-fail:POST /api/orders/1002/cancel</code></details>
     </article></div></details>
 
 <h2>Not reached (3)</h2>
 <p class="note">The mutant never fired during any test, so it says nothing about the assertions. It usually means no test exercises that path (for example, no test ever submits invalid input). Not counted in the score.</p>
 <details><summary>Show</summary><ul><li>Confirming a cancellation leaves the order showing status Placed</li><li>Invalid input to POST /api/orders/1002/cancel is treated as a success</li><li>Invalid input to PUT /api/cart/items/p3 is treated as a success</li></ul></details>
 
-
+<h2>Errors (1)</h2><p class="note">Kane exited 2 (error) or 3 (timeout) twice. Never counted as kills.</p><ul><li>The number in &quot;Order #1002 cancelled&quot; is off by one</li></ul>
 
 <h2>Excluded as equivalent (0)</h2>
 <p class="note">None. Mutants are excluded only with a human-approved reason in <code>.tripwire/equivalents.json</code>.</p>
@@ -643,7 +631,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 </div>
 
 <h2>Cost</h2>
-<p>50 mutants · 96.27 minutes of Kane runs (116s per mutant). Replays run from Kane's cache with healing off.</p>
+<p>50 mutants · 106.32 minutes of Kane runs (128s per mutant). Replays run from Kane's cache with healing off.</p>
 
 <h2>What this does not measure</h2>
 <p class="note">Tripwire mutates traffic and the rendered page, not source code. It tells you whether the suite notices breakage a user would see. It does not replace unit-level mutation testing, and it cannot see server-side effects that never reach the browser.</p>

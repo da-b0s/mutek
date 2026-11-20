@@ -1,10 +1,10 @@
 {
   "run": "2026-11-19T06-42-01",
-  "killed": 36,
-  "survived": 11,
+  "killed": 37,
+  "survived": 9,
   "masked": 0,
   "not-reached": 3,
-  "error": 0,
+  "error": 1,
   "total": 50,
-  "score": 76.6
+  "score": 80.4
 }

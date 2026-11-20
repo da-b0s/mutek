@@ -1,13 +1,25 @@
+export const normLine = (l) => l.replace(/\s+/g, ' ').trim();
+
+// line -> how many times it appears in one page snapshot
+export function lineCounts(text) {
+  const m = new Map();
+  for (const l of String(text || '').split(/\n/)) { const x = normLine(l); if (x) m.set(x, (m.get(x) || 0) + 1); }
+  return m;
+}
+
 // Turns what the proxy recorded during one baseline test run into that test's profile entry.
 export function profileEntry(test, traffic, dom) {
   const pagesByUrl = new Map();
   const clicks = [];
   for (const ev of dom) {
     if (ev.kind === 'page') {
+      // the most times each line appeared in any single snapshot (merged text would inflate counts)
+      const counts = lineCounts(ev.text);
       // keep the richest snapshot per URL (the page after it finished rendering), but merge controls
       const prev = pagesByUrl.get(ev.url);
-      if (!prev) pagesByUrl.set(ev.url, { url: ev.url, controls: ev.controls || [], text: ev.text || '' });
+      if (!prev) pagesByUrl.set(ev.url, { url: ev.url, controls: ev.controls || [], text: ev.text || '', maxCounts: Object.fromEntries(counts) });
       else {
+        for (const [l, n] of counts) if (!(prev.maxCounts[l] >= n)) prev.maxCounts[l] = n;
         const seen = new Set(prev.controls.map((c) => `${c.role}|${c.text}|${c.count}`));
         for (const c of ev.controls || []) if (!seen.has(`${c.role}|${c.text}|${c.count}`)) prev.controls.push(c);
         if ((ev.text || '').length) prev.text = prev.text.includes(ev.text) ? prev.text : `${prev.text}\n${ev.text}`.slice(-60000);
