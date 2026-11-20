@@ -1,60 +1,60 @@
 {
-  "run": "2026-11-19T06-29-26",
-  "commit": "d097a88",
+  "run": "2026-11-19T23-23-39",
+  "commit": "68a1334",
   "tests": [
     {
       "test": "tests/add_todos_test.md",
       "code": 0,
-      "durationMs": 35553,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\dc934251-183e-4606-a649-320568b35745.evidence",
+      "durationMs": 53567,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\b570e719-699e-424b-a66e-151730d5c5fd.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
-      "session": "e1a0c4d1-b1c5-4599-b915-7e99494f8c48"
+      "session": "adf02ab7-432c-4f1f-8e1e-39652003dc4d"
     },
     {
       "test": "tests/clear_completed_test.md",
       "code": 0,
-      "durationMs": 34478,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\458b281d-af8c-483a-8585-31906d385ac0.evidence",
+      "durationMs": 30915,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\f9dfa280-33e3-4306-af2b-d44d8ed5aebc.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
-      "session": "b7d11769-fed4-41ba-8625-e03731bcd2c6"
+      "session": "5071e4a2-0b61-4e55-be61-153924b65ef6"
     },
     {
       "test": "tests/complete_todo_test.md",
       "code": 0,
-      "durationMs": 28851,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\d49b1942-f189-425c-ace8-95290400c248.evidence",
+      "durationMs": 27934,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\a3f59862-5699-427a-ba37-59776eef89ee.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
-      "session": "ad983bb5-3a33-4693-9150-fb6f80f29804"
+      "session": "2297c928-4bc1-4f1e-9922-4af82088ad69"
     },
     {
       "test": "tests/delete_todo_test.md",
       "code": 0,
-      "durationMs": 55160,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\df8ec21c-9517-424c-ac5b-547103012cf4.evidence",
+      "durationMs": 49091,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\17d1b1c8-841d-4f29-8456-703db1031c4f.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
-      "session": "d1f1c031-ee44-43b1-890d-d5dc7e5b1daf"
+      "session": "30f07042-39fc-426a-920e-249c05b70d23"
     },
     {
       "test": "tests/edit_todo_test.md",
       "code": 0,
-      "durationMs": 59473,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\157535fb-b55c-40fd-b299-26bb71695863.evidence",
+      "durationMs": 57561,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\8c2affa7-71b8-4367-8db4-551eb1a14c9f.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
-      "session": "4cefa365-561a-46ca-a6a4-8e7d3ec801b0"
+      "session": "7272d898-a80a-481d-a85b-753b747f9b75"
     },
     {
       "test": "tests/filters_test.md",
       "code": 0,
-      "durationMs": 54797,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\9e03bf8d-639c-4727-9514-4a59c55c2f28.evidence",
+      "durationMs": 67094,
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\651a5936-67b1-4a85-9b31-81bd79e850be.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
-      "session": "a6554094-ae4f-46eb-aefb-da6566924e63"
+      "session": "06d23f7b-2008-4e84-925a-4ce8f906e7cd"
     }
   ],
   "routes": [

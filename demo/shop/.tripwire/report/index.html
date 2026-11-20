@@ -24,20 +24,20 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 .note{color:var(--muted);font-size:.9rem;max-width:70ch}
 </style></head><body><main>
 <section class="top">
-  <div><h1>Tripwire</h1><p class="sub">Would the tests fail if the app were broken? Run 2026-11-19T06-42-01 · commit 68a1334</p>
-  <div class="score" aria-label="mutation score">80.4%</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p>
+  <div><h1>Tripwire</h1><p class="sub">Would the tests fail if the app were broken? Run 2026-11-19T06-42-01 · commit 241681f</p>
+  <div class="score" aria-label="mutation score">78.7%</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p>
   </div>
   <div class="counts">
     <div class="count killed"><b>37</b>killed</div>
-    <div class="count survived"><b>9</b>survived</div>
+    <div class="count survived"><b>10</b>survived</div>
     <div class="count masked"><b>0</b>masked by heal</div>
     <div class="count nr"><b>3</b>not reached</div>
   </div>
 </section>
 
-<h2>Score over time</h2><div class="history"><div><b>91.9%</b><br><span class="sub">first run</span></div><div><b>80.4%</b><br><span class="sub">11-19 06-42</span></div></div>
+<h2>Score over time</h2><div class="history"><div><b>91.9%</b><br><span class="sub">first run</span></div><div><b>78.7%</b><br><span class="sub">11-19 06-42</span></div></div>
 
-<h2>Bugs the suite walked past (9)</h2>
+<h2>Bugs the suite walked past (10)</h2>
 <div class="grid">
     <article class="mutant survived">
       <header><span class="pill survived">survived</span><span class="op">saboteur · agent-proposed</span></header>
@@ -104,7 +104,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <h3>POST /api/cart/coupon is applied twice</h3>
       <p class="expect">A good test would: the test checks the exact quantity or number of records afterwards.</p>
       <p class="meta">Tests that walked past it: <code>tests/coupon_test.md</code></p>
-      <p class="warn">Suspected equivalent: The mutant fired, but no page showed anything the clean run did not show. If a person agrees, add it to <code>.tripwire/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>
+      
       
       
       
@@ -140,12 +140,24 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <h3>&quot;Notebook, Dot Grid&quot; appears twice in the items (1 → 2 items)</h3>
       <p class="expect">A good test would: the list length or uniqueness is checked.</p>
       <p class="meta">Tests that walked past it: <code>tests/order_history_test.md</code></p>
-      <p class="warn">Suspected equivalent: The mutant fired, but no page showed anything the clean run did not show. If a person agrees, add it to <code>.tripwire/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>
+      
       
       
       
       <figure><img src="shots/item-dup_GET_api_orders_1001_.items_0_.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/order_history_test.md. The test still passed.</figcaption></figure>
       <details><summary>Mutant id</summary><code>item-dup:GET /api/orders/1001:$.items[0]</code></details>
+    </article>
+    <article class="mutant survived">
+      <header><span class="pill survived">survived</span><span class="op">data · rendered-number-drift</span></header>
+      <h3>The number in &quot;Order #1002 cancelled&quot; is off by one</h3>
+      <p class="expect">A good test would: the test checks the exact number shown, not just that the element is there.</p>
+      <p class="meta">Tests that walked past it: <code>tests/cancel_order_test.md</code></p>
+      
+      
+      
+      
+      <figure><img src="shots/rendered-number-drift_Order_1002_cancelled_.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/cancel_order_test.md. The test still passed.</figcaption></figure>
+      <details><summary>Mutant id</summary><code>rendered-number-drift:&quot;Order #1002 cancelled&quot;</code></details>
     </article></div>
 
 <h2>Masked by healing (0)</h2>
@@ -154,7 +166,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 
 <h2>Per test</h2>
 <table><thead><tr><th>Test</th><th>Mutants touched</th><th>Killed</th><th>Walked past</th><th>Score</th><th>Assertions</th></tr></thead><tbody>
-<tr><td><code>tests/cancel_order_test.md</code></td><td>38</td><td>22</td><td>2</td><td><div class="bar" title="92%"><i style="width:92%"></i></div>92%</td><td>yes</td></tr><tr><td><code>tests/cart_test.md</code></td><td>22</td><td>4</td><td>2</td><td><div class="bar" title="67%"><i style="width:67%"></i></div>67%</td><td>yes</td></tr><tr><td><code>tests/checkout_test.md</code></td><td>19</td><td>1</td><td>2</td><td><div class="bar" title="33%"><i style="width:33%"></i></div>33%</td><td>yes</td></tr><tr><td><code>tests/coupon_test.md</code></td><td>21</td><td>2</td><td>5</td><td><div class="bar" title="29%"><i style="width:29%"></i></div>29%</td><td>yes</td></tr><tr><td><code>tests/order_history_test.md</code></td><td>31</td><td>1</td><td>3</td><td><div class="bar" title="25%"><i style="width:25%"></i></div>25%</td><td>yes</td></tr><tr><td><code>tests/browse_test.md</code></td><td>15</td><td>7</td><td>1</td><td><div class="bar" title="88%"><i style="width:88%"></i></div>88%</td><td>yes</td></tr>
+<tr><td><code>tests/cancel_order_test.md</code></td><td>38</td><td>22</td><td>3</td><td><div class="bar" title="88%"><i style="width:88%"></i></div>88%</td><td>yes</td></tr><tr><td><code>tests/cart_test.md</code></td><td>22</td><td>4</td><td>2</td><td><div class="bar" title="67%"><i style="width:67%"></i></div>67%</td><td>yes</td></tr><tr><td><code>tests/checkout_test.md</code></td><td>19</td><td>1</td><td>2</td><td><div class="bar" title="33%"><i style="width:33%"></i></div>33%</td><td>yes</td></tr><tr><td><code>tests/coupon_test.md</code></td><td>21</td><td>2</td><td>5</td><td><div class="bar" title="29%"><i style="width:29%"></i></div>29%</td><td>yes</td></tr><tr><td><code>tests/order_history_test.md</code></td><td>31</td><td>1</td><td>3</td><td><div class="bar" title="25%"><i style="width:25%"></i></div>25%</td><td>yes</td></tr><tr><td><code>tests/browse_test.md</code></td><td>15</td><td>7</td><td>1</td><td><div class="bar" title="88%"><i style="width:88%"></i></div>88%</td><td>yes</td></tr>
 </tbody></table>
 
 
@@ -613,7 +625,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 <p class="note">The mutant never fired during any test, so it says nothing about the assertions. It usually means no test exercises that path (for example, no test ever submits invalid input). Not counted in the score.</p>
 <details><summary>Show</summary><ul><li>Confirming a cancellation leaves the order showing status Placed</li><li>Invalid input to POST /api/orders/1002/cancel is treated as a success</li><li>Invalid input to PUT /api/cart/items/p3 is treated as a success</li></ul></details>
 
-<h2>Errors (1)</h2><p class="note">Kane exited 2 (error) or 3 (timeout) twice. Never counted as kills.</p><ul><li>The number in &quot;Order #1002 cancelled&quot; is off by one</li></ul>
+
 
 <h2>Excluded as equivalent (0)</h2>
 <p class="note">None. Mutants are excluded only with a human-approved reason in <code>.tripwire/equivalents.json</code>.</p>
@@ -631,7 +643,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 </div>
 
 <h2>Cost</h2>
-<p>50 mutants · 106.32 minutes of Kane runs (128s per mutant). Replays run from Kane's cache with healing off.</p>
+<p>50 mutants · 107.7 minutes of Kane runs (129s per mutant). Replays run from Kane's cache with healing off.</p>
 
 <h2>What this does not measure</h2>
 <p class="note">Tripwire mutates traffic and the rendered page, not source code. It tells you whether the suite notices breakage a user would see. It does not replace unit-level mutation testing, and it cannot see server-side effects that never reach the browser.</p>
