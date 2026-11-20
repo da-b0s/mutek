@@ -1,6 +1,7 @@
 # Assertion patterns that caught real bugs in this repo
 
-- The test checks which rows are listed, or how many (caught: rendered-item-drop; I added a final step that tells Kane not to add, edit or re-enter any todo, then checks that the list shows exactly 3 visible rows and that the first one reads )
-- The test checks which rows are listed, or how many (caught: rendered-item-drop; I appended a step that checks, without typing anything or changing any todo, that the second visible row, directly below "Buy milk" and directly above "Read a b)
-- The test checks how many rows are listed (caught: rendered-item-dup; The screenshot shows why the earlier "exactly 3 rows" checks didn't catch this: the extra "Read a book" row is fourth, and the footer still says "3 items left",)
-- The test checks how many rows are listed (caught: rendered-item-dup; I added a final step, "Check the list holds exactly one todo": without typing anything or changing any todo, it checks that the list shows exactly 1 visible row)
+- The "Buy milk" row is missing from the list (rendered-item-drop). Proven step: "Without adding, editing or re-entering any todo, verify the todo list currently displays exactly 3 visible rows and that the first visible row's text is exactly "Buy milk"."
+- The "Walk the dog" row is missing from the list (rendered-item-drop). Proven step: "Without typing anything or changing any todo, verify the second visible row of the todo list, directly below "Buy milk" and directly above "Read a book", reads exactly "Walk the dog"."
+- The "Read a book" row appears twice in the list (rendered-item-dup). Proven step: "Without typing anything or changing any todo, verify that exactly one row in the todo list reads "Read a book", that it is the last row of the list, and that the footer with "3 items left" sits directly below it with no "
+- The "Buy oat milk" row appears twice in the list (rendered-item-dup). Proven step: "Without typing anything or adding, editing or re-entering any todo, verify the todo list shows exactly 1 visible row, that this row reads "Buy oat milk", and that there is no other row below it above the footer."
+- The heading "todos" reads "Something went wrong" (text-change). Proven step: "Without typing anything or changing any todo, verify the main page heading above the "What needs to be done?" input reads exactly "todos"."

@@ -1,0 +1,50 @@
+You are strengthening an end-to-end Kane CLI test (a *_test.md file). Do not change any application code.
+
+This bug was live in the app and the test below still PASSED:
+  The "Remove coupon" button is missing
+What changed: On the page: {"op":"hide","target":{"role":"button","text":"Remove coupon"}}
+
+A good test would: the test checks that the "Remove coupon" button is offered.
+Screenshot of the broken page at the end of the test: C:\Users\DELL\Documents\Code\tripwire\demo\shop\.tripwire\fix\hide-control_button_Remove_coupon_.jpg
+
+Test file: tests/coupon_test.md
+----- current contents -----
+---
+url: http://localhost:8080
+mode: testing
+max_steps: 30
+tags: [shop, coupon]
+---
+
+# Coupon: apply SAVE10 in the cart
+
+## Put an item in the cart
+On the Shop page, click the "Add to cart" button on the "Ceramic Pour-Over Set" card, then click the "Cart" link in the top navigation.
+Verify the cart shows "Ceramic Pour-Over Set" with quantity 1, the Subtotal reads "$34.50" and there is no Discount line.
+
+## Apply the SAVE10 coupon
+Type "SAVE10" into the "Coupon code" field and click "Apply coupon".
+Verify the Coupon panel reads "Applied: SAVE10 (10% off your order)", the Discount line shows "−$3.45", the Subtotal still reads "$34.50", Shipping reads "$4.99" and the Total reads "$36.04".
+
+----- end -----
+
+Edit tests/coupon_test.md by APPENDING exactly one new step at the very end of the file:
+  ## <short heading>
+  <one or two plain-English sentences: navigate if needed, then "Verify ..." with the exact expected value>
+
+Rules:
+- Only append. Do not modify, reorder, weaken or delete any existing line (Kane re-records every step after an edit, so editing earlier steps is expensive and is rejected).
+- The new step must PASS on the real app and FAIL on the broken app described above.
+- Use exact expected values a user would see (amounts with currency symbol, item names, counts, status words).
+- Do not mention bugs, mutants or Tripwire in the test, and never name the broken value
+  (the wrong number, the extra record): assert the correct state, so the check stays general.
+
+Assertion patterns that worked before in this repo:
+- The displayed price is checked against the expected value (caught: number-drift; I appended one step that goes back to the shop list and checks that the "Canvas Tote Bag" card shows "$18.00". The broken app would show "$19.80" there. I haven)
+- The test checks exactly which records are listed (caught: wrong-owner; I added a final step to `tests/cancel_order_test.md` that checks the My orders table shows exactly 2 orders, "#1002" and "#1001", with no other rows such as "#9)
+- The test checks that "Keep order" is offered (caught: hide-control; `npx tripwire check` exiting 0 confirms it's done. If a `tripwire fix` run is still waiting on my earlier reply, let it finish first.)
+- The test checks the outcome of the button it pressed (caught: label-swap; I added a step checking the "Wool Beanie" row shows "−" left of the quantity and "+" to its right.)
+- The list length or a named item is checked (caught: item-drop; Alternatively, allow `npx tripwire` in the project's permissions and start me again.)
+- The list length or a named item is checked (caught: item-drop; I added a final step to `tests/checkout_test.md` that clicks "View order" and checks that the "Order #1003" page lists exactly one item row: "Canvas Tote Bag", )
+
+Reply with one line describing the assertion you added.

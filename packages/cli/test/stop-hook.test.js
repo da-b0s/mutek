@@ -50,3 +50,11 @@ test('blocks below the threshold, allows above it', () => {
   fs.writeFileSync(path.join(d, '.tripwire/ledger.jsonl'), [ledgerRow('killed'), ledgerRow('killed'), ledgerRow('killed'), ledgerRow('killed'), ledgerRow('survived')].join('\n') + '\n');
   assert.equal(runHook(d), null);
 });
+
+test('agents launched by tripwire itself are never blocked', () => {
+  const d = repo();
+  fs.mkdirSync(path.join(d, '.tripwire'));
+  fs.writeFileSync(path.join(d, '.tripwire/ledger.jsonl'), ledgerRow('survived') + '\n');
+  const r = spawnSync(process.execPath, [hook], { input: JSON.stringify({ cwd: d }), env: { ...process.env, TRIPWIRE_AGENT: '1', TRIPWIRE_BIN: `"${process.execPath}" "${cli}"` }, cwd: d });
+  assert.equal(r.stdout.toString(), '');
+});

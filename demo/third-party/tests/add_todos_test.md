@@ -24,3 +24,6 @@ Without typing anything or changing any todo, verify the second visible row of t
 
 ## Verify Read a book is listed once and is the last row
 Without typing anything or changing any todo, verify that exactly one row in the todo list reads "Read a book", that it is the last row of the list, and that the footer with "3 items left" sits directly below it with no other todo row in between.
+
+## Verify the page heading
+Without typing anything or changing any todo, verify the main page heading above the "What needs to be done?" input reads exactly "todos".

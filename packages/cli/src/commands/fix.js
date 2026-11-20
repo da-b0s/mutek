@@ -85,10 +85,17 @@ export function appendOnly(before, after) {
   return null;
 }
 
-function appendLesson(dir, m, line) {
+// The step body (without its heading) that an agent appended.
+export function addedStep(original, edited) {
+  const added = edited.replace(/\r\n/g, '\n').slice(original.replace(/\r\n/g, '\n').trimEnd().length).trim();
+  return added.replace(/^##[^\n]*\n?/, '').replace(/\s+/g, ' ').trim();
+}
+
+// A lesson is what a good test checks plus the assertion that proved it, never agent chatter.
+export function appendLesson(dir, m, step) {
   const f = path.join(dir, 'lessons.md');
   const head = fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : '# Assertion patterns that caught real bugs in this repo\n\n';
-  const lesson = `- ${m.expect || 'Check the visible outcome'} (caught: ${m.operator}; ${line.trim().slice(0, 160)})\n`;
+  const lesson = `- ${m.expect || 'Check the visible outcome'} (${m.operator}). Proven step: "${step.slice(0, 220)}"\n`;
   if (!head.includes(lesson)) fs.writeFileSync(f, head + lesson);
 }
 
@@ -137,6 +144,7 @@ export default async function fix(argv, parseArgs) {
       let proof = null;
       let note = '';
       let attempt = 0;
+      let added = '';
       for (attempt = 1; attempt <= maxAttempts; attempt++) {
         const original = fs.readFileSync(test, 'utf8');
         const restore = snapshotRecording(test);
@@ -172,7 +180,8 @@ export default async function fix(argv, parseArgs) {
         if (broken.code === 1 && hits > 0) {
           result = 'killed';
           proof = { clean: { code: clean.code, session: clean.sessionId, pack: clean.pack }, mutant: { code: broken.code, session: broken.sessionId, pack: broken.pack, failure: broken.failureReason } };
-          appendLesson(dir, m, note);
+          added = addedStep(original, edited);
+          appendLesson(dir, m, added);
           console.log(`  attempt ${attempt}: proven. Real app: pass. Broken app: fail. ${note}`);
           break;
         }
@@ -182,7 +191,7 @@ export default async function fix(argv, parseArgs) {
           : `the run on the broken app ended with exit ${broken.code} (${hits ? 'mutant fired' : 'mutant never fired'}), not a clean assertion failure.`;
         console.log(`  attempt ${attempt}: not proven (${previousFailure.split('.')[0]}), reverted`);
       }
-      const rec = { at: new Date().toISOString(), id: m.id, describe: m.describe, operator: m.operator, status_before: row.status, test, agent, attempts: Math.min(attempt, maxAttempts), result, proof, note };
+      const rec = { at: new Date().toISOString(), id: m.id, describe: m.describe, operator: m.operator, status_before: row.status, test, agent, attempts: Math.min(attempt, maxAttempts), result, proof, note, added: added || undefined };
       fs.appendFileSync(path.join(dir, 'fixes.jsonl'), JSON.stringify(rec) + '\n');
       // The proof's mutant run is a Kane run in which the strengthened suite caught this bug.
       // Appending a step cannot un-catch any other mutant (earlier failures still fail first),

@@ -17,7 +17,7 @@ export function runAgent(name, prompt, { cwd = process.cwd(), timeoutMs = 600000
   const { cmd, args, raw } = agentCommand(name);
   return new Promise((resolve) => {
     const shell = process.platform === 'win32' || raw;
-    const child = spawn(shell ? [cmd, ...args].join(' ') : cmd, shell ? [] : args, { cwd, shell, stdio: ['pipe', 'pipe', 'pipe'], windowsHide: true });
+    const child = spawn(shell ? [cmd, ...args].join(' ') : cmd, shell ? [] : args, { cwd, shell, stdio: ['pipe', 'pipe', 'pipe'], windowsHide: true, env: { ...process.env, TRIPWIRE_AGENT: '1' } });
     let out = '';
     let err = '';
     child.stdout.on('data', (c) => (out += c));

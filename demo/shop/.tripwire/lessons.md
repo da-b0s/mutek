@@ -1,8 +1,10 @@
 # Assertion patterns that caught real bugs in this repo
 
-- The displayed price is checked against the expected value (caught: number-drift; I appended one step that goes back to the shop list and checks that the "Canvas Tote Bag" card shows "$18.00". The broken app would show "$19.80" there. I haven)
-- The test checks exactly which records are listed (caught: wrong-owner; I added a final step to `tests/cancel_order_test.md` that checks the My orders table shows exactly 2 orders, "#1002" and "#1001", with no other rows such as "#9)
-- The test checks that "Keep order" is offered (caught: hide-control; `npx tripwire check` exiting 0 confirms it's done. If a `tripwire fix` run is still waiting on my earlier reply, let it finish first.)
-- The test checks the outcome of the button it pressed (caught: label-swap; I added a step checking the "Wool Beanie" row shows "−" left of the quantity and "+" to its right.)
-- The list length or a named item is checked (caught: item-drop; Alternatively, allow `npx tripwire` in the project's permissions and start me again.)
-- The list length or a named item is checked (caught: item-drop; I added a final step to `tests/checkout_test.md` that clicks "View order" and checks that the "Order #1003" page lists exactly one item row: "Canvas Tote Bag", )
+- price from /api/products shows 19.80 instead of 18 (number-drift). Proven step: "Click "← Back to shop" to return to the product list. Verify the "Canvas Tote Bag" card in the product grid shows the price "$18.00"."
+- Another user's record (owner="tw-other-user") appears in the orders (wrong-owner). Proven step: "Verify the My orders table lists exactly 2 orders, "#1002" and "#1001", and no other order rows (for example, no "#91002")."
+- The "Keep order" button is missing (hide-control). Proven step: "Add the "Canvas Tote Bag" to the cart from the Shop, go to checkout, fill in Full name "Ada Lovelace", Email "ada@example.com" and Delivery address "12 Analytical Row, London", click "Place order", click "View order", th"
+- The "+" and "−" buttons have each other's labels (label-swap). Proven step: "On the "Wool Beanie" row, verify the button immediately to the left of the quantity shows the text "−" and the button immediately to the right of the quantity shows the text "+"."
+- "Canvas Tote Bag" is missing from the items (1 → 0 items) (item-drop). Proven step: "Click "View order". Verify the "Order #1003" page lists exactly one item row, "Canvas Tote Bag" with price "$18.00", quantity 1 and line total "$18.00"."
+- The "Remove coupon" button is missing (hide-control). Proven step: "In the Coupon panel, click the "Remove coupon" button. Verify the Coupon panel no longer reads "Applied: SAVE10", the "Coupon code" field is shown again, there is no Discount line and the Total reads "$39.49"."
+- subtotal from /api/orders/1001 shows 20.90 instead of 19 (number-drift). Proven step: "On the "Order #1001" page, verify the summary below the items table shows Subtotal "$19.00" and Shipping "$4.99"."
+- "Notebook, Dot Grid" appears twice in the items (1 → 2 items) (item-dup). Proven step: "On the "Order #1001" page, count the rows under the "Item / Price / Quantity / Total" header. Verify there is exactly 1 row, the text "Notebook, Dot Grid" appears exactly once on the whole page, and the "Subtotal" line c"

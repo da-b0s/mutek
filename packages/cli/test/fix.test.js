@@ -94,3 +94,8 @@ test('a real assertion is proven: passes on the real app, fails on the broken on
   assert.equal(await run(['--only', 'number-drift'], parseArgs), 0);
   assert.equal(rowFor(TOTAL_ID).status, 'killed');
 });
+
+test('addedStep returns only the appended step body, without its heading', async () => {
+  const { addedStep } = await import('../src/commands/fix.js');
+  assert.equal(addedStep('## A\nDo a.\n', '## A\nDo a.\n\n## Check total\nVerify the total\nreads "$9.00".\n'), 'Verify the total reads "$9.00".');
+});

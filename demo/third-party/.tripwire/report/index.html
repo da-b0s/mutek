@@ -25,32 +25,20 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 </style></head><body><main>
 <section class="top">
   <div><h1>Tripwire</h1><p class="sub">Would the tests fail if the app were broken? Run 2026-11-19T23-23-39 · commit 241681f</p>
-  <div class="score" aria-label="mutation score">94.1%</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p>
-  </div>
+  <div class="score" aria-label="mutation score">100%</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p>
+  <p class="sub"><strong>94.1%</strong> for the first-draft suite → <strong>100%</strong> after <code>tripwire fix</code> strengthened 1 test, each proven by Kane: pass on the real app, fail on the broken one.</p></div>
   <div class="counts">
-    <div class="count killed"><b>16</b>killed</div>
-    <div class="count survived"><b>1</b>survived</div>
+    <div class="count killed"><b>17</b>killed</div>
+    <div class="count survived"><b>0</b>survived</div>
     <div class="count masked"><b>0</b>masked by heal</div>
     <div class="count nr"><b>0</b>not reached</div>
   </div>
 </section>
 
-<h2>Score over time</h2><div class="history"><div><b>100%</b><br><span class="sub">first run</span></div><div><b>94.1%</b><br><span class="sub">11-19 23-23</span></div></div>
+<h2>Score over time</h2><div class="history"><div><b>100%</b><br><span class="sub">first run</span></div><div><b>100%</b><br><span class="sub">11-19 23-23</span></div></div>
 
-<h2>Bugs the suite walked past (1)</h2>
-<div class="grid">
-    <article class="mutant survived">
-      <header><span class="pill survived">survived</span><span class="op">interface · text-change</span></header>
-      <h3>The heading &quot;todos&quot; reads &quot;Something went wrong&quot;</h3>
-      <p class="expect">A good test would: the test checks it reached the right page or message.</p>
-      <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
-      
-      
-      
-      
-      <figure><img src="shots/text-change_heading_todos_.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/add_todos_test.md. The test still passed.</figcaption></figure>
-      <details><summary>Mutant id</summary><code>text-change:heading:&quot;todos&quot;</code></details>
-    </article></div>
+<h2>Bugs the suite walked past (0)</h2>
+<p class="note">None. Every mutant that fired was caught.</p>
 
 <h2>Masked by healing (0)</h2>
 <p class="note">Strict replay caught these, but Kane's default adaptive healing re-authored the failing steps and the run passed on the broken app. Run suites that guard releases with <code>--no-adaptive-heal</code>, or gate on <code>metrics.heal.healed_tests</code>.</p>
@@ -58,7 +46,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 
 <h2>Per test</h2>
 <table><thead><tr><th>Test</th><th>Mutants touched</th><th>Killed</th><th>Walked past</th><th>Score</th><th>Assertions</th></tr></thead><tbody>
-<tr><td><code>tests/clear_completed_test.md</code></td><td>13</td><td>2</td><td>1</td><td><div class="bar" title="67%"><i style="width:67%"></i></div>67%</td><td>yes</td></tr><tr><td><code>tests/complete_todo_test.md</code></td><td>13</td><td>0</td><td>1</td><td><div class="bar" title="0%"><i style="width:0%"></i></div>0%</td><td>yes</td></tr><tr><td><code>tests/filters_test.md</code></td><td>13</td><td>3</td><td>1</td><td><div class="bar" title="75%"><i style="width:75%"></i></div>75%</td><td>yes</td></tr><tr><td><code>tests/add_todos_test.md</code></td><td>12</td><td>6</td><td>1</td><td><div class="bar" title="86%"><i style="width:86%"></i></div>86%</td><td>yes</td></tr><tr><td><code>tests/delete_todo_test.md</code></td><td>12</td><td>3</td><td>1</td><td><div class="bar" title="75%"><i style="width:75%"></i></div>75%</td><td>yes</td></tr><tr><td><code>tests/edit_todo_test.md</code></td><td>12</td><td>2</td><td>1</td><td><div class="bar" title="67%"><i style="width:67%"></i></div>67%</td><td>yes</td></tr>
+<tr><td><code>tests/clear_completed_test.md</code></td><td>13</td><td>2</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr><tr><td><code>tests/complete_todo_test.md</code></td><td>13</td><td>0</td><td>0</td><td><div class="bar" title="–%"><i style="width:0%"></i></div>–%</td><td>yes</td></tr><tr><td><code>tests/filters_test.md</code></td><td>13</td><td>3</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr><tr><td><code>tests/add_todos_test.md</code></td><td>12</td><td>7</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr><tr><td><code>tests/delete_todo_test.md</code></td><td>12</td><td>3</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr><tr><td><code>tests/edit_todo_test.md</code></td><td>12</td><td>2</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr>
 </tbody></table>
 
 
@@ -66,8 +54,8 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 <h2>How Kane's triage read the planted bugs</h2>
 <p class="note">Every mutant below was a real break in the app. Kane triaged 14 of the failing runs; it attributed <strong>14</strong> of them to the test rather than the product (typically "locator rot": the page changed, so the recording looks stale). From inside a single run a broken app and an outdated test look alike; Tripwire is the outside reference that tells them apart. Treat a triage of "automation bug" on a release branch as a prompt to look, not as a reason to re-record.</p>
 
-<h2>Caught (16)</h2>
-<details><summary>Show all 16 killed mutants</summary><div class="grid">
+<h2>Caught (17)</h2>
+<details><summary>Show all 17 killed mutants</summary><div class="grid">
     <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">interface · dead-control</span></header>
       <h3>Clicking the &quot;Clear completed&quot; button does nothing</h3>
@@ -163,6 +151,18 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       <details><summary>Mutant id</summary><code>dead-control:button:&quot;[button.destroy]&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">interface · text-change</span></header>
+      <h3>The heading &quot;todos&quot; reads &quot;Something went wrong&quot;</h3>
+      <p class="expect">A good test would: the test checks it reached the right page or message.</p>
+      <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
+      
+      
+      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (c13e82f8-8790-4466-a3cc-3e42080bc82d / 9a0240e8-bce2-42d3-8257-82f0cc0aaba3).</p>
+      
+      <details><summary>Mutant id</summary><code>text-change:heading:&quot;todos&quot;</code></details>
     </article>
     <article class="mutant killed">
       <header><span class="pill killed">killed</span><span class="op">interface · wrong-link</span></header>
@@ -270,7 +270,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 <h2>Excluded as equivalent (0)</h2>
 <p class="note">None. Mutants are excluded only with a human-approved reason in <code>.tripwire/equivalents.json</code>.</p>
 
-<h2>Strengthened tests (4 of 4 attempts)</h2><table><thead><tr><th>Mutant</th><th>Test</th><th>Result</th><th>Attempts</th></tr></thead><tbody><tr><td>The &quot;Buy milk&quot; row is missing from the list</td><td><code>tests/add_todos_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>The &quot;Walk the dog&quot; row is missing from the list</td><td><code>tests/add_todos_test.md</code></td><td>killed</td><td>2</td></tr><tr><td>The &quot;Read a book&quot; row appears twice in the list</td><td><code>tests/add_todos_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>The &quot;Buy oat milk&quot; row appears twice in the list</td><td><code>tests/edit_todo_test.md</code></td><td>killed</td><td>1</td></tr></tbody></table>
+<h2>Strengthened tests (5 of 5 attempts)</h2><table><thead><tr><th>Mutant</th><th>Test</th><th>Result</th><th>Attempts</th></tr></thead><tbody><tr><td>The &quot;Buy milk&quot; row is missing from the list</td><td><code>tests/add_todos_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>The &quot;Walk the dog&quot; row is missing from the list</td><td><code>tests/add_todos_test.md</code></td><td>killed</td><td>2</td></tr><tr><td>The &quot;Read a book&quot; row appears twice in the list</td><td><code>tests/add_todos_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>The &quot;Buy oat milk&quot; row appears twice in the list</td><td><code>tests/edit_todo_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>The heading &quot;todos&quot; reads &quot;Something went wrong&quot;</td><td><code>tests/add_todos_test.md</code></td><td>killed</td><td>1</td></tr></tbody></table>
 
 <h2>Lessons for the test-writing agent</h2><div class="lessons"># Assertion patterns that caught real bugs in this repo
 
@@ -278,6 +278,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 - The test checks which rows are listed, or how many (caught: rendered-item-drop; I appended a step that checks, without typing anything or changing any todo, that the second visible row, directly below &quot;Buy milk&quot; and directly above &quot;Read a b)
 - The test checks how many rows are listed (caught: rendered-item-dup; The screenshot shows why the earlier &quot;exactly 3 rows&quot; checks didn&#39;t catch this: the extra &quot;Read a book&quot; row is fourth, and the footer still says &quot;3 items left&quot;,)
 - The test checks how many rows are listed (caught: rendered-item-dup; I added a final step, &quot;Check the list holds exactly one todo&quot;: without typing anything or changing any todo, it checks that the list shows exactly 1 visible row)
+- The test checks it reached the right page or message (caught: text-change; I appended a final step that checks, without typing or changing any todo, that the main heading above the &quot;What needs to be done?&quot; input reads exactly &quot;todos&quot; ()
 </div>
 
 <h2>Cost</h2>

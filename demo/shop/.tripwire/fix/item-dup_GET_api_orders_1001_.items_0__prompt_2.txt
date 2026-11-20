@@ -1,0 +1,59 @@
+You are strengthening an end-to-end Kane CLI test (a *_test.md file). Do not change any application code.
+
+This bug was live in the app and the test below still PASSED:
+  "Notebook, Dot Grid" appears twice in the items (1 → 2 items)
+What changed: GET /api/orders/1001 $.items: real [{"productId":"p5","name":"Notebook, Dot Grid","price":9.5,"qty":2,"lineTotal":19}] -> broken (item 0 repeated: 2 items)
+
+A good test would: the list length or uniqueness is checked.
+Screenshot of the broken page at the end of the test: C:\Users\DELL\Documents\Code\tripwire\demo\shop\.tripwire\fix\item-dup_GET_api_orders_1001_.items_0_.jpg
+
+Test file: tests/order_history_test.md
+----- current contents -----
+---
+url: http://localhost:8080
+mode: testing
+max_steps: 30
+tags: [shop, orders]
+---
+
+# Order history: see past orders on the My orders page
+
+## Open My orders
+Click the "My orders" link in the top navigation.
+Verify the "My orders" table lists two orders: "#1002" with 2 items, total "$38.74" and status "Placed", and "#1001" with 2 items, total "$23.99" and status "Delivered".
+Verify "#1002" has a "Cancel" button and "#1001" has none.
+
+## Open a past order
+Click the "#1001" order link.
+Verify the page heading reads "Order #1001" with the status "Delivered", the items table shows "Notebook, Dot Grid" with quantity 2 and a line total of "$19.00", and the Total reads "$23.99".
+
+## Check the order summary
+On the "Order #1001" page, verify the summary below the items table shows Subtotal "$19.00" and Shipping "$4.99".
+
+----- end -----
+
+Edit tests/order_history_test.md by APPENDING exactly one new step at the very end of the file:
+  ## <short heading>
+  <one or two plain-English sentences: navigate if needed, then "Verify ..." with the exact expected value>
+
+Rules:
+- Only append. Do not modify, reorder, weaken or delete any existing line (Kane re-records every step after an edit, so editing earlier steps is expensive and is rejected).
+- The new step must PASS on the real app and FAIL on the broken app described above.
+- Use exact expected values a user would see (amounts with currency symbol, item names, counts, status words).
+- Do not mention bugs, mutants or Tripwire in the test, and never name the broken value
+  (the wrong number, the extra record): assert the correct state, so the check stays general.
+
+Assertion patterns that worked before in this repo:
+- The displayed price is checked against the expected value (caught: number-drift; I appended one step that goes back to the shop list and checks that the "Canvas Tote Bag" card shows "$18.00". The broken app would show "$19.80" there. I haven)
+- The test checks exactly which records are listed (caught: wrong-owner; I added a final step to `tests/cancel_order_test.md` that checks the My orders table shows exactly 2 orders, "#1002" and "#1001", with no other rows such as "#9)
+- The test checks that "Keep order" is offered (caught: hide-control; `npx tripwire check` exiting 0 confirms it's done. If a `tripwire fix` run is still waiting on my earlier reply, let it finish first.)
+- The test checks the outcome of the button it pressed (caught: label-swap; I added a step checking the "Wool Beanie" row shows "−" left of the quantity and "+" to its right.)
+- The list length or a named item is checked (caught: item-drop; Alternatively, allow `npx tripwire` in the project's permissions and start me again.)
+- The list length or a named item is checked (caught: item-drop; I added a final step to `tests/checkout_test.md` that clicks "View order" and checks that the "Order #1003" page lists exactly one item row: "Canvas Tote Bag", )
+- The test checks that the "Remove coupon" button is offered (caught: hide-control; It's done when `npx tripwire check` exits 0 (score at or above 80%).)
+- The displayed subtotal is checked against the expected value (caught: number-drift; Line for the fix run: I added a final step to `tests/order_history_test.md` that checks the "Order #1001" summary shows Subtotal "$19.00" and Shipping "$4.99".)
+
+Your previous attempt was rejected: the strengthened test still PASSED on the broken app, so the assertion does not observe the bug. Assert the exact value or state that the bug changes.
+Try a different assertion.
+
+Reply with one line describing the assertion you added.

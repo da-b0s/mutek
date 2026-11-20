@@ -8,6 +8,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
 
+// Agents that tripwire itself launches (fix, sabotage, coverage) are already inside the loop.
+if (process.env.TRIPWIRE_AGENT === '1') process.exit(0);
+
 let input = {};
 try { input = JSON.parse(fs.readFileSync(0, 'utf8') || '{}'); } catch { /* no stdin */ }
 const cwd = input.cwd || process.cwd();
