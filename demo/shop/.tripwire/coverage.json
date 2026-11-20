@@ -1,0 +1,284 @@
+[
+  {
+    "id": "AC1",
+    "criterion": "AC1. The shop page lists every product with its name, category, price and stock state.",
+    "tests": [
+      "tests/browse_test.md"
+    ],
+    "state": "proven and guarded",
+    "kane": "green (tests pass)",
+    "caught": [
+      "price from /api/products shows 19.80 instead of 18",
+      "\"Canvas Tote Bag\" is missing from the products (6 → 5 items)",
+      "\"Canvas Tote Bag\" appears twice in the products (6 → 7 items)",
+      "name and description are swapped (\"Ceramic Pour-Over Set\" shows as description)",
+      "The \"Canvas Tote Bag\" row is missing from the list",
+      "The \"Canvas Tote Bag\" row appears twice in the list",
+      "The \"Ceramic Pour-Over Set\" row is missing from the list",
+      "The \"Ceramic Pour-Over Set\" row appears twice in the list"
+    ],
+    "escaped": []
+  },
+  {
+    "id": "AC2",
+    "criterion": "AC2. A product that is out of stock is marked \"Out of stock\" and cannot be added to the cart.",
+    "tests": [
+      "tests/browse_test.md"
+    ],
+    "state": "proven, untested by mutants",
+    "kane": "green (tests pass)",
+    "caught": [],
+    "escaped": []
+  },
+  {
+    "id": "AC3",
+    "criterion": "AC3. A product page shows the name, price, description and how many are in stock.",
+    "tests": [
+      "tests/browse_test.md"
+    ],
+    "state": "proven and guarded",
+    "kane": "green (tests pass)",
+    "caught": [
+      "price from /api/products shows 19.80 instead of 18",
+      "name and description are swapped (\"Ceramic Pour-Over Set\" shows as description)"
+    ],
+    "escaped": []
+  },
+  {
+    "id": "AC4",
+    "criterion": "AC4. Adding a product puts it in the cart with quantity 1, or raises its quantity by 1 if it is already there.",
+    "tests": [
+      "tests/cart_test.md",
+      "tests/checkout_test.md",
+      "tests/coupon_test.md"
+    ],
+    "state": "proven and guarded",
+    "kane": "green (tests pass)",
+    "caught": [
+      "Clicking the \"Add to cart\" button on the \"BAGS\" row does nothing",
+      "The first row loses the \"Add to cart\" button"
+    ],
+    "escaped": []
+  },
+  {
+    "id": "AC5",
+    "criterion": "AC5. A quantity is between 1 and 10 and never more than the stock; going below 1 removes the line.",
+    "tests": [],
+    "state": "owed",
+    "kane": "owed",
+    "caught": [
+      "PUT /api/cart/items/p3 fails with a 500 and nothing is saved",
+      "PUT /api/cart/items/p3 reports success but the change is never saved",
+      "PUT /api/cart/items/p3 returns 401 once, mid-flow"
+    ],
+    "escaped": []
+  },
+  {
+    "id": "AC6",
+    "criterion": "AC6. Each line total is price × quantity; the subtotal is the sum of the line totals.",
+    "tests": [
+      "tests/cart_test.md"
+    ],
+    "state": "proven but unguarded",
+    "kane": "green (tests pass)",
+    "caught": [],
+    "escaped": [
+      "Raising the quantity to 2 leaves the line total and subtotal at the single-item price"
+    ]
+  },
+  {
+    "id": "AC7",
+    "criterion": "AC7. The header badge shows the number of items in the cart.",
+    "tests": [
+      "tests/cart_test.md"
+    ],
+    "state": "proven and guarded",
+    "kane": "green (tests pass)",
+    "caught": [
+      "Adding one item makes the cart badge show 2",
+      "The number in \"Cart 0\" is off by one"
+    ],
+    "escaped": []
+  },
+  {
+    "id": "AC8",
+    "criterion": "AC8. Removing a line takes it out of the cart and the totals update at once.",
+    "tests": [],
+    "state": "owed",
+    "kane": "owed",
+    "caught": [
+      "The \"Remove\" button on the \"Canvas Tote Bag $18.00\" row is missing"
+    ],
+    "escaped": []
+  },
+  {
+    "id": "AC9",
+    "criterion": "AC9. SAVE10 takes 10% off the subtotal.",
+    "tests": [
+      "tests/coupon_test.md"
+    ],
+    "state": "proven but unguarded",
+    "kane": "green (tests pass)",
+    "caught": [],
+    "escaped": [
+      "The SAVE10 coupon takes 20% off instead of 10%",
+      "POST /api/cart/coupon is applied twice"
+    ]
+  },
+  {
+    "id": "AC10",
+    "criterion": "AC10. WELCOME5 takes $5 off, and only when the subtotal is at least $20.",
+    "tests": [],
+    "state": "owed",
+    "kane": "owed",
+    "caught": [],
+    "escaped": []
+  },
+  {
+    "id": "AC11",
+    "criterion": "AC11. Only one coupon applies at a time; applying a new one replaces the old one.",
+    "tests": [],
+    "state": "owed",
+    "kane": "owed",
+    "caught": [],
+    "escaped": [
+      "POST /api/cart/coupon is applied twice"
+    ]
+  },
+  {
+    "id": "AC12",
+    "criterion": "AC12. An unknown code is refused with a message and changes nothing.",
+    "tests": [],
+    "state": "owed",
+    "kane": "owed",
+    "caught": [],
+    "escaped": []
+  },
+  {
+    "id": "AC13",
+    "criterion": "AC13. Shipping is free when the subtotal after discount is $50 or more; otherwise it is $4.99.",
+    "tests": [
+      "tests/coupon_test.md"
+    ],
+    "state": "proven but unguarded",
+    "kane": "green (tests pass)",
+    "caught": [],
+    "escaped": [
+      "Shipping is free on a $31.05 order even though free shipping starts at $50"
+    ]
+  },
+  {
+    "id": "AC14",
+    "criterion": "AC14. Total = subtotal − discount + shipping, shown to the cent.",
+    "tests": [
+      "tests/coupon_test.md",
+      "tests/checkout_test.md",
+      "tests/order_history_test.md"
+    ],
+    "state": "proven, untested by mutants",
+    "kane": "green (tests pass)",
+    "caught": [],
+    "escaped": []
+  },
+  {
+    "id": "AC15",
+    "criterion": "AC15. Checkout needs a full name, a valid email address and a delivery address; each missing or invalid field shows its own message.",
+    "tests": [],
+    "state": "owed",
+    "kane": "owed",
+    "caught": [],
+    "escaped": []
+  },
+  {
+    "id": "AC16",
+    "criterion": "AC16. Placing an order empties the cart, reduces stock, and shows a confirmation with the order number and the total charged.",
+    "tests": [
+      "tests/checkout_test.md"
+    ],
+    "state": "proven but unguarded",
+    "kane": "green (tests pass)",
+    "caught": [],
+    "escaped": [
+      "The order confirmation says $18.00 was charged although the cart total was $22.99 with shipping",
+      "/api/products keeps returning what it returned before the last change"
+    ]
+  },
+  {
+    "id": "AC17",
+    "criterion": "AC17. Checkout with an empty cart is not possible.",
+    "tests": [],
+    "state": "owed",
+    "kane": "owed",
+    "caught": [],
+    "escaped": []
+  },
+  {
+    "id": "AC18",
+    "criterion": "AC18. \"My orders\" lists only the signed-in customer's orders, newest first, with date, item count, total and status.",
+    "tests": [
+      "tests/order_history_test.md",
+      "tests/cancel_order_test.md"
+    ],
+    "state": "proven and guarded",
+    "kane": "green (tests pass)",
+    "caught": [
+      "My orders also lists an order belonging to another customer",
+      "My orders lists the oldest order first instead of the newest",
+      "/api/orders keeps returning what it returned before the last change",
+      "Another user's record (owner=\"tw-other-user\") appears in the orders",
+      "The \"Placed\" status shows \"Delivered\"",
+      "total from /api/orders shows 42.61 instead of 38.74",
+      "\"1002\" is missing from the orders (2 → 1 items)",
+      "\"1002\" appears twice in the orders (2 → 3 items)"
+    ],
+    "escaped": []
+  },
+  {
+    "id": "AC19",
+    "criterion": "AC19. An order with status \"Placed\" can be cancelled after a confirmation; the status becomes \"Cancelled\" and the stock is returned.",
+    "tests": [
+      "tests/cancel_order_test.md"
+    ],
+    "state": "proven and guarded",
+    "kane": "green (tests pass)",
+    "caught": [
+      "/api/orders keeps returning what it returned before the last change",
+      "POST /api/orders/1002/cancel reports success but the change is never saved",
+      "POST /api/orders/1002/cancel is applied twice",
+      "POST /api/orders/1002/cancel returns 401 once, mid-flow",
+      "The \"Cancel\" and \"Keep order\" buttons have each other's labels",
+      "Clicking the \"Cancel\" button on the \"#1002 14 Nov 2026 2 $38.74 Placed Cancel\" row does nothing",
+      "The \"Cancel\" and \"Yes, cancel order\" buttons have each other's labels",
+      "The first row loses the \"Cancel\" button",
+      "POST /api/orders/1002/cancel fails with a 500 and nothing is saved"
+    ],
+    "escaped": []
+  },
+  {
+    "id": "AC20",
+    "criterion": "AC20. Delivered or already cancelled orders cannot be cancelled.",
+    "tests": [
+      "tests/order_history_test.md",
+      "tests/cancel_order_test.md"
+    ],
+    "state": "proven, untested by mutants",
+    "kane": "green (tests pass)",
+    "caught": [],
+    "escaped": []
+  },
+  {
+    "id": "AC21",
+    "criterion": "AC21. An order page shows its items, subtotal, discount, shipping and total.",
+    "tests": [
+      "tests/order_history_test.md"
+    ],
+    "state": "proven and guarded",
+    "kane": "green (tests pass)",
+    "caught": [
+      "\"Notebook, Dot Grid\" is missing from the items (1 → 0 items)",
+      "subtotal from /api/orders/1001 shows 20.90 instead of 19",
+      "\"Notebook, Dot Grid\" appears twice in the items (1 → 2 items)"
+    ],
+    "escaped": []
+  }
+]

@@ -1,0 +1,238 @@
+Map acceptance criteria to end-to-end tests and to planted bugs. Write JSON to C:\Users\DELL\Documents\Code\tripwire\demo\shop\.tripwire\criteria.json:
+{ "criteria": { "AC1": ["tests/x_test.md", ...], ... }, "mutants": { "<mutant id>": ["AC3", ...], ... } }
+- criteria: for each AC, the test files that contain a step which actually CHECKS that criterion (a "Verify ..." of its outcome). A test that only passes through a page does not count. Use [] when no test checks it.
+- mutants: for each mutant id below, the ACs that the bug breaks. Use [] when it breaks none.
+Be strict and literal. Do not edit any other file.
+
+----- Acceptance criteria -----
+AC1. The shop page lists every product with its name, category, price and stock state.
+AC2. A product that is out of stock is marked "Out of stock" and cannot be added to the cart.
+AC3. A product page shows the name, price, description and how many are in stock.
+AC4. Adding a product puts it in the cart with quantity 1, or raises its quantity by 1 if it is already there.
+AC5. A quantity is between 1 and 10 and never more than the stock; going below 1 removes the line.
+AC6. Each line total is price × quantity; the subtotal is the sum of the line totals.
+AC7. The header badge shows the number of items in the cart.
+AC8. Removing a line takes it out of the cart and the totals update at once.
+AC9. SAVE10 takes 10% off the subtotal.
+AC10. WELCOME5 takes $5 off, and only when the subtotal is at least $20.
+AC11. Only one coupon applies at a time; applying a new one replaces the old one.
+AC12. An unknown code is refused with a message and changes nothing.
+AC13. Shipping is free when the subtotal after discount is $50 or more; otherwise it is $4.99.
+AC14. Total = subtotal − discount + shipping, shown to the cent.
+AC15. Checkout needs a full name, a valid email address and a delivery address; each missing or invalid field shows its own message.
+AC16. Placing an order empties the cart, reduces stock, and shows a confirmation with the order number and the total charged.
+AC17. Checkout with an empty cart is not possible.
+AC18. "My orders" lists only the signed-in customer's orders, newest first, with date, item count, total and status.
+AC19. An order with status "Placed" can be cancelled after a confirmation; the status becomes "Cancelled" and the stock is returned.
+AC20. Delivered or already cancelled orders cannot be cancelled.
+AC21. An order page shows its items, subtotal, discount, shipping and total.
+
+----- Tests -----
+# tests/browse_test.md
+---
+url: http://localhost:8080
+mode: testing
+max_steps: 30
+tags: [shop, browse]
+---
+
+# Browse: the shop lists products and a product page opens
+
+## Check the product list
+Verify the page heading is "Shop" and the product grid shows these 6 products: "Canvas Tote Bag", "Ceramic Pour-Over Set", "Wool Beanie", "Desk Plant (Pothos)", "Notebook, Dot Grid" and "Insulated Bottle".
+Verify "Insulated Bottle" is marked "Out of stock" and its "Add to cart" button is disabled.
+
+## Open a product page
+Click the "Ceramic Pour-Over Set" product name.
+Verify the product page heading is "Ceramic Pour-Over Set", the price shown is "$34.50", the description reads "Dripper, carafe and 40 paper filters." and the stock line reads "5 in stock".
+
+## Check a price in the product list
+Click "← Back to shop" to return to the product list.
+Verify the "Canvas Tote Bag" card in the product grid shows the price "$18.00".
+
+
+# tests/cancel_order_test.md
+---
+url: http://localhost:8080
+mode: testing
+max_steps: 30
+tags: [shop, orders, cancel]
+---
+
+# Cancel order: cancel the order that is still "Placed"
+
+## Open My orders
+Click the "My orders" link in the top navigation.
+Verify order "#1002" has status "Placed" with a "Cancel" button, and order "#1001" has status "Delivered".
+
+## Cancel the placed order
+Click the "Cancel" button on the "#1002" row, then in the "Cancel order #1002?" dialog click "Yes, cancel order".
+Verify the "#1002" row now shows status "Cancelled" and no longer has a "Cancel" button, and "#1001" still shows status "Delivered".
+
+## Check only my orders are listed
+Verify the My orders table lists exactly 2 orders, "#1002" and "#1001", and no other order rows (for example, no "#91002").
+
+## Keep an order from the cancel dialog
+Add the "Canvas Tote Bag" to the cart from the Shop, go to checkout, fill in Full name "Ada Lovelace", Email "ada@example.com" and Delivery address "12 Analytical Row, London", click "Place order", click "View order", then click "Cancel order".
+Verify the cancel dialog offers a "Keep order" button next to "Yes, cancel order", click "Keep order", and verify the order still shows status "Placed".
+
+
+# tests/cart_test.md
+---
+url: http://localhost:8080
+mode: testing
+max_steps: 30
+tags: [shop, cart]
+---
+
+# Cart: add an item and change its quantity
+
+## Add an item to the cart
+On the Shop page, click the "Add to cart" button on the "Wool Beanie" card.
+Verify the cart count badge in the top navigation shows "1".
+
+## Open the cart
+Click the "Cart" link in the top navigation.
+Verify the "Your cart" table has one row, "Wool Beanie", with quantity 1 and a line total of "$22.00".
+
+## Increase the quantity
+Click the "+" (increase quantity) button on the "Wool Beanie" row.
+Verify the "Wool Beanie" row now shows quantity 2 and a line total of "$44.00", and the Subtotal reads "$44.00".
+
+## Decrease the quantity
+Click the "−" (decrease quantity) button on the "Wool Beanie" row.
+Verify the "Wool Beanie" row shows quantity 1 again and the Subtotal reads "$22.00".
+
+## Check the quantity button labels
+On the "Wool Beanie" row, verify the button immediately to the left of the quantity shows the text "−" and the button immediately to the right of the quantity shows the text "+".
+
+
+# tests/checkout_test.md
+---
+url: http://localhost:8080
+mode: testing
+max_steps: 30
+tags: [shop, checkout]
+---
+
+# Checkout: place an order with name, email and delivery address
+
+## Put an item in the cart
+On the Shop page, click the "Add to cart" button on the "Canvas Tote Bag" card, then click the "Cart" link in the top navigation.
+Verify the cart shows "Canvas Tote Bag" with quantity 1 and the Total reads "$22.99".
+
+## Go to checkout
+Click "Go to checkout".
+Verify the "Checkout" page shows an order summary with "1 × Canvas Tote Bag" and a Total of "$22.99".
+
+## Fill in the details and place the order
+Type "Ada Obi" into the "Full name" field, "ada@example.com" into the "Email" field and "7 Marina Street, Lagos" into the "Delivery address" field, then click "Place order".
+Verify the confirmation page shows the heading "Thank you, Ada!", the text "Your order #1003 has been placed.", "Total charged: $22.99" and "We will email a receipt to ada@example.com."
+
+## Check the placed order's items
+Click "View order".
+Verify the "Order #1003" page lists exactly one item row, "Canvas Tote Bag" with price "$18.00", quantity 1 and line total "$18.00".
+
+
+# tests/coupon_test.md
+---
+url: http://localhost:8080
+mode: testing
+max_steps: 30
+tags: [shop, coupon]
+---
+
+# Coupon: apply SAVE10 in the cart
+
+## Put an item in the cart
+On the Shop page, click the "Add to cart" button on the "Ceramic Pour-Over Set" card, then click the "Cart" link in the top navigation.
+Verify the cart shows "Ceramic Pour-Over Set" with quantity 1, the Subtotal reads "$34.50" and there is no Discount line.
+
+## Apply the SAVE10 coupon
+Type "SAVE10" into the "Coupon code" field and click "Apply coupon".
+Verify the Coupon panel reads "Applied: SAVE10 (10% off your order)", the Discount line shows "−$3.45", the Subtotal still reads "$34.50", Shipping reads "$4.99" and the Total reads "$36.04".
+
+## Remove the coupon
+In the Coupon panel, click the "Remove coupon" button.
+Verify the Coupon panel no longer reads "Applied: SAVE10", the "Coupon code" field is shown again, there is no Discount line and the Total reads "$39.49".
+
+
+# tests/order_history_test.md
+---
+url: http://localhost:8080
+mode: testing
+max_steps: 30
+tags: [shop, orders]
+---
+
+# Order history: see past orders on the My orders page
+
+## Open My orders
+Click the "My orders" link in the top navigation.
+Verify the "My orders" table lists two orders: "#1002" with 2 items, total "$38.74" and status "Placed", and "#1001" with 2 items, total "$23.99" and status "Delivered".
+Verify "#1002" has a "Cancel" button and "#1001" has none.
+
+## Open a past order
+Click the "#1001" order link.
+Verify the page heading reads "Order #1001" with the status "Delivered", the items table shows "Notebook, Dot Grid" with quantity 2 and a line total of "$19.00", and the Total reads "$23.99".
+
+## Check the order summary
+On the "Order #1001" page, verify the summary below the items table shows Subtotal "$19.00" and Shipping "$4.99".
+
+## Count the order's item rows
+On the "Order #1001" page, count the rows under the "Item / Price / Quantity / Total" header. Verify there is exactly 1 row, the text "Notebook, Dot Grid" appears exactly once on the whole page, and the "Subtotal" line comes directly after that single row.
+
+
+----- Mutants (id: what breaks) -----
+agent-proposed:cart-badge-double-counts: Adding one item makes the cart badge show 2
+agent-proposed:cancel-leaves-order-placed: Confirming a cancellation leaves the order showing status Placed
+agent-proposed:orders-show-other-customer: My orders also lists an order belonging to another customer
+agent-proposed:orders-oldest-first: My orders lists the oldest order first instead of the newest
+number-drift:GET /api/products:$.products[0].price: price from /api/products shows 19.80 instead of 18
+item-drop:GET /api/products:$.products[0]: "Canvas Tote Bag" is missing from the products (6 → 5 items)
+item-dup:GET /api/products:$.products[0]: "Canvas Tote Bag" appears twice in the products (6 → 7 items)
+field-swap:GET /api/products:$.products[1].name<->description: name and description are swapped ("Ceramic Pour-Over Set" shows as description)
+stale-read:GET /api/orders: /api/orders keeps returning what it returned before the last change
+wrong-owner:GET /api/orders:$.orders: Another user's record (owner="tw-other-user") appears in the orders
+rendered-number-drift:"N": The number in "Cart 0" is off by one
+rendered-item-drop:"Canvas Tote Bag": The "Canvas Tote Bag" row is missing from the list
+rendered-item-dup:"Canvas Tote Bag": The "Canvas Tote Bag" row appears twice in the list
+fake-success:POST /api/orders/1002/cancel: POST /api/orders/1002/cancel reports success but the change is never saved
+double-apply:POST /api/orders/1002/cancel: POST /api/orders/1002/cancel is applied twice
+validation-off:POST /api/orders/1002/cancel: Invalid input to POST /api/orders/1002/cancel is treated as a success
+auth-drop:POST /api/orders/1002/cancel: POST /api/orders/1002/cancel returns 401 once, mid-flow
+hide-control:button:"Remove": The "Remove" button on the "Canvas Tote Bag $18.00" row is missing
+dead-control:button:"Add to cart": Clicking the "Add to cart" button on the "BAGS" row does nothing
+label-swap:"Cancel"<->"Keep order": The "Cancel" and "Keep order" buttons have each other's labels
+text-change:status:"Placed": The "Placed" status shows "Delivered"
+wrong-link:"Shop"->#/orders: The "Shop" link goes to #/orders instead of #/
+missing-row-action:"Add to cart": The first row loses the "Add to cart" button
+number-drift:GET /api/orders:$.orders[0].total: total from /api/orders shows 42.61 instead of 38.74
+item-drop:GET /api/orders:$.orders[0]: "1002" is missing from the orders (2 → 1 items)
+item-dup:GET /api/orders:$.orders[0]: "1002" appears twice in the orders (2 → 3 items)
+field-swap:GET /api/cart:$.coupon.code<->label: code and label are swapped ("SAVE10" shows as label)
+rendered-item-drop:"Ceramic Pour-Over Set": The "Ceramic Pour-Over Set" row is missing from the list
+rendered-item-dup:"Ceramic Pour-Over Set": The "Ceramic Pour-Over Set" row appears twice in the list
+silent-fail:PUT /api/cart/items/p3: PUT /api/cart/items/p3 fails with a 500 and nothing is saved
+fake-success:PUT /api/cart/items/p3: PUT /api/cart/items/p3 reports success but the change is never saved
+validation-off:PUT /api/cart/items/p3: Invalid input to PUT /api/cart/items/p3 is treated as a success
+auth-drop:PUT /api/cart/items/p3: PUT /api/cart/items/p3 returns 401 once, mid-flow
+dead-control:button:"Cancel": Clicking the "Cancel" button on the "#1002 14 Nov 2026 2 $38.74 Placed Cancel" row does nothing
+label-swap:"Cancel"<->"Yes, cancel order": The "Cancel" and "Yes, cancel order" buttons have each other's labels
+text-change:heading:"Shop": The heading "Shop" reads "My orders"
+wrong-link:"#N"->#/product/p1: The "#N" link goes to #/product/p1 instead of #/orders/1002
+missing-row-action:"Cancel": The first row loses the "Cancel" button
+item-drop:GET /api/orders/1001:$.items[0]: "Notebook, Dot Grid" is missing from the items (1 → 0 items)
+agent-proposed:save10-takes-20-percent: The SAVE10 coupon takes 20% off instead of 10%
+agent-proposed:line-total-ignores-quantity: Raising the quantity to 2 leaves the line total and subtotal at the single-item price
+agent-proposed:free-shipping-below-50: Shipping is free on a $31.05 order even though free shipping starts at $50
+agent-proposed:confirmation-total-drops-shipping: The order confirmation says $18.00 was charged although the cart total was $22.99 with shipping
+silent-fail:POST /api/orders/1002/cancel: POST /api/orders/1002/cancel fails with a 500 and nothing is saved
+stale-read:GET /api/products: /api/products keeps returning what it returned before the last change
+double-apply:POST /api/cart/coupon: POST /api/cart/coupon is applied twice
+hide-control:button:"Remove coupon": The "Remove coupon" button is missing
+number-drift:GET /api/orders/1001:$.subtotal: subtotal from /api/orders/1001 shows 20.90 instead of 19
+item-dup:GET /api/orders/1001:$.items[0]: "Notebook, Dot Grid" appears twice in the items (1 → 2 items)
+rendered-number-drift:"Order #1002 cancelled": The number in "Order #1002 cancelled" is off by one
+
+Reply with "done" when the file is written.
