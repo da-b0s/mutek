@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tripwire report</title>
+<style>
+:root{--bg:#f6f5f1;--surface:#fff;--ink:#1c1b19;--muted:#66625b;--line:#e2ded5;--killed:#2e7d32;--survived:#c62828;--masked:#8e24aa;--nr:#6d6d6d;--accent:#2f5d50}
+@media (prefers-color-scheme:dark){:root{--bg:#141412;--surface:#1d1c1a;--ink:#ecebe7;--muted:#a19d95;--line:#33312d;--killed:#66bb6a;--survived:#ef5350;--masked:#ce93d8;--nr:#9e9e9e;--accent:#7fb7a5}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1040px;margin:0 auto;padding:32px 16px 80px}h1{font-size:1.5rem;margin:0}h2{font-size:1.15rem;margin:40px 0 12px}h3{font-size:1rem;margin:8px 0}
+.top{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:24px}
+.score{font-size:3.5rem;font-weight:700;line-height:1}.sub{color:var(--muted)}
+.counts{display:flex;flex-wrap:wrap;gap:8px}.count{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 14px;min-width:110px}.count b{display:block;font-size:1.4rem}
+.count.killed b{color:var(--killed)}.count.survived b{color:var(--survived)}.count.masked b{color:var(--masked)}.count.nr b{color:var(--nr)}
+table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:.85rem;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.mutant{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--nr);border-radius:8px;padding:14px}
+.mutant.survived{border-left-color:var(--survived)}.mutant.masked{border-left-color:var(--masked)}.mutant.killed{border-left-color:var(--killed)}
+.pill{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-right:8px}.pill.survived{color:var(--survived)}.pill.masked{color:var(--masked)}.pill.killed{color:var(--killed)}.pill.not-reached,.pill.error{color:var(--nr)}
+.op{font-size:.8rem;color:var(--muted)}.expect,.meta{color:var(--muted);font-size:.9rem;margin:4px 0}.warn{color:var(--masked);font-size:.9rem}.triage{font-size:.85rem;color:var(--muted);border-left:2px solid var(--line);padding-left:8px}.fixed{color:var(--killed);font-size:.9rem}
+figure{margin:10px 0 0}img{max-width:100%;border:1px solid var(--line);border-radius:6px}figcaption{font-size:.8rem;color:var(--muted)}
+details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-monospace,Consolas,monospace;font-size:.85em;word-break:break-all}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;min-width:80px}.bar i{display:block;height:100%;background:var(--killed)}
+.history{display:flex;gap:16px;flex-wrap:wrap}.history div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 14px}
+.lessons{white-space:pre-wrap;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;font-size:.9rem}
+.note{color:var(--muted);font-size:.9rem;max-width:70ch}
+</style></head><body><main>
+<section class="top">
+  <div><h1>Tripwire</h1><p class="sub">Would the tests fail if the app were broken? Run 2026-11-19T23-23-39 · commit 241681f</p>
+  <div class="score" aria-label="mutation score">100%</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p>
+  <p class="sub"><strong>94.1%</strong> for the first-draft suite → <strong>100%</strong> after <code>tripwire fix</code> strengthened 1 test, each proven by Kane: pass on the real app, fail on the broken one.</p></div>
+  <div class="counts">
+    <div class="count killed"><b>17</b>killed</div>
+    <div class="count survived"><b>0</b>survived</div>
+    <div class="count masked"><b>0</b>masked by heal</div>
+    <div class="count nr"><b>0</b>not reached</div>
+  </div>
+</section>
+
+<h2>Score over time</h2><div class="history"><div><b>100%</b><br><span class="sub">first run</span></div><div><b>100%</b><br><span class="sub">11-19 23-23</span></div></div>
+
+<h2>Bugs the suite walked past (0)</h2>
+<p class="note">None. Every mutant that fired was caught.</p>
+
+<h2>Masked by healing (0)</h2>
+<p class="note">Strict replay caught these, but Kane's default adaptive healing re-authored the failing steps and the run passed on the broken app. Run suites that guard releases with <code>--no-adaptive-heal</code>, or gate on <code>metrics.heal.healed_tests</code>.</p>
+
+
+<h2>Per test</h2>
+<table><thead><tr><th>Test</th><th>Mutants touched</th><th>Killed</th><th>Walked past</th><th>Score</th><th>Assertions</th></tr></thead><tbody>
+<tr><td><code>tests/clear_completed_test.md</code></td><td>13</td><td>2</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr><tr><td><code>tests/complete_todo_test.md</code></td><td>13</td><td>0</td><td>0</td><td><div class="bar" title="–%"><i style="width:0%"></i></div>–%</td><td>yes</td></tr><tr><td><code>tests/filters_test.md</code></td><td>13</td><td>3</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr><tr><td><code>tests/add_todos_test.md</code></td><td>12</td><td>7</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr><tr><td><code>tests/delete_todo_test.md</code></td><td>12</td><td>3</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr><tr><td><code>tests/edit_todo_test.md</code></td><td>12</td><td>2</td><td>0</td><td><div class="bar" title="100%"><i style="width:100%"></i></div>100%</td><td>yes</td></tr>
+</tbody></table>
+
+
+
+<h2>How Kane's triage read the planted bugs</h2>
+<p class="note">Every mutant below was a real break in the app. Kane triaged 14 of the failing runs; it attributed <strong>14</strong> of them to the test rather than the product (typically "locator rot": the page changed, so the recording looks stale). From inside a single run a broken app and an outdated test look alike; Tripwire is the outside reference that tells them apart. Treat a triage of "automation bug" on a release branch as a prompt to look, not as a reason to re-record.</p>
+
+<h2>Caught (17)</h2>
+<details><summary>Show all 17 killed mutants</summary><div class="grid">
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">interface · dead-control</span></header>
+      <h3>Clicking the &quot;Clear completed&quot; button does nothing</h3>
+      <p class="expect">A good test would: the test checks what &quot;Clear completed&quot; is supposed to change.</p>
+      <p class="meta">Tests that walked past it: <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (93%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>dead-control:button:&quot;Clear completed&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">data · rendered-number-drift</span></header>
+      <h3>The number in &quot;1 item left&quot; is off by one</h3>
+      <p class="expect">A good test would: the test checks the exact number shown, not just that the element is there.</p>
+      <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui data defect (98%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>rendered-number-drift:&quot;N&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">data · rendered-item-drop</span></header>
+      <h3>The &quot;Buy milk&quot; row is missing from the list</h3>
+      <p class="expect">A good test would: the test checks which rows are listed, or how many.</p>
+      <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (98%). The app really was broken: this was a product bug.</p>
+      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (0719fb32-4877-4a87-9ccb-a49efe60741c / ac779f32-fac6-49ef-a82a-04be015b4e51).</p>
+      
+      <details><summary>Mutant id</summary><code>rendered-item-drop:&quot;Buy milk&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">data · rendered-item-drop</span></header>
+      <h3>The &quot;Walk the dog&quot; row is missing from the list</h3>
+      <p class="expect">A good test would: the test checks which rows are listed, or how many.</p>
+      <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (98%). The app really was broken: this was a product bug.</p>
+      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (5daef828-0f2e-4d00-aec0-8a37a04ed519 / f8daa4ca-f366-4f0c-b17d-fa2d6fd52fdd).</p>
+      
+      <details><summary>Mutant id</summary><code>rendered-item-drop:&quot;Walk the dog&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">data · rendered-item-dup</span></header>
+      <h3>The &quot;Buy milk&quot; row appears twice in the list</h3>
+      <p class="expect">A good test would: the test checks how many rows are listed.</p>
+      <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
+      
+      
+      
+      
+      <details><summary>Mutant id</summary><code>rendered-item-dup:&quot;Buy milk&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">data · rendered-item-dup</span></header>
+      <h3>The &quot;Read a book&quot; row appears twice in the list</h3>
+      <p class="expect">A good test would: the test checks how many rows are listed.</p>
+      <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code></p>
+      
+      
+      
+      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (631bc2f7-5985-4b6a-ba41-21ec49dd0d85 / ea2d1a15-f92c-4fc2-8ce7-aceb21033692).</p>
+      
+      <details><summary>Mutant id</summary><code>rendered-item-dup:&quot;Read a book&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">interface · dead-control</span></header>
+      <h3>Ticking the unlabelled &quot;toggle&quot; checkbox on the &quot;Buy milk&quot; row does nothing</h3>
+      <p class="expect">A good test would: the test checks what &quot;[input.toggle]&quot; is supposed to change.</p>
+      <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (97%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>dead-control:checkbox:&quot;[input.toggle]&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">interface · dead-control</span></header>
+      <h3>Clicking the unlabelled &quot;destroy&quot; button on the &quot;Buy milk&quot; row does nothing</h3>
+      <p class="expect">A good test would: the test checks what &quot;[button.destroy]&quot; is supposed to change.</p>
+      <p class="meta">Tests that walked past it: <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (93%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>dead-control:button:&quot;[button.destroy]&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">interface · text-change</span></header>
+      <h3>The heading &quot;todos&quot; reads &quot;Something went wrong&quot;</h3>
+      <p class="expect">A good test would: the test checks it reached the right page or message.</p>
+      <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
+      
+      
+      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (c13e82f8-8790-4466-a3cc-3e42080bc82d / 9a0240e8-bce2-42d3-8257-82f0cc0aaba3).</p>
+      
+      <details><summary>Mutant id</summary><code>text-change:heading:&quot;todos&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">interface · wrong-link</span></header>
+      <h3>The &quot;All&quot; link goes to #/active instead of #/</h3>
+      <p class="expect">A good test would: after following a link the test checks where it landed.</p>
+      <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / navigation defect (93%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>wrong-link:&quot;All&quot;-&gt;#/active</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">interface · wrong-link</span></header>
+      <h3>The &quot;Active&quot; link goes to #/ instead of #/active</h3>
+      <p class="expect">A good test would: after following a link the test checks where it landed.</p>
+      <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / agent misstep (96%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>wrong-link:&quot;Active&quot;-&gt;#/</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">interface · wrong-link</span></header>
+      <h3>The &quot;Completed&quot; link goes to #/ instead of #/completed</h3>
+      <p class="expect">A good test would: after following a link the test checks where it landed.</p>
+      <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / functional defect (92%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>wrong-link:&quot;Completed&quot;-&gt;#/</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">interface · missing-row-action</span></header>
+      <h3>The first row loses the unlabelled &quot;destroy&quot; button</h3>
+      <p class="expect">A good test would: the test checks that each row offers &quot;[button.destroy]&quot;.</p>
+      <p class="meta">Tests that walked past it: <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/edit_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / locator rot (84%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>missing-row-action:&quot;[button.destroy]&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">data · rendered-item-drop</span></header>
+      <h3>The &quot;Read a book&quot; row is missing from the list</h3>
+      <p class="expect">A good test would: the test checks which rows are listed, or how many.</p>
+      <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (97%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>rendered-item-drop:&quot;Read a book&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">data · rendered-item-drop</span></header>
+      <h3>The &quot;Buy oat milk&quot; row is missing from the list</h3>
+      <p class="expect">A good test would: the test checks which rows are listed, or how many.</p>
+      <p class="meta">Tests that walked past it: <code>tests/edit_todo_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (88%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>rendered-item-drop:&quot;Buy oat milk&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">data · rendered-item-dup</span></header>
+      <h3>The &quot;Walk the dog&quot; row appears twice in the list</h3>
+      <p class="expect">A good test would: the test checks how many rows are listed.</p>
+      <p class="meta">Tests that walked past it: <code>tests/add_todos_test.md</code> <code>tests/clear_completed_test.md</code> <code>tests/complete_todo_test.md</code> <code>tests/delete_todo_test.md</code> <code>tests/filters_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui data defect (97%). The app really was broken: this was a product bug.</p>
+      
+      
+      <details><summary>Mutant id</summary><code>rendered-item-dup:&quot;Walk the dog&quot;</code></details>
+    </article>
+    <article class="mutant killed">
+      <header><span class="pill killed">killed</span><span class="op">data · rendered-item-dup</span></header>
+      <h3>The &quot;Buy oat milk&quot; row appears twice in the list</h3>
+      <p class="expect">A good test would: the test checks how many rows are listed.</p>
+      <p class="meta">Tests that walked past it: <code>tests/edit_todo_test.md</code></p>
+      
+      
+      <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (96%). The app really was broken: this was a product bug.</p>
+      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (2c26e3f5-389a-43e7-8d02-0a585a0b7291 / 8374bf34-8fa4-408a-9d96-82639e7ca31f).</p>
+      
+      <details><summary>Mutant id</summary><code>rendered-item-dup:&quot;Buy oat milk&quot;</code></details>
+    </article></div></details>
+
+<h2>Not reached (0)</h2>
+<p class="note">The mutant never fired during any test, so it says nothing about the assertions. It usually means no test exercises that path (for example, no test ever submits invalid input). Not counted in the score.</p>
+<details><summary>Show</summary><ul></ul></details>
+
+
+
+<h2>Excluded as equivalent (0)</h2>
+<p class="note">None. Mutants are excluded only with a human-approved reason in <code>.tripwire/equivalents.json</code>.</p>
+
+<h2>Strengthened tests (5 of 5 attempts)</h2><table><thead><tr><th>Mutant</th><th>Test</th><th>Result</th><th>Attempts</th></tr></thead><tbody><tr><td>The &quot;Buy milk&quot; row is missing from the list</td><td><code>tests/add_todos_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>The &quot;Walk the dog&quot; row is missing from the list</td><td><code>tests/add_todos_test.md</code></td><td>killed</td><td>2</td></tr><tr><td>The &quot;Read a book&quot; row appears twice in the list</td><td><code>tests/add_todos_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>The &quot;Buy oat milk&quot; row appears twice in the list</td><td><code>tests/edit_todo_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>The heading &quot;todos&quot; reads &quot;Something went wrong&quot;</td><td><code>tests/add_todos_test.md</code></td><td>killed</td><td>1</td></tr></tbody></table>
+
+<h2>Lessons for the test-writing agent</h2><div class="lessons"># Assertion patterns that caught real bugs in this repo
+
+- The &quot;Buy milk&quot; row is missing from the list (rendered-item-drop). Proven step: &quot;Without adding, editing or re-entering any todo, verify the todo list currently displays exactly 3 visible rows and that the first visible row&#39;s text is exactly &quot;Buy milk&quot;.&quot;
+- The &quot;Walk the dog&quot; row is missing from the list (rendered-item-drop). Proven step: &quot;Without typing anything or changing any todo, verify the second visible row of the todo list, directly below &quot;Buy milk&quot; and directly above &quot;Read a book&quot;, reads exactly &quot;Walk the dog&quot;.&quot;
+- The &quot;Read a book&quot; row appears twice in the list (rendered-item-dup). Proven step: &quot;Without typing anything or changing any todo, verify that exactly one row in the todo list reads &quot;Read a book&quot;, that it is the last row of the list, and that the footer with &quot;3 items left&quot; sits directly below it with no &quot;
+- The &quot;Buy oat milk&quot; row appears twice in the list (rendered-item-dup). Proven step: &quot;Without typing anything or adding, editing or re-entering any todo, verify the todo list shows exactly 1 visible row, that this row reads &quot;Buy oat milk&quot;, and that there is no other row below it above the footer.&quot;
+- The heading &quot;todos&quot; reads &quot;Something went wrong&quot; (text-change). Proven step: &quot;Without typing anything or changing any todo, verify the main page heading above the &quot;What needs to be done?&quot; input reads exactly &quot;todos&quot;.&quot;
+</div>
+
+<h2>Cost</h2>
+<p>17 mutants · 46.19 minutes of Kane runs (163s per mutant). Replays run from Kane's cache with healing off.</p>
+
+<h2>What this does not measure</h2>
+<p class="note">Tripwire mutates traffic and the rendered page, not source code. It tells you whether the suite notices breakage a user would see. It does not replace unit-level mutation testing, and it cannot see server-side effects that never reach the browser.</p>
+</main></body></html>

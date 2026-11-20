@@ -13,7 +13,7 @@
     "proxy": "node packages/cli/bin/tripwire.js proxy --target http://localhost:3000 --port 8080",
     "demo": "node packages/cli/bin/tripwire.js demo",
     "test": "node --test \"packages/cli/test/*.test.js\"",
-    "report:publish": "node packages/cli/bin/tripwire.js report --dir demo/shop/.tripwire && node -e \"require('fs').rmSync('docs',{recursive:true,force:true});require('fs').cpSync('demo/shop/.tripwire/report','docs',{recursive:true});require('fs').writeFileSync('docs/.nojekyll','')\""
+    "report:publish": "node packages/cli/bin/tripwire.js report --dir demo/shop/.tripwire && node packages/cli/bin/tripwire.js report --dir demo/third-party/.tripwire && node -e \"const fs=require('fs');fs.rmSync('docs',{recursive:true,force:true});fs.cpSync('demo/shop/.tripwire/report','docs',{recursive:true});fs.cpSync('demo/third-party/.tripwire/report','docs/todomvc',{recursive:true});fs.writeFileSync('docs/.nojekyll','')\""
   },
   "engines": {
     "node": ">=18"

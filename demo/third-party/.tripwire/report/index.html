@@ -274,11 +274,11 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 
 <h2>Lessons for the test-writing agent</h2><div class="lessons"># Assertion patterns that caught real bugs in this repo
 
-- The test checks which rows are listed, or how many (caught: rendered-item-drop; I added a final step that tells Kane not to add, edit or re-enter any todo, then checks that the list shows exactly 3 visible rows and that the first one reads )
-- The test checks which rows are listed, or how many (caught: rendered-item-drop; I appended a step that checks, without typing anything or changing any todo, that the second visible row, directly below &quot;Buy milk&quot; and directly above &quot;Read a b)
-- The test checks how many rows are listed (caught: rendered-item-dup; The screenshot shows why the earlier &quot;exactly 3 rows&quot; checks didn&#39;t catch this: the extra &quot;Read a book&quot; row is fourth, and the footer still says &quot;3 items left&quot;,)
-- The test checks how many rows are listed (caught: rendered-item-dup; I added a final step, &quot;Check the list holds exactly one todo&quot;: without typing anything or changing any todo, it checks that the list shows exactly 1 visible row)
-- The test checks it reached the right page or message (caught: text-change; I appended a final step that checks, without typing or changing any todo, that the main heading above the &quot;What needs to be done?&quot; input reads exactly &quot;todos&quot; ()
+- The &quot;Buy milk&quot; row is missing from the list (rendered-item-drop). Proven step: &quot;Without adding, editing or re-entering any todo, verify the todo list currently displays exactly 3 visible rows and that the first visible row&#39;s text is exactly &quot;Buy milk&quot;.&quot;
+- The &quot;Walk the dog&quot; row is missing from the list (rendered-item-drop). Proven step: &quot;Without typing anything or changing any todo, verify the second visible row of the todo list, directly below &quot;Buy milk&quot; and directly above &quot;Read a book&quot;, reads exactly &quot;Walk the dog&quot;.&quot;
+- The &quot;Read a book&quot; row appears twice in the list (rendered-item-dup). Proven step: &quot;Without typing anything or changing any todo, verify that exactly one row in the todo list reads &quot;Read a book&quot;, that it is the last row of the list, and that the footer with &quot;3 items left&quot; sits directly below it with no &quot;
+- The &quot;Buy oat milk&quot; row appears twice in the list (rendered-item-dup). Proven step: &quot;Without typing anything or adding, editing or re-entering any todo, verify the todo list shows exactly 1 visible row, that this row reads &quot;Buy oat milk&quot;, and that there is no other row below it above the footer.&quot;
+- The heading &quot;todos&quot; reads &quot;Something went wrong&quot; (text-change). Proven step: &quot;Without typing anything or changing any todo, verify the main page heading above the &quot;What needs to be done?&quot; input reads exactly &quot;todos&quot;.&quot;
 </div>
 
 <h2>Cost</h2>

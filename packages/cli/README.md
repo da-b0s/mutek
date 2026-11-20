@@ -17,37 +17,53 @@ coding agent, which adds one plain-English assertion, and Kane proves it: the st
 
 ## Results
 
-On the demo shop, with a 6-test suite written by a fresh Claude Code session that was never told
-about Tripwire (run of 18 Nov 2026, Kane CLI 0.10.5):
+Two apps, each with a suite written by a fresh Claude Code session that was never told about
+Tripwire (Kane CLI 0.10.5, 18 to 20 Nov 2026). Every fix below was proven by two Kane runs: the
+strengthened test passes on the real app and fails with the bug armed.
 
-| | Score | Killed | Survived | Masked by heal | Not reached |
+**Demo shop** (`demo/shop`, 6 tests, JSON API)
+
+| Run | Mutants | Score | Killed | Survived | Masked by heal | Not reached |
+|---|---|---|---|---|---|---|
+| First-draft suite | 40 | **78.4%** | 29 | 7 | 1 | 3 |
+| After `tripwire fix` (5 proven fixes) | 40 | **91.9%** | 34 | 2 | 1 | 3 |
+| Fresh measured re-run of the strengthened suite, harder set (adds 8 saboteur bugs and the in-page operators) | 50 | **78.7%** | 37 | 10 | 0 | 3 |
+| After 3 more proven fixes | 50 | **85.1%** | 40 | 7 | 0 | 3 |
+
+5 of the 7 remaining survivors are flagged *suspected equivalent*: the bug fired but no page ever
+showed anything different (mostly saboteur bugs placed in write responses that the shop ignores
+because it re-reads the data). They stay in the score: only a person can exclude a mutant.
+
+**TodoMVC** (`demo/third-party`, the unmodified JavaScript ES5 example, 6 tests, no backend)
+
+| Run | Mutants | Score | Killed | Survived | Masked by heal |
 |---|---|---|---|---|---|
-| Agent's first-draft suite | **83.3%** | 25 | 4 | 1 | 2 |
-| After `tripwire fix` (2 tests strengthened) | **90%** | 27 | 2 | 1 | 2 |
+| First-draft suite | 18 | **77.8%** | 14 | 2 | 2 |
+| After `tripwire fix` (4 proven fixes, including both masked bugs) | 18 | **100%** | 18 | 0 | 0 |
+| Incremental re-check of the strengthened suite (`--since`, corrected operators) | 17 | **94.1%** | 16 | 1 | 0 |
+| After 1 more proven fix | 17 | **100%** | 17 | 0 | 0 |
 
-Bugs the first-draft suite walked past, all green in Kane:
+**What the runs found**
 
-- **Another customer's order (#91002) listed in "My orders".** Fixed: `cancel_order_test.md` now
-  checks the list holds exactly the user's own orders.
-- **A product price shown 10% too high** ($19.80 instead of $18.00). Fixed: `browse_test.md` now
-  checks a price in the product grid.
-- The "Keep order" button missing from the cancel dialog.
-- The "+" and "−" quantity buttons swapping labels (the test presses them by accessibility name,
-  so it never looks at what the user sees).
+- **Another customer's order (#91002) in "My orders"**, and a product price 10% too high, both green
+  in the first-draft shop suite. Both now caught by one appended step each.
+- **Default healing passed a bug Kane's own triage had just diagnosed.** With a TodoMVC row hidden,
+  strict replay failed and Kane's triage said "application issue, major: the page says 3 items left
+  but shows only 'Walk the dog' and 'Read a book'". With healing on, Kane re-authored the check,
+  read the hidden row from the DOM, and passed. For masked bugs the agent learned to write checks
+  that forbid re-entering data, and those failed on the broken app even with healing on.
+- **A replayed "exactly three items" check passed with four rows on screen** (screenshot in the
+  report). The appended fix pins the row to directly above the footer.
+- **Coverage, with a third state.** Of the shop's 21 acceptance criteria: 7 proven and guarded,
+  4 *proven but unguarded* (tests check them, a bug that broke them got past), 3 untouched by any
+  mutant, 7 owed (no test checks them).
 
-Masked by healing: a one-off "session expired" (401) during cancel. Strict replay failed; with
-Kane's default adaptive healing the test re-authored itself past the sign-in page and passed.
+Reports: [shop](https://da-b0s.github.io/tripwire/) · [TodoMVC](https://da-b0s.github.io/tripwire/todomvc/)
+(each survivor with a screenshot of the broken page the suite passed on, Kane's triage of every
+failure, every fix and lesson). Full measurements and findings: [NOTES.md](https://github.com/da-b0s/tripwire/blob/main/NOTES.md).
 
-Each fix was proven on the first attempt by two Kane runs: pass on the real app, fail with the bug
-armed. One honest caveat: the order-list fix names the injected order ("no other rows such as
-#91002"); its "exactly 2 orders" check is what catches the bug, but naming the planted value is
-overfitting, so the fix prompt now forbids it. Score = killed ÷ (killed + survived + masked) over 32 of 40 selected mutants; the remaining
-8 are queued (`tripwire run --resume`). The full report
-([live page](https://da-b0s.github.io/tripwire/), [source](https://github.com/da-b0s/tripwire/blob/main/docs/index.html)) has a screenshot of
-every broken page the suite passed on, and Kane's own triage of every failure.
-
-**Cost:** baseline replay of 6 tests ≈ 4 credits; mutant runs ≈ 1 to 5 credits each (a failing
-replay costs more because Kane investigates it); a heal check ≈ 15 to 35; each proven fix ≈ 25.
+**Cost:** a passing replay ≈ 0.7 credits per test; a failing one ≈ 5 (Kane investigates it); a heal
+check 15 to 35; each proven fix ≈ 25.
 
 ## Quickstart
 
@@ -62,10 +78,15 @@ Point your `*_test.md` files at the proxy (`url: http://localhost:8080` in the f
 your app, then:
 
 ```bash
-tripwire run      # baseline, generate mutants, replay, score, report
-tripwire fix      # hand each survivor to your agent; Kane proves every new assertion
-tripwire check    # exit 1 below the threshold (for hooks and CI)
+tripwire run       # baseline, generate mutants, replay, score, report
+tripwire fix       # hand each survivor to your agent; Kane proves every new assertion
+tripwire check     # exit 1 below the threshold (for hooks and CI)
 ```
+
+More: `tripwire sabotage` (your agent proposes domain bugs from your acceptance criteria),
+`tripwire coverage` (criteria as owed / proven and guarded / proven but unguarded),
+`tripwire run --since <ref>` (only mutants whose tests changed), `tripwire doctor` (checks
+kane-cli, the login, and leftover Kane browsers that can change a shared app's state).
 
 Try it on the bundled demo shop (its Kane suite and recordings are committed):
 
@@ -82,7 +103,8 @@ Without spending any credits you can inspect the committed results: `npx tripwir
 `npx tripwire list`, `npx tripwire run --dry-run` and `npx tripwire report` all work offline.
 
 Long runs are safe to interrupt: `tripwire run --resume` continues from the last finished mutant,
-and `tripwire run --retry-errors` re-runs only mutants that hit a Kane service error.
+`--retry-errors` re-runs only mutants that hit a Kane service error, and `--redo <id>` re-runs
+named mutants. Kane service hiccups before a run starts are waited out automatically.
 
 ## What a score means
 
@@ -93,15 +115,17 @@ and `tripwire run --retry-errors` re-runs only mutants that hit a Kane service e
 | **masked** | strict replay caught it, but with Kane's default healing the test re-authored itself and passed on the broken app | yes, against you |
 | **not reached** | the bug never fired in any test (e.g. no test submits invalid input) | no, listed separately |
 
-Score = killed ÷ (killed + survived + masked). Kane exit codes 2 and 3 (errors, timeouts) are
-retried once and never counted as kills. Mutants are only excluded as "equivalent" with a
-human-written reason in `.tripwire/equivalents.json`, and every exclusion is listed in the report.
+Score = killed ÷ (killed + survived + masked). Kane errors and timeouts are retried and never
+counted. A survivor whose pages never showed anything different from the clean run is flagged as a
+*suspected equivalent*; it is excluded only when a person adds it to `.tripwire/equivalents.json`
+with a reason, and every exclusion is listed in the report.
 
 ## The operators
 
 Generated from the traffic and the pages your suite actually produced, so every mutant is
-relevant to at least one test. Data mutants only change values that were on screen, and interface
-mutants target controls by their visible text.
+relevant to at least one test. Data mutants only change values that were on screen; interface
+mutants target controls by their visible text, or by tag and class with their row for icon buttons
+and checkboxes. Links to other sites are never mutated.
 
 | Family | Operator | What breaks |
 |---|---|---|
@@ -110,6 +134,8 @@ mutants target controls by their visible text.
 | data | field-swap | two displayed fields of a record are exchanged |
 | data | stale-read | a read after a write returns the old data |
 | data | wrong-owner | another user's record appears in a list |
+| data | rendered-number-drift | a number shown on the page is off by one, changed in the page (no JSON needed) |
+| data | rendered-item-drop / -dup | a list row disappears or shows twice, changed in the page |
 | behaviour | silent-fail | a write returns 500 and is dropped |
 | behaviour | fake-success | a write answers with its usual success body but is never saved |
 | behaviour | double-apply | a POST is applied twice |
@@ -130,8 +156,8 @@ mutants target controls by their visible text.
   Merge [hooks/claude-settings.json](https://github.com/da-b0s/tripwire/blob/main/hooks/claude-settings.json) into `.claude/settings.json`.
 - **Any agent**: copy [hooks/AGENTS.md](https://github.com/da-b0s/tripwire/blob/main/hooks/AGENTS.md).
 - **CI**: [hooks/tripwire.yml](https://github.com/da-b0s/tripwire/blob/main/hooks/tripwire.yml) runs incrementally (`--since`) on pull requests.
-- **Memory**: `.tripwire/lessons.md` collects assertion patterns that caught real bugs; the agent
-  reads it before writing new tests, so first drafts get stronger.
+- **Memory**: `.tripwire/lessons.md` records each bug with the exact step that was proven to catch
+  it; the agent reads it before writing new tests (seen live in the hook session above).
 
 ## What Kane does here
 
@@ -149,20 +175,25 @@ mutants target controls by their visible text.
 
 - Tripwire mutates traffic and the rendered page, not source code. It measures whether the suite
   notices breakage a user would see. It does not replace unit-level mutation testing.
-- Server-rendered pages carry data in HTML, not JSON; data operators work on JSON APIs, interface
-  operators work on any page. Websockets and static assets pass through untouched.
-- A Kane replay re-evaluates its AI checks, so it is cheap but not free (measured: ~2 credits per
-  3-step replay). See [NOTES.md](https://github.com/da-b0s/tripwire/blob/main/NOTES.md) for every measurement.
+- JSON operators need a JSON API; the in-page operators and interface operators work on any page.
+  Websockets and static assets pass through untouched.
+- Kane's checks are AI-judged and not perfectly repeatable: the same mutant was caught by a test in
+  one run and survived it in another, and one check failed with `analyzer_failed` and passed on the
+  next replay. Treat a single kill or survival as strong evidence, not proof.
+- Equivalence is flagged by comparing page text, so it cannot see effects that never reach the
+  page, and older baselines cannot see duplicated rows (duplicating mutants are never flagged then).
+- A Kane replay re-evaluates its AI checks, so it is cheap but not free. See [NOTES.md](https://github.com/da-b0s/tripwire/blob/main/NOTES.md).
 - Only run it against apps you own or run locally.
 
 ## For judges
 
-- Everything runs locally against the demo shop; you only need a Kane login.
-- The demo suite in `demo/shop/tests/` was written by a separate Claude Code session that was never
-  told about Tripwire; its full transcript is in `demo/shop/agent-session.jsonl` and the prompt in
-  [WRITE_TESTS_PROMPT.md](https://github.com/da-b0s/tripwire/blob/main/demo/shop/WRITE_TESTS_PROMPT.md).
-- If you cannot run it: the committed report, ledger and screenshots in `demo/shop/.tripwire/`
-  are the record of the runs shown in the video.
+- Everything runs locally against the two demos; you only need a Kane login.
+- Both suites were written by separate Claude Code sessions in clean folders that never saw
+  Tripwire; transcripts are in `demo/*/agent-session.jsonl`, prompts and what happened in
+  `demo/*/WRITE_TESTS_PROMPT.md`.
+- `demo/shop/stop-hook-session.jsonl` is a real Claude Code session blocked by the Stop hook.
+- If you cannot run it: the committed reports, ledgers, fixes, lessons and screenshots in
+  `demo/*/.tripwire/` are the record of every run.
 
 ## License
 
