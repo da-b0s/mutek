@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tripwire · Would your tests fail if the app were broken?</title>
+<meta name="description" content="Tripwire breaks your app one realistic way at a time, replays your Kane CLI suite against each broken version, and proves every fix: pass on the real app, fail on the broken one.">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0a0a'/%3E%3Cpath d='M5 21h7l3-9 3 13 3-8h6' fill='none' stroke='%23e8e8e8' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root {
+  --bg: #0a0a0a; --bg-2: #101010; --surface: #151515; --surface-2: #1c1c1c;
+  --line: #262626; --line-2: #333; --ink: #ededed; --ink-2: #b4b4b4; --muted: #808080; --faint: #5c5c5c;
+  --mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, "Liberation Mono", monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --r: 10px; --max: 1120px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+a { color: var(--ink); }
+img { max-width: 100%; display: block; }
+code, .mono { font-family: var(--mono); }
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* nav */
+header.nav { position: sticky; top: 0; z-index: 10; background: rgba(10,10,10,.82); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.01em; text-decoration: none; }
+.brand svg { width: 26px; height: 26px; }
+.nav nav { display: flex; gap: 22px; font-size: 14px; }
+.nav nav a { color: var(--muted); text-decoration: none; }
+.nav nav a:hover { color: var(--ink); }
+.btn { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 8px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); font: 600 14px/1 var(--sans); text-decoration: none; cursor: pointer; white-space: nowrap; }
+.btn:hover { background: var(--surface-2); border-color: #444; }
+.btn.light { background: var(--ink); color: #0a0a0a; border-color: var(--ink); }
+.btn.light:hover { background: #fff; }
+.btn svg { width: 16px; height: 16px; }
+
+/* hero */
+.hero { position: relative; padding: 88px 0 72px; overflow: hidden; }
+.hero::before { content: ""; position: absolute; inset: -40% -10% auto; height: 80%; background: radial-gradient(closest-side, rgba(255,255,255,.07), transparent); pointer-events: none; }
+.hero .wrap { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; position: relative; }
+h1 { font-size: clamp(38px, 5.4vw, 60px); line-height: 1.04; letter-spacing: -.035em; margin: 0 0 20px; }
+h1 .dim { color: var(--faint); }
+.lede { font-size: 18px; color: var(--ink-2); max-width: 30em; margin: 0 0 28px; }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+.copy { font-family: var(--mono); font-weight: 500; }
+.copy .ok { display: none; }
+.copy.done .ok { display: inline; }
+.copy.done .cp { display: none; }
+
+.term { background: #0d0d0d; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 30px 80px rgba(0,0,0,.6); overflow: hidden; }
+.term-bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--bg-2); }
+.dots { display: flex; gap: 6px; }
+.dots i { width: 10px; height: 10px; border-radius: 50%; background: #2c2c2c; display: block; }
+.term-title { font: 12px var(--mono); color: var(--muted); flex: 1; }
+.term-bar button { background: none; border: 1px solid var(--line-2); color: var(--ink-2); border-radius: 6px; font: 12px var(--sans); padding: 4px 10px; cursor: pointer; }
+.term pre { margin: 0; padding: 16px 18px 20px; font: 12.5px/1.65 var(--mono); color: var(--ink-2); height: 380px; overflow: hidden; white-space: pre-wrap; word-break: break-word; }
+.term .p { color: var(--ink); }
+.term .s { color: #fff; font-weight: 700; }
+.term .k { color: var(--faint); }
+.term .g { color: var(--ink); }
+.cursor { display: inline-block; width: 8px; height: 15px; background: var(--ink-2); vertical-align: -3px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* stats */
+.stats { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--bg-2); }
+.stats .wrap { display: grid; grid-template-columns: repeat(4, 1fr); }
+.stat { padding: 30px 24px; border-left: 1px solid var(--line); }
+.stat:first-child { border-left: 0; padding-left: 0; }
+.stat b { display: block; font-size: 30px; letter-spacing: -.02em; line-height: 1.1; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+.stat b .arrow { color: var(--muted); font-weight: 400; font-family: var(--sans); margin: 0 .12em; }
+.stat span { color: var(--muted); font-size: 14px; }
+
+/* sections */
+section.block { padding: 96px 0; border-bottom: 1px solid var(--line); }
+.eyebrow { font: 600 12px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
+h2 { font-size: clamp(28px, 3.4vw, 40px); letter-spacing: -.03em; line-height: 1.12; margin: 0 0 14px; }
+.sub { color: var(--ink-2); max-width: 44em; margin: 0 0 40px; font-size: 17px; }
+
+/* demo */
+.demo { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; }
+.panel h3 { margin: 0 0 14px; font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: .02em; text-transform: uppercase; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.chip { border: 1px solid var(--line-2); background: var(--bg-2); color: var(--ink-2); border-radius: 999px; padding: 7px 14px; font: 500 13px var(--sans); cursor: pointer; }
+.chip:hover { color: var(--ink); border-color: #4a4a4a; }
+.chip[aria-pressed="true"] { background: var(--ink); color: #0a0a0a; border-color: var(--ink); }
+.shop { background: #f3f3f3; color: #1a1a1a; border-radius: 8px; padding: 16px; font-size: 14px; }
+.shop .row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #ddd; gap: 10px; }
+.shop .row span:first-child { flex: 1; }
+.shop .rm { font-size: 12px; text-decoration: underline; color: #444; background: none; border: 0; cursor: default; padding: 0; }
+.shop .foreign { background: #e6e6e6; margin: 0 -8px; padding: 8px; }
+.shop .tot { display: flex; justify-content: space-between; padding-top: 10px; font-weight: 700; }
+.shop .toast { margin-top: 12px; background: #1a1a1a; color: #fff; border-radius: 6px; padding: 8px 12px; font-size: 13px; }
+.shop .hidden { visibility: hidden; }
+.tests { display: grid; gap: 10px; }
+.test { border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; background: var(--bg-2); }
+.test .name { font: 600 13px var(--sans); display: flex; justify-content: space-between; gap: 8px; }
+.test .body { font: 12.5px/1.55 var(--mono); color: var(--muted); margin-top: 6px; }
+.verdict { font: 700 12px var(--mono); letter-spacing: .04em; white-space: nowrap; }
+.verdict.pass { color: var(--ink-2); }
+.verdict.fail { color: #0a0a0a; background: var(--ink); padding: 2px 8px; border-radius: 4px; }
+.explain { margin-top: 14px; font-size: 14px; color: var(--ink-2); min-height: 4.8em; }
+.explain b { color: var(--ink); }
+
+/* findings */
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; display: flex; flex-direction: column; }
+.card figure { margin: 0; background: #f4f4f4; height: 220px; padding: 14px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-bottom: 1px solid var(--line); }
+.card figure img { max-width: 100%; max-height: 100%; object-fit: contain; filter: grayscale(1) contrast(1.05); border-radius: 4px; }
+.card .quote { height: 220px; background: var(--bg-2); border-bottom: 1px solid var(--line); padding: 22px; display: flex; flex-direction: column; justify-content: center; gap: 12px; font: 13px/1.55 var(--mono); color: var(--ink-2); }
+.card .quote em { font-style: normal; color: var(--muted); font-size: 12px; }
+.card .txt { padding: 18px 20px 22px; }
+.card h3 { margin: 0 0 8px; font-size: 17px; letter-spacing: -.01em; line-height: 1.3; }
+.card p { margin: 0; color: var(--ink-2); font-size: 14.5px; }
+
+/* flow */
+.flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; counter-reset: s; }
+.step { position: relative; padding: 0 18px 0 0; }
+.step::before { counter-increment: s; content: counter(s, decimal-leading-zero); font: 600 12px var(--mono); color: var(--faint); display: block; margin-bottom: 12px; }
+.step .bar { height: 2px; background: var(--line-2); margin-bottom: 18px; position: relative; }
+.step .bar::after { content: ""; position: absolute; left: 0; top: -3px; width: 8px; height: 8px; border-radius: 50%; background: var(--ink); }
+.step h3 { margin: 0 0 6px; font-size: 16px; }
+.step p { margin: 0; color: var(--ink-2); font-size: 14px; }
+.callouts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+.callout { border: 1px solid var(--line); border-radius: var(--r); padding: 20px; background: var(--bg-2); }
+.callout h3 { margin: 0 0 6px; font-size: 15px; }
+.callout p { margin: 0; color: var(--ink-2); font-size: 14px; }
+
+/* operators */
+.fam { margin-bottom: 26px; }
+.fam h3 { font: 600 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+.ops { display: flex; flex-wrap: wrap; gap: 8px; }
+.op { position: relative; border: 1px solid var(--line-2); background: var(--surface); border-radius: 6px; padding: 8px 12px; font: 13px var(--mono); color: var(--ink-2); cursor: help; }
+.op:hover, .op:focus { color: var(--ink); border-color: #555; }
+.op .tip { position: absolute; left: 0; bottom: calc(100% + 8px); width: max-content; max-width: 260px; background: var(--ink); color: #0a0a0a; font: 13px/1.45 var(--sans); padding: 8px 10px; border-radius: 6px; opacity: 0; pointer-events: none; transform: translateY(4px); transition: opacity .12s, transform .12s; z-index: 5; }
+.op:hover .tip, .op:focus .tip { opacity: 1; transform: none; }
+
+/* results + start */
+.results { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); }
+th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+td.n { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.cmd { background: #0d0d0d; border: 1px solid var(--line); border-radius: var(--r); padding: 18px 20px; font: 14px/1.9 var(--mono); color: var(--ink-2); overflow-x: auto; }
+.cmd .c { color: var(--faint); }
+.honest { color: var(--muted); font-size: 14px; margin-top: 18px; max-width: 46em; }
+
+footer { padding: 40px 0 56px; color: var(--muted); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; }
+footer a { color: var(--ink-2); }
+
+/* responsive */
+@media (max-width: 940px) {
+  .hero .wrap, .demo, .results { grid-template-columns: 1fr; }
+  .cards, .callouts { grid-template-columns: 1fr; }
+  .flow { grid-template-columns: 1fr; gap: 28px; }
+  .stats .wrap { grid-template-columns: 1fr 1fr; }
+  .stat:nth-child(3) { border-left: 0; padding-left: 0; }
+  .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .nav nav { display: none; }
+}
+@media (max-width: 480px) {
+  .wrap { padding: 0 16px; }
+  .hero { padding: 56px 0 48px; }
+  section.block { padding: 64px 0; }
+  .term pre { height: 340px; font-size: 11.5px; }
+  .stat { padding: 22px 12px; }
+  .stat b { font-size: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .cursor { animation: none; }
+  .op .tip { transition: none; }
+}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Tripwire home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#1c1c1c"/><path d="M5 21h7l3-9 3 13 3-8h6" fill="none" stroke="#ededed" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Tripwire
+    </a>
+    <nav aria-label="Sections">
+      <a href="#try">Break it</a>
+      <a href="#found">Findings</a>
+      <a href="#how">How it works</a>
+      <a href="#operators">20 bugs</a>
+      <a href="#results">Results</a>
+    </nav>
+    <a class="btn" href="https://github.com/da-b0s/tripwire">
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      GitHub
+    </a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <h1>Your tests are green.<br><span class="dim">Is your app?</span></h1>
+        <p class="lede">Tripwire breaks your running app one realistic way at a time, replays your Kane CLI suite against each broken version, and hands every bug the tests missed to your coding agent. A fix only counts when Kane proves it.</p>
+        <div class="ctas">
+          <button class="btn light copy" type="button" data-copy="npm install -g tripwire-e2e" aria-label="Copy install command">
+            <span>npm install -g tripwire-e2e</span>
+            <svg class="cp" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 009.5 2h-6A1.5 1.5 0 002 3.5v6A1.5 1.5 0 003.5 11H5"/></svg>
+            <svg class="ok" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8.5l3 3 7-7"/></svg>
+          </button>
+          <a class="btn" href="#found">See what it found</a>
+        </div>
+      </div>
+      <div class="term" aria-label="Real Tripwire output from a recorded run">
+        <div class="term-bar">
+          <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="term-title">tripwire · real output, demo shop</div>
+          <button type="button" id="replay">Replay</button>
+        </div>
+        <pre id="term"><span class="cursor"></span></pre>
+      </div>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="wrap">
+      <div class="stat"><b>78.4% <span class="arrow">→</span> 91.9%</b><span>an agent-written shop suite, before and after proven fixes</span></div>
+      <div class="stat"><b>77.8% <span class="arrow">→</span> 100%</b><span>TodoMVC, unmodified, agent-written suite</span></div>
+      <div class="stat"><b>13</b><span>fixes, each proven by two Kane runs</span></div>
+      <div class="stat"><b>0</b><span>lines of the app's code touched to break it</span></div>
+    </div>
+  </div>
+
+  <section class="block" id="try">
+    <div class="wrap">
+      <p class="eyebrow">Break it yourself</p>
+      <h2>A test can pass on a broken page.</h2>
+      <p class="sub">A tiny cart, and two tests a coding agent might write for it. Pick a bug and watch which test notices. This runs in your browser; the real tool does it to your own app over the network, with Kane CLI driving a real Chrome.</p>
+      <div class="demo">
+        <div class="panel">
+          <h3>1 · Break the app</h3>
+          <div class="chips" role="group" aria-label="Choose a bug">
+            <button class="chip" type="button" aria-pressed="false" data-bug="none">No bug</button>
+            <button class="chip" type="button" aria-pressed="false" data-bug="total">Wrong total</button>
+            <button class="chip" type="button" aria-pressed="false" data-bug="owner">Another customer's item</button>
+            <button class="chip" type="button" aria-pressed="false" data-bug="remove">Remove button missing</button>
+            <button class="chip" type="button" aria-pressed="false" data-bug="save">Save fails silently</button>
+          </div>
+          <div class="shop" id="shop" aria-live="polite"></div>
+        </div>
+        <div class="panel">
+          <h3>2 · Replay the tests</h3>
+          <div class="tests">
+            <div class="test"><div class="name">Agent's first draft <span class="verdict" id="v1"></span></div><div class="body">Add the notebook. Verify a success message appears.</div></div>
+            <div class="test"><div class="name">After tripwire fix <span class="verdict" id="v2"></span></div><div class="body">…then verify the cart lists exactly "Canvas Tote Bag" and "Notebook, Dot Grid" and the total reads "$37.00".</div></div>
+          </div>
+          <p class="explain" id="explain">Pick a bug on the left.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="found">
+    <div class="wrap">
+      <p class="eyebrow">What it found</p>
+      <h2>Green in Kane. Broken on screen.</h2>
+      <p class="sub">Both suites were written by fresh Claude Code sessions that were never told about Tripwire. These are screenshots from Kane's own evidence packs, taken at the end of runs that passed.</p>
+      <div class="cards">
+        <article class="card">
+          <figure><img src="assets/orders.jpg" alt="My orders page listing order #91002, which belongs to another customer, above the customer's own orders" loading="lazy"></figure>
+          <div class="txt"><h3>Another customer's order in "My orders"</h3><p>The order-history test passed while a stranger's order sat at the top of the list. Fixed with one appended check: exactly the customer's own two orders, no other rows.</p></div>
+        </article>
+        <article class="card">
+          <figure><img src="assets/four-rows.jpg" alt="TodoMVC list showing four rows, Read a book twice, with a counter saying 3 items left" loading="lazy"></figure>
+          <div class="txt"><h3>"Exactly three items" passed with four on screen</h3><p>A duplicated row in TodoMVC, the counter still saying 3 items left, and a replayed check that the list shows exactly three items passed anyway.</p></div>
+        </article>
+        <article class="card">
+          <div class="quote">“The page says there are 3 items left but shows only ‘Walk the dog’ and ‘Read a book’; the expected ‘Buy milk’ item is missing.”<em>Kane's own triage, severity major, confidence 0.96</em></div>
+          <div class="txt"><h3>Healing passed a bug Kane had just diagnosed</h3><p>Strict replay failed and triage named the bug. With default healing on, the re-authored check read the hidden row from the DOM and passed. Tripwire reports these as masked.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="how">
+    <div class="wrap">
+      <p class="eyebrow">How it works</p>
+      <h2>Break, replay, judge, fix, prove.</h2>
+      <p class="sub">Tripwire sits between the browser and your app. Your code and your tests stay as they are; point the tests at the proxy and run one command.</p>
+      <div class="flow">
+        <div class="step"><div class="bar"></div><h3>Break one thing</h3><p>A proxy rewrites one response or one control: a wrong total, a 500 swallowed, a missing button.</p></div>
+        <div class="step"><div class="bar"></div><h3>Replay in Kane</h3><p>Kane CLI replays the suite from cache in a real Chrome, healing off.</p></div>
+        <div class="step"><div class="bar"></div><h3>Judge with Kane</h3><p>An inverted Kane policy fails the verdict when every test passed while the app was broken.</p></div>
+        <div class="step"><div class="bar"></div><h3>Agent adds a check</h3><p>Each survivor, with a screenshot, goes to Claude Code or Codex. It may only append one step.</p></div>
+        <div class="step"><div class="bar"></div><h3>Kane proves it</h3><p>The new test must pass on the real app and fail on the broken one, or it is reverted.</p></div>
+      </div>
+      <div class="callouts">
+        <div class="callout"><h3>A Stop hook that says no</h3><p>Claude Code can't finish while Kane tests changed since the last run or the score is below the bar. Recorded live.</p></div>
+        <div class="callout"><h3>Coverage with a third state</h3><p>Acceptance criteria as owed, proven and guarded, or <b>proven but unguarded</b>: tested, yet a bug that broke them got past.</p></div>
+        <div class="callout"><h3>Honest about its blind spots</h3><p>Bugs that never reach the screen are flagged as suspected equivalents instead of counted silently. Only a person can exclude one.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="operators">
+    <div class="wrap">
+      <p class="eyebrow">The bugs it plants</p>
+      <h2>Twenty ways an app goes wrong, plus your agent's.</h2>
+      <p class="sub">Generated from the traffic and pages your suite actually produced, so every bug is one a test could have seen. Hover or tab to a name for what it breaks.</p>
+      <div class="fam"><h3>Data</h3><div class="ops" id="ops-data"></div></div>
+      <div class="fam"><h3>Behaviour</h3><div class="ops" id="ops-behaviour"></div></div>
+      <div class="fam"><h3>Interface</h3><div class="ops" id="ops-interface"></div></div>
+      <div class="fam"><h3>Saboteur</h3><div class="ops" id="ops-saboteur"></div></div>
+    </div>
+  </section>
+
+  <section class="block" id="results">
+    <div class="wrap">
+      <p class="eyebrow">Measured, not claimed</p>
+      <h2>Every number has a run record behind it.</h2>
+      <p class="sub">Kane CLI 0.10.5, 18 to 20 November 2026. Score = bugs caught ÷ (caught + missed + masked by healing).</p>
+      <div class="results">
+        <div class="panel">
+          <h3>Demo shop · 6 tests</h3>
+          <table>
+            <thead><tr><th>Run</th><th>Bugs</th><th>Score</th></tr></thead>
+            <tbody>
+              <tr><td>Agent's first draft</td><td class="n">40</td><td class="n">78.4%</td></tr>
+              <tr><td>After 5 proven fixes</td><td class="n">40</td><td class="n">91.9%</td></tr>
+              <tr><td>Fresh re-run, harder set with domain bugs</td><td class="n">50</td><td class="n">78.7%</td></tr>
+              <tr><td>After 3 more proven fixes</td><td class="n">50</td><td class="n">85.1%</td></tr>
+            </tbody>
+          </table>
+          <div class="links"><a class="btn" href="shop/">Open the shop report</a></div>
+        </div>
+        <div class="panel">
+          <h3>TodoMVC · 6 tests · no backend</h3>
+          <table>
+            <thead><tr><th>Run</th><th>Bugs</th><th>Score</th></tr></thead>
+            <tbody>
+              <tr><td>Agent's first draft</td><td class="n">18</td><td class="n">77.8%</td></tr>
+              <tr><td>After 4 proven fixes</td><td class="n">18</td><td class="n">100%</td></tr>
+              <tr><td>Incremental re-check</td><td class="n">17</td><td class="n">94.1%</td></tr>
+              <tr><td>After 1 more proven fix</td><td class="n">17</td><td class="n">100%</td></tr>
+            </tbody>
+          </table>
+          <div class="links"><a class="btn" href="todomvc/">Open the TodoMVC report</a></div>
+        </div>
+      </div>
+      <p class="honest">Kane's checks are AI-judged, so a single kill or survival is strong evidence, not proof; the reports keep every run, screenshot, triage and fix. CI runs the same tool against real Kane on Linux on every manual dispatch.</p>
+    </div>
+  </section>
+
+  <section class="block" id="start">
+    <div class="wrap">
+      <p class="eyebrow">Install it tonight</p>
+      <h2>Three commands.</h2>
+      <p class="sub">Node 18+, Chrome, and a TestMu AI account. Point your <code>*_test.md</code> files at the proxy (<code>url: http://localhost:8080</code>), start your app, then:</p>
+      <div class="cmd" role="region" aria-label="Commands">
+        <div><span class="c">$</span> npm install -g @testmuai/kane-cli tripwire-e2e</div>
+        <div><span class="c">$</span> tripwire run    <span class="c"># break, replay, score, report</span></div>
+        <div><span class="c">$</span> tripwire fix    <span class="c"># your agent adds checks; Kane proves each one</span></div>
+        <div><span class="c">$</span> tripwire check  <span class="c"># exit 1 below the bar, for hooks and CI</span></div>
+      </div>
+      <div class="links">
+        <a class="btn light" href="https://github.com/da-b0s/tripwire">Read the README</a>
+        <a class="btn" href="https://www.npmjs.com/package/tripwire-e2e">npm</a>
+        <a class="btn" href="https://github.com/da-b0s/tripwire/actions">CI runs</a>
+        <a class="btn" href="https://github.com/da-b0s/tripwire/blob/main/NOTES.md">Build notes</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Tripwire · built for the Kane CLI Hackathon · verified with Kane CLI · written with Claude Code · MIT</span>
+    <span><a href="https://github.com/da-b0s/tripwire">github.com/da-b0s/tripwire</a></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- copy buttons ----
+  document.querySelectorAll('[data-copy]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var text = b.getAttribute('data-copy');
+      var done = function () { b.classList.add('done'); setTimeout(function () { b.classList.remove('done'); }, 1500); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, done); else done();
+    });
+  });
+
+  // ---- terminal replay: lines from a real recorded run (22 Nov 2026) ----
+  var LINES = [
+    ['p', '$ tripwire run --only number-drift,wrong-owner --max-mutants 6'],
+    ['', 'Baseline: 6 test(s) through the proxy at http://localhost:8080, healing off'],
+    ['', '  pass  tests/browse_test.md'], ['', '  pass  tests/cancel_order_test.md'], ['', '  pass  tests/order_history_test.md'],
+    ['k', '  ...'],
+    ['', '  [2/6] data · wrong-owner: Another user\'s record appears in the orders'],
+    ['k', '          replaying tests/cancel_order_test.md'],
+    ['k', '          replaying tests/order_history_test.md'],
+    ['s', '          → SURVIVED'],
+    ['', '  [3/6] data · number-drift: total from /api/orders shows 42.61 instead of 38.74'],
+    ['g', '          → killed (by tests/order_history_test.md)'],
+    ['k', '  ...'],
+    ['', 'Score 33.3%  killed 2 · survived 4 · masked by heal 0'],
+    ['', ''],
+    ['p', '$ tripwire fix --only "wrong-owner:GET /api/orders:$.orders"'],
+    ['s', 'SURVIVED Another user\'s record appears in the orders'],
+    ['', '  strengthening tests/cancel_order_test.md with claude'],
+    ['g', '  attempt 1: proven. Real app: pass. Broken app: fail.'],
+    ['', '  added: "Verify the My orders list shows exactly two orders,'],
+    ['', '          "#1002" and "#1001", with no other order rows."'],
+    ['g', '1 of 1 survivors now caught, each proven by a passing clean run and a failing mutant run.']
+  ];
+  var term = document.getElementById('term');
+  var timer = null;
+  function esc(s) { return s.replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }
+  function render(n, partial) {
+    var html = '';
+    for (var i = 0; i < n; i++) html += '<span class="' + LINES[i][0] + '">' + esc(LINES[i][1]) + '</span>\n';
+    if (partial) html += partial;
+    term.innerHTML = html + '<span class="cursor"></span>';
+    term.scrollTop = term.scrollHeight;
+  }
+  function play() {
+    clearTimeout(timer);
+    if (reduce) { render(LINES.length); return; }
+    var i = 0, c = 0;
+    (function tick() {
+      if (i >= LINES.length) { render(LINES.length); return; }
+      var line = LINES[i];
+      if (line[0] === 'p' && c < line[1].length) {
+        c += 2;
+        render(i, '<span class="p">' + esc(line[1].slice(0, c)) + '</span>');
+        timer = setTimeout(tick, 28);
+        return;
+      }
+      i++; c = 0;
+      render(i);
+      timer = setTimeout(tick, line[0] === 'p' ? 450 : line[0] === 's' || line[0] === 'g' ? 420 : 160);
+    })();
+  }
+  document.getElementById('replay').addEventListener('click', play);
+  if ('IntersectionObserver' in window) {
+    var started = false;
+    new IntersectionObserver(function (es) { if (!started && es[0].isIntersecting) { started = true; play(); } }).observe(term);
+  } else play();
+
+  // ---- break it yourself ----
+  var BUGS = {
+    none: { items: [['Canvas Tote Bag', 18.00], ['Notebook, Dot Grid', 19.00]], total: 37.00, toast: true,
+      v1: 'pass', v2: 'pass', text: 'No bug: <b>both tests pass</b>, as they should.' },
+    total: { items: [['Canvas Tote Bag', 18.00], ['Notebook, Dot Grid', 19.00]], total: 40.70, toast: true,
+      v1: 'pass', v2: 'fail', text: 'The total is 10% too high. The first draft only checks the success message, so it <b>walks past the bug</b>. The fixed test reads the total and fails.' },
+    owner: { items: [['Canvas Tote Bag', 18.00], ['Notebook, Dot Grid', 19.00], ['Wool Beanie (another customer)', 22.00, true]], total: 59.00, toast: true,
+      v1: 'pass', v2: 'fail', text: 'Someone else\'s item is in the cart. The first draft <b>passes</b>. The fixed test checks exactly which items are listed and fails.' },
+    remove: { items: [['Canvas Tote Bag', 18.00], ['Notebook, Dot Grid', 19.00]], total: 37.00, toast: true, noRemove: true,
+      v1: 'pass', v2: 'pass', text: 'The Remove buttons are gone and <b>both tests pass</b>: neither one looks for them. This is what a survivor looks like. <code>tripwire fix</code> would add a check for it, and Kane would prove it.' },
+    save: { items: [['Canvas Tote Bag', 18.00]], total: 18.00, toast: true,
+      v1: 'pass', v2: 'fail', text: 'The add looked successful but was never saved. The success message still appears, so the first draft <b>passes</b>. The fixed test sees the notebook is missing and fails.' }
+  };
+  var shop = document.getElementById('shop');
+  var v1 = document.getElementById('v1'), v2 = document.getElementById('v2'), explain = document.getElementById('explain');
+  function money(n) { return '$' + n.toFixed(2); }
+  function show(key) {
+    var b = BUGS[key];
+    var rows = b.items.map(function (it) {
+      return '<div class="row' + (it[2] ? ' foreign' : '') + '"><span>' + it[0] + '</span><span>' + money(it[1]) + '</span>' +
+        '<button class="rm' + (b.noRemove ? ' hidden' : '') + '" type="button" tabindex="-1" aria-hidden="true">Remove</button></div>';
+    }).join('');
+    shop.innerHTML = '<div style="font-weight:700;margin-bottom:6px">Your cart</div>' + rows +
+      '<div class="tot"><span>Total</span><span>' + money(b.total) + '</span></div>' +
+      (b.toast ? '<div class="toast">Added Notebook, Dot Grid to your cart</div>' : '');
+    var set = function (el, r) { el.textContent = r === 'pass' ? 'PASSED' : 'FAILED'; el.className = 'verdict ' + r; };
+    v1.textContent = v2.textContent = '…'; v1.className = v2.className = 'verdict';
+    explain.innerHTML = 'Replaying…';
+    setTimeout(function () { set(v1, b.v1); }, reduce ? 0 : 350);
+    setTimeout(function () { set(v2, b.v2); explain.innerHTML = b.text; }, reduce ? 0 : 700);
+    document.querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.bug === key)); });
+  }
+  document.querySelectorAll('.chip').forEach(function (c) { c.addEventListener('click', function () { show(c.dataset.bug); }); });
+  show('none');
+
+  // ---- operator catalogue ----
+  var OPS = {
+    data: [
+      ['number-drift', 'A price, total or count is off by one unit or 10%.'],
+      ['item-drop', 'A list loses an element.'], ['item-dup', 'A list repeats an element.'],
+      ['field-swap', 'Two displayed fields of a record are exchanged.'],
+      ['stale-read', 'A read after a write returns the old data.'],
+      ['wrong-owner', 'Another user\'s record appears in a list.'],
+      ['rendered-number-drift', 'A number on the page is off by one, changed in the page itself. No JSON API needed.'],
+      ['rendered-item-drop', 'A list row disappears from the page.'], ['rendered-item-dup', 'A list row shows twice on the page.']
+    ],
+    behaviour: [
+      ['silent-fail', 'A write returns 500 and nothing is saved.'],
+      ['fake-success', 'A write answers with its usual success but is never saved.'],
+      ['double-apply', 'A POST is applied twice.'],
+      ['validation-off', 'A 400 or 422 becomes 200: invalid input looks accepted.'],
+      ['auth-drop', 'One request mid-flow returns 401, an expired session.']
+    ],
+    interface: [
+      ['hide-control', 'A control the tests see but never use disappears.'],
+      ['dead-control', 'A control the tests click does nothing.'],
+      ['label-swap', 'Two button labels are exchanged.'],
+      ['text-change', 'A heading or status shows the wrong words.'],
+      ['wrong-link', 'A link points to a different page.'],
+      ['missing-row-action', 'The first row loses its edit, delete or cancel action.']
+    ],
+    saboteur: [
+      ['agent-proposed', 'Your coding agent reads the acceptance criteria and proposes domain bugs: a coupon that takes 20% instead of 10%, free shipping a cent too early.']
+    ]
+  };
+  Object.keys(OPS).forEach(function (fam) {
+    var box = document.getElementById('ops-' + fam);
+    OPS[fam].forEach(function (o) {
+      var el = document.createElement('span');
+      el.className = 'op'; el.tabIndex = 0; el.setAttribute('aria-label', o[0] + ': ' + o[1]);
+      el.innerHTML = o[0] + '<span class="tip" aria-hidden="true">' + o[1] + '</span>';
+      box.appendChild(el);
+    });
+  });
+})();
+</script>
+</body>
+</html>

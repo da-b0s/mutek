@@ -58,7 +58,7 @@ because it re-reads the data). They stay in the score: only a person can exclude
   4 *proven but unguarded* (tests check them, a bug that broke them got past), 3 untouched by any
   mutant, 7 owed (no test checks them).
 
-Reports: [shop](https://da-b0s.github.io/tripwire/) · [TodoMVC](https://da-b0s.github.io/tripwire/todomvc/)
+Website: https://da-b0s.github.io/tripwire/ · Reports: [shop](https://da-b0s.github.io/tripwire/shop/) · [TodoMVC](https://da-b0s.github.io/tripwire/todomvc/)
 (each survivor with a screenshot of the broken page the suite passed on, Kane's triage of every
 failure, every fix and lesson). Full measurements and findings: [NOTES.md](NOTES.md).
 
