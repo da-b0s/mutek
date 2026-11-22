@@ -9,3 +9,4 @@ node_modules/
 .DS_Store
 **/.tripwire/.stop-hook-blocks
 **/.tw-snap-*/
+demo/video/shop/
