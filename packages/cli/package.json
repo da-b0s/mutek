@@ -1,6 +1,6 @@
 {
   "name": "tripwire-e2e",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Mutation testing for Kane CLI browser suites: a proxy breaks the app one realistic way at a time, Kane replays the suite, and survivors go to your coding agent.",
   "type": "module",
   "bin": {

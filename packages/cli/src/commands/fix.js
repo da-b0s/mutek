@@ -182,7 +182,8 @@ export default async function fix(argv, parseArgs) {
           proof = { clean: { code: clean.code, session: clean.sessionId, pack: clean.pack }, mutant: { code: broken.code, session: broken.sessionId, pack: broken.pack, failure: broken.failureReason } };
           added = addedStep(original, edited);
           appendLesson(dir, m, added);
-          console.log(`  attempt ${attempt}: proven. Real app: pass. Broken app: fail. ${note}`);
+          // show the assertion that was proven, not the agent's own commentary
+          console.log(`  attempt ${attempt}: proven. Real app: pass. Broken app: fail.\n  added: "${added}"`);
           break;
         }
         restore();
