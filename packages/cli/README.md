@@ -70,7 +70,7 @@ check 15 to 35; each proven fix ≈ 25.
 You need Node 18+, Chrome, and a [TestMu AI](https://www.testmuai.com) account (free credits).
 
 ```bash
-npm install -g @testmuai/kane-cli mutek
+npm install -g @testmuai/kane-cli mutek-e2e
 kane-cli login
 ```
 
@@ -195,7 +195,7 @@ and checkboxes. Links to other sites are never mutated.
 - `demo/shop/stop-hook-session.jsonl` is a real Claude Code session blocked by the Stop hook.
 - If you cannot run it: the committed reports, ledgers, fixes, lessons and screenshots in
   `demo/*/.mutek/` are the record of every run.
-- Mutek was called Tripwire until 23 Nov 2026 (npm `tripwire-e2e`, now replaced by `mutek`).
+- Mutek was called Tripwire until 23 Nov 2026 (npm `tripwire-e2e`, now replaced by `mutek-e2e`; the command is `mutek`).
   Raw logs recorded before the rename (agent prompts and transcripts, Kane output) keep the old name
   and paths, exactly as they were captured.
 

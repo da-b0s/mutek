@@ -212,8 +212,8 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <h1>Green is a claim. <em>Mutek checks it.</em></h1>
       <p class="lede">It breaks your running app one realistic way at a time, replays your Kane CLI tests against every broken version, and sends each bug they miss to your coding agent. A new check only counts after Kane proves it: passes on the real app, fails on the broken one.</p>
       <div class="ctas">
-        <button class="btn solid copy" type="button" data-copy="npm install -g mutek" aria-label="Copy install command">
-          npm install -g mutek
+        <button class="btn solid copy" type="button" data-copy="npm install -g mutek-e2e" aria-label="Copy install command">
+          npm install -g mutek-e2e
           <svg class="cp" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5" y="5" width="9" height="9"/><path d="M11 5V2H2v9h3"/></svg>
           <svg class="ok" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8.5l3 3 7-7"/></svg>
         </button>
@@ -357,14 +357,14 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     <div class="wrap">
       <div class="head"><div class="num">07</div><div><h2>Set it up tonight.</h2><p>Node 18 or newer, Chrome, and a TestMu AI account. Point your <code>*_test.md</code> files at the proxy (<code>url: http://localhost:8080</code>), start your app, then:</p></div></div>
       <div class="cmds">
-        <div><span class="c">$</span> npm install -g @testmuai/kane-cli mutek</div>
+        <div><span class="c">$</span> npm install -g @testmuai/kane-cli mutek-e2e</div>
         <div><span class="c">$</span> mutek run    <span class="c"># break, replay, score, report</span></div>
         <div><span class="c">$</span> mutek fix    <span class="c"># the agent adds checks, Kane proves each one</span></div>
         <div><span class="c">$</span> mutek check  <span class="c"># exit 1 below the bar, for hooks and CI</span></div>
       </div>
       <div class="links">
         <a class="btn solid" href="https://github.com/da-b0s/mutek">README</a>
-        <a class="btn" href="https://www.npmjs.com/package/mutek">npm</a>
+        <a class="btn" href="https://www.npmjs.com/package/mutek-e2e">npm</a>
         <a class="btn" href="https://github.com/da-b0s/mutek/actions">CI</a>
         <a class="btn" href="https://github.com/da-b0s/mutek/blob/main/NOTES.md">Build notes</a>
       </div>

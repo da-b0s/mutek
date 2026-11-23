@@ -21,7 +21,7 @@ jobs:
         with: { node-version: 22 }
       - uses: browser-actions/setup-chrome@v1
       - run: npm ci
-      - run: npm install -g @testmuai/kane-cli mutek
+      - run: npm install -g @testmuai/kane-cli mutek-e2e
       - name: Log in to Kane
         run: kane-cli login --username "${{ secrets.LT_USERNAME }}" --access-key "${{ secrets.LT_ACCESS_KEY }}"
       - name: Start the app

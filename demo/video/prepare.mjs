@@ -2,7 +2,7 @@
 // Builds demo/video/shop: a throwaway copy of the shop project with the agent's ORIGINAL first-draft
 // tests and recordings (before any `mutek fix`), so a video can show bugs surviving and then a
 // live fix. Run it again before every take; it starts clean each time. Needs the shop running
-// (npm run shop) and the global `mutek` (npm install -g mutek).
+// (npm run shop) and the global `mutek` (npm install -g mutek-e2e).
 //
 //   node demo/video/prepare.mjs
 import fs from 'node:fs';
