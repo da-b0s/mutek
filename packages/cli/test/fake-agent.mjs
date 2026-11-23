@@ -10,6 +10,7 @@ let prompt = '';
 for await (const c of process.stdin) prompt += c;
 const test = prompt.match(/^Test file: (.+)$/m)[1].trim();
 const mode = process.env.FAKE_AGENT_MODE || 'good';
+if (mode === 'logout') { console.log('Not logged in · Please run /login'); process.exit(1); }
 const fakeFile = test.replace(/_test\.md$/, '_test.fake.json');
 const spec = JSON.parse(fs.readFileSync(fakeFile, 'utf8'));
 if (mode === 'cheat') {

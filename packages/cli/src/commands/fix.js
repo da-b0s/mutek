@@ -157,6 +157,11 @@ export default async function fix(argv, parseArgs) {
         fs.writeFileSync(path.join(fixDir, `${slug(m.id)}_prompt_${attempt}.txt`), prompt);
         const a = await runAgent(agent, prompt);
         if (a.code === 127) throw new Error(`could not start the ${agent} CLI: ${a.stderr.trim()}`);
+        // the agent itself failed (not logged in, no credits, crashed): retrying the same prompt won't help
+        if (a.code !== 0 && fs.readFileSync(test, 'utf8') === original) {
+          const why = `${a.stderr}\n${a.stdout}`.trim().split('\n').filter(Boolean).slice(-3).join(' / ') || `exit ${a.code}`;
+          throw new Error(`the ${agent} CLI failed before editing the test (exit ${a.code}): ${why}${/log(ged)? ?in|\/login|auth/i.test(why) ? `\nLog it in first: run \`${agent}\` in a terminal and sign in, then run mutek fix again.` : ''}`);
+        }
         note = a.stdout.trim().split('\n').slice(-1)[0] || '';
         const edited = fs.readFileSync(test, 'utf8');
         const bad = appendOnly(original, edited);

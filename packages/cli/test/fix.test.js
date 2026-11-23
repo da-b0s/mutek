@@ -66,6 +66,13 @@ test('a test edit that rewrites existing steps is rejected and reverted', async 
   assert.equal(fixes().at(-1).result, 'gave-up');
 });
 
+test('an agent that is not logged in stops the fix with its own message', async () => {
+  process.env.FAKE_AGENT_MODE = 'logout';
+  const before = fs.readFileSync('tests/cart_test.md', 'utf8');
+  await assert.rejects(fix(['--only', TOTAL_ID], parseArgs), /Not logged in[\s\S]*sign in/);
+  assert.equal(fs.readFileSync('tests/cart_test.md', 'utf8'), before);
+});
+
 test('an assertion that does not observe the bug fails the proof and is reverted', async () => {
   process.env.FAKE_AGENT_MODE = 'weak';
   const before = fs.readFileSync('tests/cart_test.md', 'utf8');
