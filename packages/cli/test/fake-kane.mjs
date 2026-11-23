@@ -20,6 +20,16 @@ if (process.env.FAKE_TRANSIENT && cmd === 'testmd') {
     process.exit();
   }
 }
+// FAKE_FLAKY=<counter file>|<n> fails the first n test runs as an ordinary test failure (a flaky replay step)
+if (process.env.FAKE_FLAKY && cmd === 'testmd') {
+  const [file, n] = process.env.FAKE_FLAKY.split('|');
+  const seen = fs.existsSync(file) ? Number(fs.readFileSync(file, 'utf8')) : 0;
+  if (seen < Number(n)) {
+    fs.writeFileSync(file, String(seen + 1));
+    emit({ type: 'run_end', status: 'failed', reason: 'action_failed: wait @ step 3' });
+    process.exit(1);
+  }
+}
 if (cmd === 'balance') { console.log('{"credits": 1000}'); process.exit(0); }
 if (cmd === 'evidence' && sub === 'verdict') { process.exit(0); }
 if (cmd !== 'testmd' || sub !== 'run') { console.error('fake-kane: unsupported'); process.exit(2); }

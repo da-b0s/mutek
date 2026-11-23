@@ -149,16 +149,24 @@ export default async function run(argv, parseArgs) {
       console.log(`\nResuming run ${runId}: baseline from ${profile.created}`);
     } else console.log(`\nBaseline: ${tests.length} test(s) through the proxy at ${base}, healing off`);
     for (const t of resumeFrom ? [] : tests) {
-      await tw.disarm();
-      await resetApp(cfg, base);
-      await tw.reset(t, true);
-      const r = await runTest(t, { timeout: cfg.timeout, logFile: path.join(runDir, `baseline_${slug(t)}.ndjson`), onRetry: hiccup });
+      // A failing baseline test is run once more on a freshly reset app: a single flaky replay step
+      // (an AI-checked wait timing out on a page that has loaded) shouldn't throw away the whole run.
+      let r, logFile;
+      for (let attempt = 1; attempt <= 2; attempt++) {
+        await tw.disarm();
+        await resetApp(cfg, base);
+        await tw.reset(t, true);
+        logFile = path.join(runDir, `baseline_${slug(t)}${attempt > 1 ? '_retry' : ''}.ndjson`);
+        r = await runTest(t, { timeout: cfg.timeout, logFile, onRetry: hiccup });
+        if (r.code === 0 || r.spawnError || attempt === 2) break;
+        console.log(`  retry ${t}: failed once (${r.failureReason || `exit ${r.code}`}), running it again on a fresh app`);
+      }
       const v = await verdict(r.pack, path.join(POLICY_DIR, 'mutek.clean.policy.yaml'));
-      const withoutChecks = metricFromVerdict(v.raw, 'metrics.tests_without_checks');
+      const withoutChecks = r.code === 0 ? metricFromVerdict(v.raw, 'metrics.tests_without_checks') : 0;
       baseline.push({ test: t, code: r.code, durationMs: r.durationMs, pack: r.pack, verdict: v.verdict, testsWithoutChecks: withoutChecks, session: r.sessionId });
       console.log(`  ${r.code === 0 ? 'pass' : 'FAIL'}  ${t}  ${(r.durationMs / 1000).toFixed(1)}s${withoutChecks ? '  (no assertions!)' : ''}`);
       if (r.code !== 0) {
-        console.error(`\nThe baseline must be green: ${t} exited ${r.code}. ${r.failureReason || ''}\nLog: ${path.join(runDir, `baseline_${slug(t)}.ndjson`)}`);
+        console.error(`\nThe baseline must be green: ${t} exited ${r.code}. ${r.failureReason || ''}\nLog: ${logFile}`);
         if (r.spawnError) console.error('Is kane-cli installed and on PATH? (npm install -g @testmuai/kane-cli)');
         return 2;
       }

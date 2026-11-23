@@ -103,3 +103,16 @@ test('the gate can set aside flagged suspected equivalents; the score still coun
   assert.equal(g.score, 75, 'only the flagged survivor is set aside');
   assert.equal(g.setAside, 1);
 });
+
+test('a baseline test that fails once is retried on a fresh app instead of ending the run', async () => {
+  const counter = path.join(work, 'flaky-count');
+  process.env.FAKE_FLAKY = `${counter}|1`;
+  try {
+    const code = await run_(['--baseline-only']);
+    assert.equal(code, 0);
+    assert.equal(fs.readFileSync(counter, 'utf8'), '1');
+  } finally { delete process.env.FAKE_FLAKY; }
+  fs.rmSync(counter, { force: true });
+  process.env.FAKE_FLAKY = `${counter}|2`;
+  try { assert.equal(await run_(['--baseline-only']), 2, 'two failures in a row still stop the run'); } finally { delete process.env.FAKE_FLAKY; }
+});
