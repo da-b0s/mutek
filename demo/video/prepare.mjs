@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Builds demo/video/shop: a throwaway copy of the shop project with the agent's ORIGINAL first-draft
-// tests and recordings (before any `tripwire fix`), so a video can show bugs surviving and then a
+// tests and recordings (before any `mutek fix`), so a video can show bugs surviving and then a
 // live fix. Run it again before every take; it starts clean each time. Needs the shop running
-// (npm run shop) and the global `tripwire` (npm install -g tripwire-e2e).
+// (npm run shop) and the global `mutek` (npm install -g mutek).
 //
 //   node demo/video/prepare.mjs
 import fs from 'node:fs';
@@ -26,9 +26,9 @@ for (const f of files) {
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.writeFileSync(dest, git('show', `${FIRST_DRAFT}:${f}`));
 }
-for (const f of ['tripwire.config.json', 'ACCEPTANCE.md']) fs.copyFileSync(path.join(repo, 'demo/shop', f), path.join(out, f));
+for (const f of ['mutek.config.json', 'ACCEPTANCE.md']) fs.copyFileSync(path.join(repo, 'demo/shop', f), path.join(out, f));
 
 console.log(`Ready: ${path.relative(repo, out)} (${files.length} files, first-draft suite from ${FIRST_DRAFT})`);
 console.log('Scene commands, from that folder:');
-console.log('  tripwire run --only number-drift,wrong-owner --no-heal-check');
-console.log('  tripwire fix --only "wrong-owner:GET /api/orders:$.orders"');
+console.log('  mutek run --only number-drift,wrong-owner --no-heal-check');
+console.log('  mutek fix --only "wrong-owner:GET /api/orders:$.orders"');

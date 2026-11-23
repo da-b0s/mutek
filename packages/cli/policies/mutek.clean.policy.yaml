@@ -1,5 +1,5 @@
 # Judged against the clean (unmutated) baseline: the normal gate a healthy suite should clear.
-policy: tripwire-clean-suite
+policy: mutek-clean-suite
 gates:
   - id: no-failed
     metric: totals.failed

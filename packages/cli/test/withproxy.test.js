@@ -36,9 +36,9 @@ test('refuses a proxy from different code', async () => {
 
 test('explains a port taken by something else', async () => {
   const port = await freePort();
-  const other = http.createServer((req, res) => res.end('not tripwire'));
+  const other = http.createServer((req, res) => res.end('not mutek'));
   await new Promise((r) => other.listen(port, r));
   try {
-    await assert.rejects(withProxy({ port, app: 'http://localhost:3999' }, async () => 0), /not a tripwire proxy/);
+    await assert.rejects(withProxy({ port, app: 'http://localhost:3999' }, async () => 0), /not a mutek proxy/);
   } finally { await new Promise((r) => other.close(r)); }
 });

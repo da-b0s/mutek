@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tripwire report</title>
+<title>Mutek report</title>
 <style>
 :root{--bg:#f6f5f1;--surface:#fff;--ink:#1c1b19;--muted:#66625b;--line:#e2ded5;--killed:#2e7d32;--survived:#c62828;--masked:#8e24aa;--nr:#6d6d6d;--accent:#2f5d50}
 @media (prefers-color-scheme:dark){:root{--bg:#141412;--surface:#1d1c1a;--ink:#ecebe7;--muted:#a19d95;--line:#33312d;--killed:#66bb6a;--survived:#ef5350;--masked:#ce93d8;--nr:#9e9e9e;--accent:#7fb7a5}}
@@ -24,9 +24,9 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 .note{color:var(--muted);font-size:.9rem;max-width:70ch}
 </style></head><body><main>
 <section class="top">
-  <div><h1>Tripwire</h1><p class="sub">Would the tests fail if the app were broken? Run 2026-11-19T06-42-01 · commit 241681f</p>
+  <div><h1>Mutek</h1><p class="sub">Would the tests fail if the app were broken? Run 2026-11-19T06-42-01 · commit 241681f</p>
   <div class="score" aria-label="mutation score">85.1%</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p>
-  <p class="sub"><strong>78.7%</strong> for the first-draft suite → <strong>85.1%</strong> after <code>tripwire fix</code> strengthened 3 tests, each proven by Kane: pass on the real app, fail on the broken one.</p></div>
+  <p class="sub"><strong>78.7%</strong> for the first-draft suite → <strong>85.1%</strong> after <code>mutek fix</code> strengthened 3 tests, each proven by Kane: pass on the real app, fail on the broken one.</p></div>
   <div class="counts">
     <div class="count killed"><b>40</b>killed</div>
     <div class="count survived"><b>7</b>survived</div>
@@ -44,11 +44,11 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <h3>The SAVE10 coupon takes 20% off instead of 10%</h3>
       <p class="expect">A good test would: after applying SAVE10 to a $34.50 cart, the Discount reads −$3.45 and the Total reads $36.04.</p>
       <p class="meta">Tests that walked past it: <code>tests/coupon_test.md</code></p>
-      <p class="warn">Suspected equivalent: The mutant fired, but no page showed anything the clean run did not show. If a person agrees, add it to <code>.tripwire/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>
+      <p class="warn">Suspected equivalent: The mutant fired, but no page showed anything the clean run did not show. If a person agrees, add it to <code>.mutek/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>
       
       
       
-      <figure><img src="shots/agent-proposed_save10-takes-20-percent.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/coupon_test.md. The test still passed.</figcaption></figure>
+      
       <details><summary>Mutant id</summary><code>agent-proposed:save10-takes-20-percent</code></details>
     </article>
     <article class="mutant survived">
@@ -56,11 +56,11 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <h3>Raising the quantity to 2 leaves the line total and subtotal at the single-item price</h3>
       <p class="expect">A good test would: with quantity 2 of a $22.00 item, the line total and Subtotal read $44.00.</p>
       <p class="meta">Tests that walked past it: <code>tests/cart_test.md</code></p>
-      <p class="warn">Suspected equivalent: The mutant fired, but no page showed anything the clean run did not show. If a person agrees, add it to <code>.tripwire/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>
+      <p class="warn">Suspected equivalent: The mutant fired, but no page showed anything the clean run did not show. If a person agrees, add it to <code>.mutek/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>
       
       
       
-      <figure><img src="shots/agent-proposed_line-total-ignores-quantity.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/cart_test.md. The test still passed.</figcaption></figure>
+      
       <details><summary>Mutant id</summary><code>agent-proposed:line-total-ignores-quantity</code></details>
     </article>
     <article class="mutant survived">
@@ -68,11 +68,11 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <h3>Shipping is free on a $31.05 order even though free shipping starts at $50</h3>
       <p class="expect">A good test would: with a discounted subtotal under $50, Shipping reads $4.99 and the Total includes it ($36.04).</p>
       <p class="meta">Tests that walked past it: <code>tests/coupon_test.md</code></p>
-      <p class="warn">Suspected equivalent: The mutant fired, but no page showed anything the clean run did not show. If a person agrees, add it to <code>.tripwire/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>
+      <p class="warn">Suspected equivalent: The mutant fired, but no page showed anything the clean run did not show. If a person agrees, add it to <code>.mutek/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>
       
       
       
-      <figure><img src="shots/agent-proposed_free-shipping-below-50.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/coupon_test.md. The test still passed.</figcaption></figure>
+      
       <details><summary>Mutant id</summary><code>agent-proposed:free-shipping-below-50</code></details>
     </article>
     <article class="mutant survived">
@@ -84,7 +84,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       
-      <figure><img src="shots/agent-proposed_confirmation-total-drops-shipping.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/checkout_test.md. The test still passed.</figcaption></figure>
+      
       <details><summary>Mutant id</summary><code>agent-proposed:confirmation-total-drops-shipping</code></details>
     </article>
     <article class="mutant survived">
@@ -92,7 +92,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       <h3>/api/products keeps returning what it returned before the last change</h3>
       <p class="expect">A good test would: the test checks that the change it just made is visible.</p>
       <p class="meta">Tests that walked past it: <code>tests/browse_test.md</code> <code>tests/cancel_order_test.md</code> <code>tests/cart_test.md</code> <code>tests/checkout_test.md</code> <code>tests/coupon_test.md</code> <code>tests/order_history_test.md</code></p>
-      <p class="warn">Suspected equivalent: The mutant fired, but no page showed anything the clean run did not show. If a person agrees, add it to <code>.tripwire/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>
+      <p class="warn">Suspected equivalent: The mutant fired, but no page showed anything the clean run did not show. If a person agrees, add it to <code>.mutek/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>
       
       
       
@@ -108,7 +108,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       
-      <figure><img src="shots/double-apply_POST_api_cart_coupon.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/coupon_test.md. The test still passed.</figcaption></figure>
+      
       <details><summary>Mutant id</summary><code>double-apply:POST /api/cart/coupon</code></details>
     </article>
     <article class="mutant survived">
@@ -120,7 +120,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       
-      <figure><img src="shots/rendered-number-drift_Order_1002_cancelled_.jpg" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of tests/cancel_order_test.md. The test still passed.</figcaption></figure>
+      
       <details><summary>Mutant id</summary><code>rendered-number-drift:&quot;Order #1002 cancelled&quot;</code></details>
     </article></div>
 
@@ -133,10 +133,10 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 <tr><td><code>tests/cancel_order_test.md</code></td><td>38</td><td>22</td><td>3</td><td><div class="bar" title="88%"><i style="width:88%"></i></div>88%</td><td>yes</td></tr><tr><td><code>tests/cart_test.md</code></td><td>22</td><td>4</td><td>2</td><td><div class="bar" title="67%"><i style="width:67%"></i></div>67%</td><td>yes</td></tr><tr><td><code>tests/checkout_test.md</code></td><td>19</td><td>1</td><td>2</td><td><div class="bar" title="33%"><i style="width:33%"></i></div>33%</td><td>yes</td></tr><tr><td><code>tests/coupon_test.md</code></td><td>21</td><td>3</td><td>4</td><td><div class="bar" title="43%"><i style="width:43%"></i></div>43%</td><td>yes</td></tr><tr><td><code>tests/order_history_test.md</code></td><td>31</td><td>3</td><td>1</td><td><div class="bar" title="75%"><i style="width:75%"></i></div>75%</td><td>yes</td></tr><tr><td><code>tests/browse_test.md</code></td><td>15</td><td>7</td><td>1</td><td><div class="bar" title="88%"><i style="width:88%"></i></div>88%</td><td>yes</td></tr>
 </tbody></table>
 
-<h2>Acceptance criteria</h2><p class="note">Kane reports a criterion as proven or owed. Tripwire adds a third state: <b>proven but unguarded</b>, where the tests that check it pass on the real app but a bug that broke it got past them.</p><table><thead><tr><th>Criterion</th><th>Kane</th><th>Tripwire</th><th>Bugs that got past</th></tr></thead><tbody><tr><td>AC1. The shop page lists every product with its name, category, price and stock state.</td><td>green (tests pass)</td><td><strong class="">proven and guarded</strong></td><td></td></tr><tr><td>AC2. A product that is out of stock is marked &quot;Out of stock&quot; and cannot be added to the cart.</td><td>green (tests pass)</td><td><strong class="">proven, untested by mutants</strong></td><td></td></tr><tr><td>AC3. A product page shows the name, price, description and how many are in stock.</td><td>green (tests pass)</td><td><strong class="">proven and guarded</strong></td><td></td></tr><tr><td>AC4. Adding a product puts it in the cart with quantity 1, or raises its quantity by 1 if it is already there.</td><td>green (tests pass)</td><td><strong class="">proven and guarded</strong></td><td></td></tr><tr><td>AC5. A quantity is between 1 and 10 and never more than the stock; going below 1 removes the line.</td><td>owed</td><td><strong class="">owed</strong></td><td></td></tr><tr><td>AC6. Each line total is price × quantity; the subtotal is the sum of the line totals.</td><td>green (tests pass)</td><td><strong class="warn">proven but unguarded</strong></td><td>Raising the quantity to 2 leaves the line total and subtotal at the single-item price</td></tr><tr><td>AC7. The header badge shows the number of items in the cart.</td><td>green (tests pass)</td><td><strong class="">proven and guarded</strong></td><td></td></tr><tr><td>AC8. Removing a line takes it out of the cart and the totals update at once.</td><td>owed</td><td><strong class="">owed</strong></td><td></td></tr><tr><td>AC9. SAVE10 takes 10% off the subtotal.</td><td>green (tests pass)</td><td><strong class="warn">proven but unguarded</strong></td><td>The SAVE10 coupon takes 20% off instead of 10%<br>POST /api/cart/coupon is applied twice</td></tr><tr><td>AC10. WELCOME5 takes $5 off, and only when the subtotal is at least $20.</td><td>owed</td><td><strong class="">owed</strong></td><td></td></tr><tr><td>AC11. Only one coupon applies at a time; applying a new one replaces the old one.</td><td>owed</td><td><strong class="">owed</strong></td><td>POST /api/cart/coupon is applied twice</td></tr><tr><td>AC12. An unknown code is refused with a message and changes nothing.</td><td>owed</td><td><strong class="">owed</strong></td><td></td></tr><tr><td>AC13. Shipping is free when the subtotal after discount is $50 or more; otherwise it is $4.99.</td><td>green (tests pass)</td><td><strong class="warn">proven but unguarded</strong></td><td>Shipping is free on a $31.05 order even though free shipping starts at $50</td></tr><tr><td>AC14. Total = subtotal − discount + shipping, shown to the cent.</td><td>green (tests pass)</td><td><strong class="">proven, untested by mutants</strong></td><td></td></tr><tr><td>AC15. Checkout needs a full name, a valid email address and a delivery address; each missing or invalid field shows its own message.</td><td>owed</td><td><strong class="">owed</strong></td><td></td></tr><tr><td>AC16. Placing an order empties the cart, reduces stock, and shows a confirmation with the order number and the total charged.</td><td>green (tests pass)</td><td><strong class="warn">proven but unguarded</strong></td><td>The order confirmation says $18.00 was charged although the cart total was $22.99 with shipping<br>/api/products keeps returning what it returned before the last change</td></tr><tr><td>AC17. Checkout with an empty cart is not possible.</td><td>owed</td><td><strong class="">owed</strong></td><td></td></tr><tr><td>AC18. &quot;My orders&quot; lists only the signed-in customer&#39;s orders, newest first, with date, item count, total and status.</td><td>green (tests pass)</td><td><strong class="">proven and guarded</strong></td><td></td></tr><tr><td>AC19. An order with status &quot;Placed&quot; can be cancelled after a confirmation; the status becomes &quot;Cancelled&quot; and the stock is returned.</td><td>green (tests pass)</td><td><strong class="">proven and guarded</strong></td><td></td></tr><tr><td>AC20. Delivered or already cancelled orders cannot be cancelled.</td><td>green (tests pass)</td><td><strong class="">proven, untested by mutants</strong></td><td></td></tr><tr><td>AC21. An order page shows its items, subtotal, discount, shipping and total.</td><td>green (tests pass)</td><td><strong class="">proven and guarded</strong></td><td></td></tr></tbody></table>
+<h2>Acceptance criteria</h2><p class="note">Kane reports a criterion as proven or owed. Mutek adds a third state: <b>proven but unguarded</b>, where the tests that check it pass on the real app but a bug that broke it got past them.</p><table><thead><tr><th>Criterion</th><th>Kane</th><th>Mutek</th><th>Bugs that got past</th></tr></thead><tbody><tr><td>AC1. The shop page lists every product with its name, category, price and stock state.</td><td>green (tests pass)</td><td><strong class="">proven and guarded</strong></td><td></td></tr><tr><td>AC2. A product that is out of stock is marked &quot;Out of stock&quot; and cannot be added to the cart.</td><td>green (tests pass)</td><td><strong class="">proven, untested by mutants</strong></td><td></td></tr><tr><td>AC3. A product page shows the name, price, description and how many are in stock.</td><td>green (tests pass)</td><td><strong class="">proven and guarded</strong></td><td></td></tr><tr><td>AC4. Adding a product puts it in the cart with quantity 1, or raises its quantity by 1 if it is already there.</td><td>green (tests pass)</td><td><strong class="">proven and guarded</strong></td><td></td></tr><tr><td>AC5. A quantity is between 1 and 10 and never more than the stock; going below 1 removes the line.</td><td>owed</td><td><strong class="">owed</strong></td><td></td></tr><tr><td>AC6. Each line total is price × quantity; the subtotal is the sum of the line totals.</td><td>green (tests pass)</td><td><strong class="warn">proven but unguarded</strong></td><td>Raising the quantity to 2 leaves the line total and subtotal at the single-item price</td></tr><tr><td>AC7. The header badge shows the number of items in the cart.</td><td>green (tests pass)</td><td><strong class="">proven and guarded</strong></td><td></td></tr><tr><td>AC8. Removing a line takes it out of the cart and the totals update at once.</td><td>owed</td><td><strong class="">owed</strong></td><td></td></tr><tr><td>AC9. SAVE10 takes 10% off the subtotal.</td><td>green (tests pass)</td><td><strong class="warn">proven but unguarded</strong></td><td>The SAVE10 coupon takes 20% off instead of 10%<br>POST /api/cart/coupon is applied twice</td></tr><tr><td>AC10. WELCOME5 takes $5 off, and only when the subtotal is at least $20.</td><td>owed</td><td><strong class="">owed</strong></td><td></td></tr><tr><td>AC11. Only one coupon applies at a time; applying a new one replaces the old one.</td><td>owed</td><td><strong class="">owed</strong></td><td>POST /api/cart/coupon is applied twice</td></tr><tr><td>AC12. An unknown code is refused with a message and changes nothing.</td><td>owed</td><td><strong class="">owed</strong></td><td></td></tr><tr><td>AC13. Shipping is free when the subtotal after discount is $50 or more; otherwise it is $4.99.</td><td>green (tests pass)</td><td><strong class="warn">proven but unguarded</strong></td><td>Shipping is free on a $31.05 order even though free shipping starts at $50</td></tr><tr><td>AC14. Total = subtotal − discount + shipping, shown to the cent.</td><td>green (tests pass)</td><td><strong class="">proven, untested by mutants</strong></td><td></td></tr><tr><td>AC15. Checkout needs a full name, a valid email address and a delivery address; each missing or invalid field shows its own message.</td><td>owed</td><td><strong class="">owed</strong></td><td></td></tr><tr><td>AC16. Placing an order empties the cart, reduces stock, and shows a confirmation with the order number and the total charged.</td><td>green (tests pass)</td><td><strong class="warn">proven but unguarded</strong></td><td>The order confirmation says $18.00 was charged although the cart total was $22.99 with shipping<br>/api/products keeps returning what it returned before the last change</td></tr><tr><td>AC17. Checkout with an empty cart is not possible.</td><td>owed</td><td><strong class="">owed</strong></td><td></td></tr><tr><td>AC18. &quot;My orders&quot; lists only the signed-in customer&#39;s orders, newest first, with date, item count, total and status.</td><td>green (tests pass)</td><td><strong class="">proven and guarded</strong></td><td></td></tr><tr><td>AC19. An order with status &quot;Placed&quot; can be cancelled after a confirmation; the status becomes &quot;Cancelled&quot; and the stock is returned.</td><td>green (tests pass)</td><td><strong class="">proven and guarded</strong></td><td></td></tr><tr><td>AC20. Delivered or already cancelled orders cannot be cancelled.</td><td>green (tests pass)</td><td><strong class="">proven, untested by mutants</strong></td><td></td></tr><tr><td>AC21. An order page shows its items, subtotal, discount, shipping and total.</td><td>green (tests pass)</td><td><strong class="">proven and guarded</strong></td><td></td></tr></tbody></table>
 
 <h2>How Kane's triage read the planted bugs</h2>
-<p class="note">Every mutant below was a real break in the app. Kane triaged 37 of the failing runs; it attributed <strong>35</strong> of them to the test rather than the product (typically "locator rot": the page changed, so the recording looks stale). From inside a single run a broken app and an outdated test look alike; Tripwire is the outside reference that tells them apart. Treat a triage of "automation bug" on a release branch as a prompt to look, not as a reason to re-record.</p>
+<p class="note">Every mutant below was a real break in the app. Kane triaged 37 of the failing runs; it attributed <strong>35</strong> of them to the test rather than the product (typically "locator rot": the page changed, so the recording looks stale). From inside a single run a broken app and an outdated test look alike; Mutek is the outside reference that tells them apart. Treat a triage of "automation bug" on a release branch as a prompt to look, not as a reason to re-record.</p>
 
 <h2>Caught (40)</h2>
 <details><summary>Show all 40 killed mutants</summary><div class="grid">
@@ -184,7 +184,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui data defect (98%). The app really was broken: this was a product bug.</p>
-      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (be0e9d30-44e2-4b86-9591-97bb58a10f6d / 37941a82-323b-4986-b528-654aea340c26).</p>
+      <p class="fixed">Fixed by <code>mutek fix</code>: clean run passed, mutant run failed (be0e9d30-44e2-4b86-9591-97bb58a10f6d / 37941a82-323b-4986-b528-654aea340c26).</p>
       
       <details><summary>Mutant id</summary><code>number-drift:GET /api/products:$.products[0].price</code></details>
     </article>
@@ -244,7 +244,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       <p class="triage">Kane's triage of the failure: <strong>automation bug</strong> / test data issue (97%). The app really was broken: this was a product bug.</p>
-      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (fe400583-bd98-4ceb-96a8-aa034658e542 / 1a140dc3-9dfd-408d-b2c1-c9366ca01201).</p>
+      <p class="fixed">Fixed by <code>mutek fix</code>: clean run passed, mutant run failed (fe400583-bd98-4ceb-96a8-aa034658e542 / 1a140dc3-9dfd-408d-b2c1-c9366ca01201).</p>
       
       <details><summary>Mutant id</summary><code>wrong-owner:GET /api/orders:$.orders</code></details>
     </article>
@@ -592,7 +592,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       
-      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (289c44e2-035e-493c-991a-2b2114d21a27 / 051d1807-e420-484c-a8ec-d4aea4c6aeb1).</p>
+      <p class="fixed">Fixed by <code>mutek fix</code>: clean run passed, mutant run failed (289c44e2-035e-493c-991a-2b2114d21a27 / 051d1807-e420-484c-a8ec-d4aea4c6aeb1).</p>
       
       <details><summary>Mutant id</summary><code>hide-control:button:&quot;Remove coupon&quot;</code></details>
     </article>
@@ -604,7 +604,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       
-      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (a1edc2d8-88ba-4790-8025-4ef5d0e737a6 / 0a85656c-1f37-4edf-a28f-2e56791a70d3).</p>
+      <p class="fixed">Fixed by <code>mutek fix</code>: clean run passed, mutant run failed (a1edc2d8-88ba-4790-8025-4ef5d0e737a6 / 0a85656c-1f37-4edf-a28f-2e56791a70d3).</p>
       
       <details><summary>Mutant id</summary><code>number-drift:GET /api/orders/1001:$.subtotal</code></details>
     </article>
@@ -616,7 +616,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       
-      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (0c44417a-b01a-4c5e-95a9-2464f1f8dcaa / 3abe8d21-7294-49ee-8a27-24100e2543b2).</p>
+      <p class="fixed">Fixed by <code>mutek fix</code>: clean run passed, mutant run failed (0c44417a-b01a-4c5e-95a9-2464f1f8dcaa / 3abe8d21-7294-49ee-8a27-24100e2543b2).</p>
       
       <details><summary>Mutant id</summary><code>item-dup:GET /api/orders/1001:$.items[0]</code></details>
     </article></div></details>
@@ -628,7 +628,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 
 
 <h2>Excluded as equivalent (0)</h2>
-<p class="note">None. Mutants are excluded only with a human-approved reason in <code>.tripwire/equivalents.json</code>.</p>
+<p class="note">None. Mutants are excluded only with a human-approved reason in <code>.mutek/equivalents.json</code>.</p>
 
 <h2>Strengthened tests (8 of 14 attempts)</h2><table><thead><tr><th>Mutant</th><th>Test</th><th>Result</th><th>Attempts</th></tr></thead><tbody><tr><td>price from /api/products shows 19.80 instead of 18</td><td><code>tests/browse_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>Another user&#39;s record (owner=&quot;tw-other-user&quot;) appears in the orders</td><td><code>tests/cancel_order_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>POST /api/orders/1002/cancel returns 401 once, mid-flow</td><td><code>tests/cancel_order_test.md</code></td><td>gave-up</td><td>2</td></tr><tr><td>The &quot;Keep order&quot; button is missing</td><td><code>tests/cancel_order_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>The &quot;+&quot; and &quot;−&quot; buttons have each other&#39;s labels</td><td><code>tests/cart_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>&quot;Canvas Tote Bag&quot; appears twice in the items (1 → 2 items)</td><td><code>tests/checkout_test.md</code></td><td>gave-up</td><td>2</td></tr><tr><td>subtotal from /api/orders/1003 shows 19.80 instead of 18</td><td><code>tests/checkout_test.md</code></td><td>gave-up</td><td>2</td></tr><tr><td>&quot;Canvas Tote Bag&quot; is missing from the items (1 → 0 items)</td><td><code>tests/checkout_test.md</code></td><td>lost</td><td>1</td></tr><tr><td>&quot;Canvas Tote Bag&quot; is missing from the items (1 → 0 items)</td><td><code>tests/checkout_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>The order confirmation says $18.00 was charged although the cart total was $22.99 with shipping</td><td><code>tests/checkout_test.md</code></td><td>gave-up</td><td>2</td></tr><tr><td>The &quot;Remove coupon&quot; button is missing</td><td><code>tests/coupon_test.md</code></td><td>killed</td><td>2</td></tr><tr><td>subtotal from /api/orders/1001 shows 20.90 instead of 19</td><td><code>tests/order_history_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>&quot;Notebook, Dot Grid&quot; appears twice in the items (1 → 2 items)</td><td><code>tests/order_history_test.md</code></td><td>killed</td><td>2</td></tr><tr><td>The number in &quot;Order #1002 cancelled&quot; is off by one</td><td><code>tests/cancel_order_test.md</code></td><td>gave-up</td><td>2</td></tr></tbody></table>
 
@@ -648,5 +648,5 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 <p>50 mutants · 107.7 minutes of Kane runs (129s per mutant). Replays run from Kane's cache with healing off.</p>
 
 <h2>What this does not measure</h2>
-<p class="note">Tripwire mutates traffic and the rendered page, not source code. It tells you whether the suite notices breakage a user would see. It does not replace unit-level mutation testing, and it cannot see server-side effects that never reach the browser.</p>
+<p class="note">Mutek mutates traffic and the rendered page, not source code. It tells you whether the suite notices breakage a user would see. It does not replace unit-level mutation testing, and it cannot see server-side effects that never reach the browser.</p>
 </main></body></html>

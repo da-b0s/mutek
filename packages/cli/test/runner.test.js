@@ -21,9 +21,9 @@ before(async () => {
   work = fs.mkdtempSync(path.join(os.tmpdir(), 'tw-run-'));
   cwd0 = process.cwd();
   process.chdir(work);
-  process.env.TRIPWIRE_KANE = `"${process.execPath}" "${path.join(here, 'fake-kane.mjs')}"`;
+  process.env.MUTEK_KANE = `"${process.execPath}" "${path.join(here, 'fake-kane.mjs')}"`;
   process.env.FAKE_BASE = `http://localhost:${port}`;
-  fs.writeFileSync('tripwire.config.json', JSON.stringify({ app: shop.url, port, reset: { url: shop.url + '/api/__reset' }, maxMutants: 50, healCheck: false }));
+  fs.writeFileSync('mutek.config.json', JSON.stringify({ app: shop.url, port, reset: { url: shop.url + '/api/__reset' }, maxMutants: 50, healCheck: false }));
   fs.mkdirSync('tests');
   // A weak test: adds to cart, only checks the request "worked".
   fs.writeFileSync('tests/weak_test.md', '## Add\nAdd an item.\n');
@@ -42,12 +42,12 @@ before(async () => {
   ] }));
 });
 
-after(() => { process.chdir(cwd0); shop.stop(); delete process.env.TRIPWIRE_KANE; });
+after(() => { process.chdir(cwd0); shop.stop(); delete process.env.MUTEK_KANE; });
 
 test('run classifies mutants and writes ledger and report', async () => {
   const code = await run([], parseArgs);
   assert.equal(code, 0);
-  const rows = readLedger(path.join(work, '.tripwire'));
+  const rows = readLedger(path.join(work, '.mutek'));
   assert.ok(rows.length > 5);
   const by = (id) => rows.find((r) => r.id === id);
   // the strong test checks the total, so drifting it is caught
@@ -61,17 +61,17 @@ test('run classifies mutants and writes ledger and report', async () => {
   // validation-off never fires because no test sends invalid input
   assert.equal(by('validation-off:POST /api/cart/coupon').status, 'not-reached');
   assert.ok(rows.some((r) => r.status === 'survived'), 'some mutants survive the weak suite');
-  assert.ok(fs.existsSync(path.join(work, '.tripwire/report/index.html')));
-  assert.match(fs.readFileSync(path.join(work, '.tripwire/report/badge.svg'), 'utf8'), /tripwire/);
-  const html = fs.readFileSync(path.join(work, '.tripwire/report/index.html'), 'utf8');
+  assert.ok(fs.existsSync(path.join(work, '.mutek/report/index.html')));
+  assert.match(fs.readFileSync(path.join(work, '.mutek/report/badge.svg'), 'utf8'), /mutek/);
+  const html = fs.readFileSync(path.join(work, '.mutek/report/index.html'), 'utf8');
   assert.match(html, /How Kane's triage read the planted bugs/);
   assert.match(html, /automation bug<\/strong> \/ locator rot/);
   assert.equal(by('number-drift:GET /api/cart:$.total').runs.find((x) => x.code === 1).kaneTriage.category, 'locator_rot');
-  assert.ok(fs.existsSync(path.join(work, '.tripwire/traffic.json')));
+  assert.ok(fs.existsSync(path.join(work, '.mutek/traffic.json')));
 });
 
 test('resume continues an interrupted run without redoing finished mutants', async () => {
-  const dir = path.join(work, '.tripwire');
+  const dir = path.join(work, '.mutek');
   const rows = readLedger(dir);
   const run = rows.at(-1).run;
   const mine = rows.filter((r) => r.run === run);

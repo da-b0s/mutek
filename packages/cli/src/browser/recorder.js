@@ -1,4 +1,4 @@
-// Injected by the Tripwire proxy during the baseline run only.
+// Injected by the Mutek proxy during the baseline run only.
 // Reports which controls and texts each page showed and which ones the test clicked,
 // so mutants can target things a test saw (visible) but never interacted with.
 (function () {

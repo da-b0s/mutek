@@ -1,5 +1,5 @@
 {
-  "name": "tripwire-third-party-todomvc",
+  "name": "mutek-third-party-todomvc",
   "private": true,
   "type": "module",
   "scripts": { "start": "node serve.js" }

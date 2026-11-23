@@ -1,4 +1,4 @@
-// .tripwire/ledger.jsonl: one line per mutant run. The latest line per mutant id is its current status.
+// .mutek/ledger.jsonl: one line per mutant run. The latest line per mutant id is its current status.
 import fs from 'node:fs';
 import path from 'node:path';
 

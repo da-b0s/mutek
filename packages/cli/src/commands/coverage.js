@@ -1,8 +1,8 @@
-// tripwire coverage: a third state on top of Kane's "proven vs owed".
+// mutek coverage: a third state on top of Kane's "proven vs owed".
 //   owed                  no test checks the criterion
 //   proven                its tests pass on the real app and caught every mutant that broke it
 //   proven but unguarded  its tests pass, but a mutant that broke the criterion got past them
-// The agent maps criteria to tests and mutants to criteria (written to .tripwire/criteria.json,
+// The agent maps criteria to tests and mutants to criteria (written to .mutek/criteria.json,
 // reviewable and editable); the states are computed from the ledger. When the project has a Kane
 // assurance store (.context/), Kane's own per-criterion status is shown alongside.
 import fs from 'node:fs';
@@ -13,12 +13,12 @@ import { runAgent } from '../agent.js';
 import { runKane } from '../kane.js';
 import { writeReport } from '../report.js';
 
-const HELP = `tripwire coverage [options]
+const HELP = `mutek coverage [options]
 
   --criteria <file>      acceptance criteria with ids like AC1, AC2 (default ACCEPTANCE.md)
-  --remap                ask the agent to rebuild .tripwire/criteria.json
+  --remap                ask the agent to rebuild .mutek/criteria.json
   --agent claude|codex   which agent maps criteria (default from config)
-  --dir <path>           state directory (default .tripwire)`;
+  --dir <path>           state directory (default .mutek)`;
 
 export function parseCriteria(md) {
   const out = [];
@@ -71,7 +71,7 @@ export default async function coverage(argv, parseArgs) {
   const criteria = parseCriteria(fs.readFileSync(critFile, 'utf8'));
   if (!criteria.length) throw new Error(`${critFile} has no criteria in the form "AC1. ..."`);
   const rowsAll = readLedger(dir);
-  if (!rowsAll.length) throw new Error('no ledger yet: run `tripwire run` first');
+  if (!rowsAll.length) throw new Error('no ledger yet: run `mutek run` first');
   const rows = latest(rowsAll, lastRunId(rowsAll));
   const mapFile = path.join(dir, 'criteria.json');
 

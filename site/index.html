@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tripwire · Would your tests fail if the app were broken?</title>
-<meta name="description" content="Tripwire breaks your app one realistic way at a time, replays your Kane CLI suite against each broken version, and proves every fix: pass on the real app, fail on the broken one.">
+<title>Mutek · Would your tests fail if the app were broken?</title>
+<meta name="description" content="Mutek breaks your app one realistic way at a time, replays your Kane CLI suite against each broken version, and proves every fix: pass on the real app, fail on the broken one.">
 <meta name="theme-color" content="#d8d8d6">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Cpath d='M4 18h9m6 0h9' stroke='%23ddd' stroke-width='3'/%3E%3Cpath d='M13 18l3-5 3 5' fill='none' stroke='%23ddd' stroke-width='3'/%3E%3C/svg%3E">
 <style>
@@ -34,7 +34,7 @@ code { font-family: var(--mono); font-size: .92em; }
 .top nav a { text-decoration: none; color: var(--ink-2); }
 .top nav a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
 
-/* the wire: a line that breaks and trips in the middle */
+/* the divider: a line that breaks in the middle */
 .wire { display: block; width: 100%; height: 26px; color: var(--ink); }
 .night .wire { color: var(--chalk-2); }
 
@@ -190,18 +190,18 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
 <header class="top">
   <div class="wrap">
-    <a class="mark" href="#top" aria-label="Tripwire home">
+    <a class="mark" href="#top" aria-label="Mutek home">
       <svg viewBox="0 0 34 14" aria-hidden="true"><path d="M0 10h12M22 10h12M12 10l3-7M19 3l3 7" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
-      Tripwire
+      Mutek
     </a>
     <nav aria-label="Sections">
-      <a href="#trip">Trip it</a>
+      <a href="#trip">Break it</a>
       <a href="#evidence">Evidence</a>
       <a href="#method">Method</a>
       <a href="#run">A real run</a>
       <a href="#numbers">Numbers</a>
     </nav>
-    <a class="btn" href="https://github.com/da-b0s/tripwire">GitHub</a>
+    <a class="btn" href="https://github.com/da-b0s/mutek">GitHub</a>
   </div>
 </header>
 
@@ -209,11 +209,11 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   <section class="hero">
     <div class="wrap">
       <p class="kicker">Mutation testing for Kane CLI suites</p>
-      <h1>Green is a claim. <em>Tripwire checks it.</em></h1>
+      <h1>Green is a claim. <em>Mutek checks it.</em></h1>
       <p class="lede">It breaks your running app one realistic way at a time, replays your Kane CLI tests against every broken version, and sends each bug they miss to your coding agent. A new check only counts after Kane proves it: passes on the real app, fails on the broken one.</p>
       <div class="ctas">
-        <button class="btn solid copy" type="button" data-copy="npm install -g tripwire-e2e" aria-label="Copy install command">
-          npm install -g tripwire-e2e
+        <button class="btn solid copy" type="button" data-copy="npm install -g mutek" aria-label="Copy install command">
+          npm install -g mutek
           <svg class="cp" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5" y="5" width="9" height="9"/><path d="M11 5V2H2v9h3"/></svg>
           <svg class="ok" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8.5l3 3 7-7"/></svg>
         </button>
@@ -239,7 +239,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="sec" id="trip">
     <div class="wrap">
-      <div class="head"><div class="num">01</div><div><h2>Trip the wire yourself.</h2><p>A small cart and two checks a coding agent might write for it. Choose a bug, and see which check notices. It runs here in your browser; the real tool does this to your own app over the network, with Kane CLI driving a real Chrome.</p></div></div>
+      <div class="head"><div class="num">01</div><div><h2>Break it yourself.</h2><p>A small cart and two checks a coding agent might write for it. Choose a bug, and see which check notices. It runs here in your browser; the real tool does this to your own app over the network, with Kane CLI driving a real Chrome.</p></div></div>
       <div class="lab">
         <div>
           <h3>The app</h3>
@@ -255,7 +255,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <div>
           <h3>The checks</h3>
           <div class="check"><div class="name">Agent's first draft <span class="verdict" id="v1"></span></div><div class="body">Add the notebook. Verify a success message appears.</div></div>
-          <div class="check"><div class="name">After tripwire fix <span class="verdict" id="v2"></span></div><div class="body">…and verify the cart lists exactly "Canvas Tote Bag" and "Notebook, Dot Grid", total "$37.00".</div></div>
+          <div class="check"><div class="name">After mutek fix <span class="verdict" id="v2"></span></div><div class="body">…and verify the cart lists exactly "Canvas Tote Bag" and "Notebook, Dot Grid", total "$37.00".</div></div>
           <p class="note" id="explain"></p>
         </div>
       </div>
@@ -264,7 +264,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="sec night" id="evidence">
     <div class="wrap">
-      <div class="head"><div class="num">02</div><div><h2>Green in Kane, broken on screen.</h2><p>Both suites were written by fresh Claude Code sessions that never heard of Tripwire. The screenshots come from Kane's own evidence packs, taken at the end of runs that passed.</p></div></div>
+      <div class="head"><div class="num">02</div><div><h2>Green in Kane, broken on screen.</h2><p>Both suites were written by fresh Claude Code sessions that never heard of Mutek. The screenshots come from Kane's own evidence packs, taken at the end of runs that passed.</p></div></div>
       <div class="ev">
         <div class="n">i.</div>
         <div><h3>Another customer's order in "My orders"</h3><p>The order-history test passed while order #91002, someone else's, sat at the top of the list. One appended check fixed it: exactly the customer's own two orders, nothing else.</p></div>
@@ -277,7 +277,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       </div>
       <div class="ev">
         <div class="n">iii.</div>
-        <div><h3>Healing passed a bug Kane had just named</h3><p>Strict replay failed and Kane's triage described the bug exactly. With default healing on, the re-authored check read the hidden row from the DOM and passed. Tripwire records these as masked.</p></div>
+        <div><h3>Healing passed a bug Kane had just named</h3><p>Strict replay failed and Kane's triage described the bug exactly. With default healing on, the re-authored check read the hidden row from the DOM and passed. Mutek records these as masked.</p></div>
         <blockquote>“The page says there are 3 items left but shows only ‘Walk the dog’ and ‘Read a book’; the expected ‘Buy milk’ item is missing.”<cite>Kane CLI triage · application issue · major · 0.96</cite></blockquote>
       </div>
     </div>
@@ -305,7 +305,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     <div class="wrap">
       <div class="head"><div class="num">04</div><div><h2>One real run, start to finish.</h2><p>Recorded output, not a mock-up: six bugs planted in the agent's first-draft shop suite, then the fix for the one that mattered most.</p></div></div>
       <div class="term">
-        <div class="term-bar"><span>~/demo/shop · tripwire 0.2.1</span><button type="button" id="replay">replay</button></div>
+        <div class="term-bar"><span>~/demo/shop · mutek 0.3.0</span><button type="button" id="replay">replay</button></div>
         <pre id="term"><span class="cursor"></span></pre>
       </div>
     </div>
@@ -357,16 +357,16 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     <div class="wrap">
       <div class="head"><div class="num">07</div><div><h2>Set it up tonight.</h2><p>Node 18 or newer, Chrome, and a TestMu AI account. Point your <code>*_test.md</code> files at the proxy (<code>url: http://localhost:8080</code>), start your app, then:</p></div></div>
       <div class="cmds">
-        <div><span class="c">$</span> npm install -g @testmuai/kane-cli tripwire-e2e</div>
-        <div><span class="c">$</span> tripwire run    <span class="c"># break, replay, score, report</span></div>
-        <div><span class="c">$</span> tripwire fix    <span class="c"># the agent adds checks, Kane proves each one</span></div>
-        <div><span class="c">$</span> tripwire check  <span class="c"># exit 1 below the bar, for hooks and CI</span></div>
+        <div><span class="c">$</span> npm install -g @testmuai/kane-cli mutek</div>
+        <div><span class="c">$</span> mutek run    <span class="c"># break, replay, score, report</span></div>
+        <div><span class="c">$</span> mutek fix    <span class="c"># the agent adds checks, Kane proves each one</span></div>
+        <div><span class="c">$</span> mutek check  <span class="c"># exit 1 below the bar, for hooks and CI</span></div>
       </div>
       <div class="links">
-        <a class="btn solid" href="https://github.com/da-b0s/tripwire">README</a>
-        <a class="btn" href="https://www.npmjs.com/package/tripwire-e2e">npm</a>
-        <a class="btn" href="https://github.com/da-b0s/tripwire/actions">CI</a>
-        <a class="btn" href="https://github.com/da-b0s/tripwire/blob/main/NOTES.md">Build notes</a>
+        <a class="btn solid" href="https://github.com/da-b0s/mutek">README</a>
+        <a class="btn" href="https://www.npmjs.com/package/mutek">npm</a>
+        <a class="btn" href="https://github.com/da-b0s/mutek/actions">CI</a>
+        <a class="btn" href="https://github.com/da-b0s/mutek/blob/main/NOTES.md">Build notes</a>
       </div>
     </div>
   </section>
@@ -374,8 +374,8 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
 <footer>
   <div class="wrap">
-    <span>Tripwire · Kane CLI Hackathon · verified with Kane CLI · written with Claude Code · MIT</span>
-    <a href="https://github.com/da-b0s/tripwire">github.com/da-b0s/tripwire</a>
+    <span>Mutek · Kane CLI Hackathon · verified with Kane CLI · written with Claude Code · MIT</span>
+    <a href="https://github.com/da-b0s/mutek">github.com/da-b0s/mutek</a>
   </div>
 </footer>
 
@@ -392,7 +392,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   // real recorded output (22 Nov 2026)
   var LINES = [
-    ['p', '$ tripwire run --only number-drift,wrong-owner --max-mutants 6'],
+    ['p', '$ mutek run --only number-drift,wrong-owner --max-mutants 6'],
     ['', 'Baseline: 6 test(s) through the proxy at http://localhost:8080, healing off'],
     ['', '  pass  tests/browse_test.md'], ['', '  pass  tests/cancel_order_test.md'], ['', '  pass  tests/order_history_test.md'],
     ['k', '  ...'],
@@ -405,7 +405,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     ['k', '  ...'],
     ['', 'Score 33.3%  killed 2 · survived 4 · masked by heal 0'],
     ['', ''],
-    ['p', '$ tripwire fix --only "wrong-owner:GET /api/orders:$.orders"'],
+    ['p', '$ mutek fix --only "wrong-owner:GET /api/orders:$.orders"'],
     ['s', 'SURVIVED Another user\'s record appears in the orders'],
     ['', '  strengthening tests/cancel_order_test.md with claude'],
     ['g', '  attempt 1: proven. Real app: pass. Broken app: fail.'],
@@ -442,7 +442,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     none: { items: [['Canvas Tote Bag', 18], ['Notebook, Dot Grid', 19]], total: 37, v1: 'pass', v2: 'pass', text: 'No bug, and <b>both checks pass</b>, as they should.' },
     total: { items: [['Canvas Tote Bag', 18], ['Notebook, Dot Grid', 19]], total: 40.7, v1: 'pass', v2: 'fail', text: 'The total is 10% too high. The first draft only looks for the success message, so it <b>walks past the bug</b>. The fixed check reads the total and fails.' },
     owner: { items: [['Canvas Tote Bag', 18], ['Notebook, Dot Grid', 19], ['Wool Beanie (another customer)', 22, true]], total: 59, v1: 'pass', v2: 'fail', text: 'A stranger\'s item is in the cart. The first draft <b>passes</b>; the fixed check lists exactly what should be there and fails.' },
-    remove: { items: [['Canvas Tote Bag', 18], ['Notebook, Dot Grid', 19]], total: 37, noRemove: true, v1: 'pass', v2: 'pass', text: 'The Remove buttons are gone and <b>both checks pass</b>, because neither looks for them. That is a survivor: <code>tripwire fix</code> would add a check, and Kane would prove it.' },
+    remove: { items: [['Canvas Tote Bag', 18], ['Notebook, Dot Grid', 19]], total: 37, noRemove: true, v1: 'pass', v2: 'pass', text: 'The Remove buttons are gone and <b>both checks pass</b>, because neither looks for them. That is a survivor: <code>mutek fix</code> would add a check, and Kane would prove it.' },
     save: { items: [['Canvas Tote Bag', 18]], total: 18, v1: 'pass', v2: 'fail', text: 'The add looked successful but was never saved. The message still appears, so the first draft <b>passes</b>; the fixed check sees the notebook missing and fails.' }
   };
   var shop = document.getElementById('shop'), v1 = document.getElementById('v1'), v2 = document.getElementById('v2'), note = document.getElementById('explain');

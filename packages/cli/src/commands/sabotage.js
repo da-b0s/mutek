@@ -1,18 +1,18 @@
-// tripwire sabotage: the coding agent in its second role. It reads the acceptance criteria, the
+// mutek sabotage: the coding agent in its second role. It reads the acceptance criteria, the
 // tests and the traffic the suite produced, and proposes domain-specific bugs ("coupon applied
-// twice", "free shipping one cent too early") as mutant definitions in .tripwire/saboteur.json.
+// twice", "free shipping one cent too early") as mutant definitions in .mutek/saboteur.json.
 import fs from 'node:fs';
 import path from 'node:path';
 import { loadConfig, findTests } from '../config.js';
 import { runAgent } from '../agent.js';
 import { loadSaboteur } from '../../operators/agent-proposed.js';
 
-const HELP = `tripwire sabotage [options]
+const HELP = `mutek sabotage [options]
 
   --agent claude|codex   which agent proposes mutants (default from config)
   --criteria <file>      acceptance criteria / spec to read (default: README.md, docs/*.md if present)
   --count <n>            how many mutants to ask for (default 8)
-  --dir <path>           state directory (default .tripwire)`;
+  --dir <path>           state directory (default .mutek)`;
 
 function trafficDigest(profile) {
   const seen = new Map();
@@ -31,14 +31,14 @@ export default async function sabotage(argv, parseArgs) {
   const dir = path.resolve(values.dir || cfg.dir);
   const agent = values.agent || cfg.agent || 'claude';
   const trafficFile = path.join(dir, 'traffic.json');
-  if (!fs.existsSync(trafficFile)) throw new Error('no baseline yet: run `tripwire run --baseline-only` first');
+  if (!fs.existsSync(trafficFile)) throw new Error('no baseline yet: run `mutek run --baseline-only` first');
   const profile = JSON.parse(fs.readFileSync(trafficFile, 'utf8'));
   const tests = findTests(cfg.tests);
   const criteriaFiles = values.criteria ? [values.criteria] : ['ACCEPTANCE.md', 'README.md'].filter((f) => fs.existsSync(f));
   const out = path.join(dir, 'saboteur.json');
   const count = Number(values.count || 8);
 
-  const prompt = `You are the saboteur. Propose ${count} realistic, domain-specific bugs for the web app below, the kind a developer could really ship, that break a business rule a user would notice. Express each one as a Tripwire mutant: a rewrite of one HTTP response the app already sends (the app code is never changed).
+  const prompt = `You are the saboteur. Propose ${count} realistic, domain-specific bugs for the web app below, the kind a developer could really ship, that break a business rule a user would notice. Express each one as a Mutek mutant: a rewrite of one HTTP response the app already sends (the app code is never changed).
 
 Write a JSON array to ${out} (create or overwrite the file). Each element:
 {
@@ -80,6 +80,6 @@ When done, reply with the number of mutants written.`;
   const { mutants, rejected } = loadSaboteur(dir);
   for (const m of mutants) console.log(`  + ${m.id}: ${m.describe}`);
   for (const x of rejected) console.log(`  - rejected ${x.id}: ${x.errors.join('; ')}`);
-  console.log(`${mutants.length} saboteur mutants ready in ${out}. They run first in the next \`tripwire run\`.`);
+  console.log(`${mutants.length} saboteur mutants ready in ${out}. They run first in the next \`mutek run\`.`);
   return mutants.length ? 0 : 1;
 }

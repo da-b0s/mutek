@@ -1,4 +1,4 @@
-// Project configuration: tripwire.config.json in the working directory, overridden by flags.
+// Project configuration: mutek.config.json in the working directory, overridden by flags.
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -12,12 +12,12 @@ export const DEFAULTS = {
   threshold: 80,
   healCheck: true,
   healBudget: 5,                      // each heal check re-authors steps: ~15 credits measured
-  dir: '.tripwire',
+  dir: '.mutek',
   agent: 'claude'
 };
 
 export function loadConfig(cwd = process.cwd()) {
-  const file = path.join(cwd, 'tripwire.config.json');
+  const file = path.join(cwd, 'mutek.config.json');
   if (!fs.existsSync(file)) return { ...DEFAULTS };
   return { ...DEFAULTS, ...JSON.parse(fs.readFileSync(file, 'utf8')) };
 }

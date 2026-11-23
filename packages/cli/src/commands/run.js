@@ -1,4 +1,4 @@
-// tripwire run: baseline -> generate -> replay each mutant -> classify -> ledger -> report.
+// mutek run: baseline -> generate -> replay each mutant -> classify -> ledger -> report.
 import fs from 'node:fs';
 import path from 'node:path';
 import { execSync, spawnSync } from 'node:child_process';
@@ -15,9 +15,9 @@ import { findOrphanKaneBrowsers } from '../orphans.js';
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const POLICY_DIR = path.resolve(here, '../../policies');
 
-const HELP = `tripwire run [options]
+const HELP = `mutek run [options]
 
-  --tests <glob>        test files (default from tripwire.config.json, else **/*_test.md)
+  --tests <glob>        test files (default from mutek.config.json, else **/*_test.md)
   --app <url>           the real app behind the proxy (default http://localhost:3000)
   --port <n>            proxy port your tests point at (default 8080)
   --max-mutants <n>     cap on mutants replayed (default 40)
@@ -32,7 +32,7 @@ const HELP = `tripwire run [options]
   --retry-errors        re-run only the mutants that hit a Kane error in the last run
   --redo <id,...>       re-run these mutants of the last run (e.g. after fixing an operator)
   -q, --quiet           one line per mutant, no per-replay progress
-  --dir <path>          state directory (default .tripwire)`;
+  --dir <path>          state directory (default .mutek)`;
 
 export const normalizePath = (p) => p.replace(/\\/g, '/').replace(/^\.\//, '');
 // Test files changed according to `git diff --name-only --relative` output.
@@ -59,18 +59,18 @@ export async function resetApp(cfg, base) {
 }
 
 export async function withProxy(cfg, fn) {
-  // Reuse a proxy that is already running on the port (e.g. `tripwire proxy` in another terminal).
+  // Reuse a proxy that is already running on the port (e.g. `mutek proxy` in another terminal).
   const base = `http://localhost:${cfg.port}`;
   let h = null;
-  try { h = await (await fetch(base + '/_tw/health')).json(); } catch { /* nothing tripwire-like on the port */ }
+  try { h = await (await fetch(base + '/_tw/health')).json(); } catch { /* nothing mutek-like on the port */ }
   if (h?.ok) {
-    if (h.code !== PROXY_CODE) throw new Error(`a tripwire proxy from different code is already running on port ${cfg.port} (its code ${h.code || 'unknown'}, this one ${PROXY_CODE}). Stop it, or let tripwire start its own.`);
+    if (h.code !== PROXY_CODE) throw new Error(`a mutek proxy from different code is already running on port ${cfg.port} (its code ${h.code || 'unknown'}, this one ${PROXY_CODE}). Stop it, or let mutek start its own.`);
     if (h.target && h.target.replace(/\/$/, '') !== String(cfg.app).replace(/\/$/, '')) throw new Error(`the proxy on port ${cfg.port} points at ${h.target}, not ${cfg.app}`);
     return fn(proxyClient(base), base, false);
   }
   const p = createProxy({ target: cfg.app, port: Number(cfg.port), log: () => {} });
   await new Promise((resolve, reject) => {
-    p.server.once('error', (e) => reject(e.code === 'EADDRINUSE' ? new Error(`port ${cfg.port} is in use by something that is not a tripwire proxy; set "port" in tripwire.config.json`) : e));
+    p.server.once('error', (e) => reject(e.code === 'EADDRINUSE' ? new Error(`port ${cfg.port} is in use by something that is not a mutek proxy; set "port" in mutek.config.json`) : e));
     p.listen().then(resolve, reject);
   });
   try { return await fn(proxyClient(base), base, true); } finally { await p.close(); }
@@ -136,7 +136,7 @@ export default async function run(argv, parseArgs) {
   }
 
   const orphans = findOrphanKaneBrowsers(120);
-  if (orphans.length) console.log(`warning: ${orphans.length} Kane browser(s) from earlier runs are still open (oldest ${Math.round(Math.max(...orphans.map((o) => o.ageMinutes)) / 60)} h). They can change a shared app's state mid-run. Stop them: tripwire doctor --kill`);
+  if (orphans.length) console.log(`warning: ${orphans.length} Kane browser(s) from earlier runs are still open (oldest ${Math.round(Math.max(...orphans.map((o) => o.ageMinutes)) / 60)} h). They can change a shared app's state mid-run. Stop them: mutek doctor --kill`);
   const creditsBefore = await balance();
   return withProxy(cfg, async (tw, base) => {
     // ---------- 1. baseline (reused when resuming) ----------
@@ -152,7 +152,7 @@ export default async function run(argv, parseArgs) {
       await resetApp(cfg, base);
       await tw.reset(t, true);
       const r = await runTest(t, { timeout: cfg.timeout, logFile: path.join(runDir, `baseline_${slug(t)}.ndjson`), onRetry: hiccup });
-      const v = await verdict(r.pack, path.join(POLICY_DIR, 'tripwire.clean.policy.yaml'));
+      const v = await verdict(r.pack, path.join(POLICY_DIR, 'mutek.clean.policy.yaml'));
       const withoutChecks = metricFromVerdict(v.raw, 'metrics.tests_without_checks');
       baseline.push({ test: t, code: r.code, durationMs: r.durationMs, pack: r.pack, verdict: v.verdict, testsWithoutChecks: withoutChecks, session: r.sessionId });
       console.log(`  ${r.code === 0 ? 'pass' : 'FAIL'}  ${t}  ${(r.durationMs / 1000).toFixed(1)}s${withoutChecks ? '  (no assertions!)' : ''}`);
@@ -233,7 +233,7 @@ export default async function run(argv, parseArgs) {
     console.log(`\nScore ${s.score ?? '-'}%  killed ${s.killed} · survived ${s.survived} · masked by heal ${s.masked} · not reached ${s['not-reached']}${s.error ? ` · errors ${s.error}` : ''}`);
     if (meta.creditsUsed !== null) console.log(`Credits used: ${meta.creditsUsed}`);
     console.log(`Report: ${report}`);
-    if (s.survived + s.masked > 0) console.log('Next: tripwire fix   (hands each survivor to your coding agent and proves the new assertion)');
+    if (s.survived + s.masked > 0) console.log('Next: mutek fix   (hands each survivor to your coding agent and proves the new assertion)');
     return 0;
   });
 }
@@ -324,7 +324,7 @@ export async function runMutant(m, { tw, cfg, base, runDir, healAllowed, progres
     } while ((r.code === 2 || r.code === 3) && attempt < 2); // infrastructure problem: retry once, never a kill
     const fired = hits > 0;
     row.fired = row.fired || fired;
-    const v = r.code === 0 || r.code === 1 ? await verdict(r.pack, path.join(POLICY_DIR, 'tripwire.mutant.policy.yaml')) : { verdict: 'unknown' };
+    const v = r.code === 0 || r.code === 1 ? await verdict(r.pack, path.join(POLICY_DIR, 'mutek.mutant.policy.yaml')) : { verdict: 'unknown' };
     row.runs.push({ test: t, code: r.code, fired, hits, durationMs: r.durationMs, pack: r.pack, session: r.sessionId, policy: v.verdict, visibleChange: r.visibleChange, failure: r.failureReason, failedStep: r.failedStep, kaneTriage: r.bugVerdict, credits: r.credits || undefined });
     if (r.code === 2 || r.code === 3) { infra++; continue; }
     if (r.code === 1 && fired) {
@@ -360,7 +360,7 @@ export async function runMutant(m, { tw, cfg, base, runDir, healAllowed, progres
     try {
       h = await runTest(row.killed_by, { heal: true, timeout: cfg.timeout, logFile: path.join(mdir, `${slug(row.killed_by)}_heal.ndjson`) });
     } finally { restore(); }
-    const hv = h.pack ? await verdict(h.pack, path.join(POLICY_DIR, 'tripwire.clean.policy.yaml')) : { raw: null };
+    const hv = h.pack ? await verdict(h.pack, path.join(POLICY_DIR, 'mutek.clean.policy.yaml')) : { raw: null };
     const healed = metricFromVerdict(hv.raw, 'metrics.heal.healed_tests');
     row.heal = { code: h.code, healedTests: healed, healEvents: h.healEvents, pack: h.pack, session: h.sessionId };
     if (h.code === 0 && (healed > 0 || h.healEvents > 0 || h.mentionsHeal)) row.status = 'masked';

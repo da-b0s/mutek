@@ -1,10 +1,10 @@
-// tripwire doctor: environment checks that have bitten real runs.
+// mutek doctor: environment checks that have bitten real runs.
 import { findOrphanKaneBrowsers, killKaneBrowser } from '../orphans.js';
 import { runKane } from '../kane.js';
 
 export default async function doctor(argv, parseArgs) {
   const { values } = parseArgs({ args: argv, options: { kill: { type: 'boolean' }, 'min-age': { type: 'string' }, help: { type: 'boolean', short: 'h' } } });
-  if (values.help) { console.log('tripwire doctor [--kill] [--min-age 120]\n\nChecks kane-cli and lists Kane Chrome browsers left over from earlier runs (older than --min-age minutes). --kill stops them.'); return 0; }
+  if (values.help) { console.log('mutek doctor [--kill] [--min-age 120]\n\nChecks kane-cli and lists Kane Chrome browsers left over from earlier runs (older than --min-age minutes). --kill stops them.'); return 0; }
   let problems = 0;
   const v = await runKane(['--version'], { killAfterMs: 30000 });
   if (v.code !== 0) { console.log('✗ kane-cli not found: npm install -g @testmuai/kane-cli'); problems++; }
@@ -22,7 +22,7 @@ export default async function doctor(argv, parseArgs) {
     console.log(`✗ ${orphans.length} Kane browser(s) left over from earlier runs (they can change a shared app's state):`);
     for (const o of orphans) console.log(`    pid ${o.pid}, ${Math.round(o.ageMinutes / 60)} h old, profile ${o.profile}`);
     if (values.kill) { for (const o of orphans) killKaneBrowser(o.profile); console.log('  stopped.'); problems--; }
-    else console.log('  stop them with: tripwire doctor --kill');
+    else console.log('  stop them with: mutek doctor --kill');
   }
   return problems ? 1 : 0;
 }

@@ -6,7 +6,7 @@
       "test": "tests/add_todos_test.md",
       "code": 0,
       "durationMs": 53567,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\b570e719-699e-424b-a66e-151730d5c5fd.evidence",
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\mutek\\demo\\third-party\\.testmuai\\evidence\\b570e719-699e-424b-a66e-151730d5c5fd.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
       "session": "adf02ab7-432c-4f1f-8e1e-39652003dc4d"
@@ -15,7 +15,7 @@
       "test": "tests/clear_completed_test.md",
       "code": 0,
       "durationMs": 30915,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\f9dfa280-33e3-4306-af2b-d44d8ed5aebc.evidence",
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\mutek\\demo\\third-party\\.testmuai\\evidence\\f9dfa280-33e3-4306-af2b-d44d8ed5aebc.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
       "session": "5071e4a2-0b61-4e55-be61-153924b65ef6"
@@ -24,7 +24,7 @@
       "test": "tests/complete_todo_test.md",
       "code": 0,
       "durationMs": 27934,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\a3f59862-5699-427a-ba37-59776eef89ee.evidence",
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\mutek\\demo\\third-party\\.testmuai\\evidence\\a3f59862-5699-427a-ba37-59776eef89ee.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
       "session": "2297c928-4bc1-4f1e-9922-4af82088ad69"
@@ -33,7 +33,7 @@
       "test": "tests/delete_todo_test.md",
       "code": 0,
       "durationMs": 49091,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\17d1b1c8-841d-4f29-8456-703db1031c4f.evidence",
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\mutek\\demo\\third-party\\.testmuai\\evidence\\17d1b1c8-841d-4f29-8456-703db1031c4f.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
       "session": "30f07042-39fc-426a-920e-249c05b70d23"
@@ -42,7 +42,7 @@
       "test": "tests/edit_todo_test.md",
       "code": 0,
       "durationMs": 57561,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\8c2affa7-71b8-4367-8db4-551eb1a14c9f.evidence",
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\mutek\\demo\\third-party\\.testmuai\\evidence\\8c2affa7-71b8-4367-8db4-551eb1a14c9f.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
       "session": "7272d898-a80a-481d-a85b-753b747f9b75"
@@ -51,7 +51,7 @@
       "test": "tests/filters_test.md",
       "code": 0,
       "durationMs": 67094,
-      "pack": "C:\\Users\\DELL\\Documents\\Code\\tripwire\\demo\\third-party\\.testmuai\\evidence\\651a5936-67b1-4a85-9b31-81bd79e850be.evidence",
+      "pack": "C:\\Users\\DELL\\Documents\\Code\\mutek\\demo\\third-party\\.testmuai\\evidence\\651a5936-67b1-4a85-9b31-81bd79e850be.evidence",
       "verdict": "pass",
       "testsWithoutChecks": 0,
       "session": "06d23f7b-2008-4e84-925a-4ce8f906e7cd"

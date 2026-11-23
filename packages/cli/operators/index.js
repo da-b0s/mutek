@@ -29,7 +29,7 @@ export const OPERATORS = [
 ];
 
 // Generate every candidate, merge duplicates (same id from several tests), drop excluded equivalents.
-export function generateAll(profile, { dir = '.tripwire', only, excluded = new Set() } = {}) {
+export function generateAll(profile, { dir = '.mutek', only, excluded = new Set() } = {}) {
   const byId = new Map();
   const counts = {};
   for (const op of OPERATORS) {

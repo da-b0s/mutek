@@ -1,4 +1,4 @@
-// tripwire fix: the closed loop. Each surviving (or heal-masked) mutant goes to the coding agent,
+// mutek fix: the closed loop. Each surviving (or heal-masked) mutant goes to the coding agent,
 // which appends one assertion step to one test. Kane then proves it twice:
 //   app clean  -> the test must pass
 //   app broken -> the test must fail
@@ -15,13 +15,13 @@ import { withProxy, resetApp, snapshotRecording } from './run.js';
 import { generateAll } from '../../operators/index.js';
 import { get } from '../jsonpath.js';
 
-const HELP = `tripwire fix [options]
+const HELP = `mutek fix [options]
 
   --agent claude|codex   which coding agent strengthens the tests (default from config: claude)
   --max-attempts <n>     attempts per survivor (default 3)
   --only <id,...>        fix only these mutant ids (default: every survivor and masked mutant)
   --limit <n>            fix at most n mutants this time
-  --dir <path>           state directory (default .tripwire)`;
+  --dir <path>           state directory (default .mutek)`;
 
 const slug = (s) => s.replace(/[^\w.-]+/g, '_').slice(0, 80);
 
@@ -66,7 +66,7 @@ Rules:
 - Only append. Do not modify, reorder, weaken or delete any existing line (Kane re-records every step after an edit, so editing earlier steps is expensive and is rejected).
 - The new step must PASS on the real app and FAIL on the broken app described above.
 - Use exact expected values a user would see (amounts with currency symbol, item names, counts, status words).
-- Do not mention bugs, mutants or Tripwire in the test, and never name the broken value
+- Do not mention bugs, mutants or Mutek in the test, and never name the broken value
   (the wrong number, the extra record): assert the correct state, so the check stays general.
 ${lessons ? `\nAssertion patterns that worked before in this repo:\n${lessons}\n` : ''}${previousFailure ? `\nYour previous attempt was rejected: ${previousFailure}\nTry a different assertion.\n` : ''}
 Reply with one line describing the assertion you added.`;
@@ -113,7 +113,7 @@ export default async function fix(argv, parseArgs) {
   const agent = values.agent || cfg.agent || 'claude';
   const maxAttempts = Number(values['max-attempts'] || 3);
   const rows = readLedger(dir);
-  if (!rows.length) throw new Error('no ledger yet: run `tripwire run` first');
+  if (!rows.length) throw new Error('no ledger yet: run `mutek run` first');
   const profile = JSON.parse(fs.readFileSync(path.join(dir, 'traffic.json'), 'utf8'));
   const defs = new Map(generateAll(profile, { dir }).candidates.map((m) => [m.id, m]));
   const only = values.only ? new Set(values.only.split(',')) : null;
@@ -201,7 +201,7 @@ export default async function fix(argv, parseArgs) {
       if (result === 'killed') fixed++;
     }
     console.log(`\n${fixed} of ${todo.length} survivors now caught, each proven by a passing clean run and a failing mutant run.`);
-    console.log('Re-score with: tripwire run');
+    console.log('Re-score with: mutek run');
     const { writeReport } = await import('../report.js');
     writeReport(dir);
     return fixed === todo.length ? 0 : 1;

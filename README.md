@@ -1,10 +1,10 @@
-# Tripwire
+# Mutek
 
 **Break the app on purpose to find out whether a green Kane suite means anything.**
 
 Coding agents write the app and its tests, and they are very good at writing tests that pass.
 A passing end-to-end test only matters if it would have failed when the app was broken, and
-nobody checks that. Tripwire does.
+nobody checks that. Mutek does.
 
 A proxy sits between the browser and your app and breaks it in one small, realistic way at a time:
 a wrong total, a failed save reported as success, a missing button, another user's order in your
@@ -13,12 +13,12 @@ suite against each broken version with healing off. Every bug the suite walks pa
 coding agent, which adds one plain-English assertion, and Kane proves it: the strengthened test
 **passes on the real app and fails on the broken one**.
 
-![tripwire score](demo/shop/.tripwire/report/badge.svg)
+![mutek score](demo/shop/.mutek/report/badge.svg)
 
 ## Results
 
 Two apps, each with a suite written by a fresh Claude Code session that was never told about
-Tripwire (Kane CLI 0.10.5, 18 to 20 Nov 2026). Every fix below was proven by two Kane runs: the
+Mutek (Kane CLI 0.10.5, 18 to 20 Nov 2026). Every fix below was proven by two Kane runs: the
 strengthened test passes on the real app and fails with the bug armed.
 
 **Demo shop** (`demo/shop`, 6 tests, JSON API)
@@ -26,7 +26,7 @@ strengthened test passes on the real app and fails with the bug armed.
 | Run | Mutants | Score | Killed | Survived | Masked by heal | Not reached |
 |---|---|---|---|---|---|---|
 | First-draft suite | 40 | **78.4%** | 29 | 7 | 1 | 3 |
-| After `tripwire fix` (5 proven fixes) | 40 | **91.9%** | 34 | 2 | 1 | 3 |
+| After `mutek fix` (5 proven fixes) | 40 | **91.9%** | 34 | 2 | 1 | 3 |
 | Fresh measured re-run of the strengthened suite, harder set (adds 8 saboteur bugs and the in-page operators) | 50 | **78.7%** | 37 | 10 | 0 | 3 |
 | After 3 more proven fixes | 50 | **85.1%** | 40 | 7 | 0 | 3 |
 
@@ -39,7 +39,7 @@ because it re-reads the data). They stay in the score: only a person can exclude
 | Run | Mutants | Score | Killed | Survived | Masked by heal |
 |---|---|---|---|---|---|
 | First-draft suite | 18 | **77.8%** | 14 | 2 | 2 |
-| After `tripwire fix` (4 proven fixes, including both masked bugs) | 18 | **100%** | 18 | 0 | 0 |
+| After `mutek fix` (4 proven fixes, including both masked bugs) | 18 | **100%** | 18 | 0 | 0 |
 | Incremental re-check of the strengthened suite (`--since`, corrected operators) | 17 | **94.1%** | 16 | 1 | 0 |
 | After 1 more proven fix | 17 | **100%** | 17 | 0 | 0 |
 
@@ -58,7 +58,7 @@ because it re-reads the data). They stay in the score: only a person can exclude
   4 *proven but unguarded* (tests check them, a bug that broke them got past), 3 untouched by any
   mutant, 7 owed (no test checks them).
 
-Website: https://da-b0s.github.io/tripwire/ · Reports: [shop](https://da-b0s.github.io/tripwire/shop/) · [TodoMVC](https://da-b0s.github.io/tripwire/todomvc/)
+Website: https://da-b0s.github.io/mutek/ · Reports: [shop](https://da-b0s.github.io/mutek/shop/) · [TodoMVC](https://da-b0s.github.io/mutek/todomvc/)
 (each survivor with a screenshot of the broken page the suite passed on, Kane's triage of every
 failure, every fix and lesson). Full measurements and findings: [NOTES.md](NOTES.md).
 
@@ -70,7 +70,7 @@ check 15 to 35; each proven fix ≈ 25.
 You need Node 18+, Chrome, and a [TestMu AI](https://www.testmuai.com) account (free credits).
 
 ```bash
-npm install -g @testmuai/kane-cli tripwire-e2e
+npm install -g @testmuai/kane-cli mutek
 kane-cli login
 ```
 
@@ -78,31 +78,31 @@ Point your `*_test.md` files at the proxy (`url: http://localhost:8080` in the f
 your app, then:
 
 ```bash
-tripwire run       # baseline, generate mutants, replay, score, report
-tripwire fix       # hand each survivor to your agent; Kane proves every new assertion
-tripwire check     # exit 1 below the threshold (for hooks and CI)
+mutek run       # baseline, generate mutants, replay, score, report
+mutek fix       # hand each survivor to your agent; Kane proves every new assertion
+mutek check     # exit 1 below the threshold (for hooks and CI)
 ```
 
-More: `tripwire sabotage` (your agent proposes domain bugs from your acceptance criteria),
-`tripwire coverage` (criteria as owed / proven and guarded / proven but unguarded),
-`tripwire run --since <ref>` (only mutants whose tests changed), `tripwire doctor` (checks
+More: `mutek sabotage` (your agent proposes domain bugs from your acceptance criteria),
+`mutek coverage` (criteria as owed / proven and guarded / proven but unguarded),
+`mutek run --since <ref>` (only mutants whose tests changed), `mutek doctor` (checks
 kane-cli, the login, and leftover Kane browsers that can change a shared app's state).
 
 Try it on the bundled demo shop (its Kane suite and recordings are committed):
 
 ```bash
-git clone https://github.com/da-b0s/tripwire && cd tripwire && npm install
+git clone https://github.com/da-b0s/mutek && cd mutek && npm install
 npm run shop                        # terminal 1: the app, on :3000
 ```
 
 ```bash
-cd demo/shop && npx tripwire run    # terminal 2: starts the proxy on :8080 itself
+cd demo/shop && npx mutek run    # terminal 2: starts the proxy on :8080 itself
 ```
 
-Without spending any credits you can inspect the committed results: `npx tripwire check`,
-`npx tripwire list`, `npx tripwire run --dry-run` and `npx tripwire report` all work offline.
+Without spending any credits you can inspect the committed results: `npx mutek check`,
+`npx mutek list`, `npx mutek run --dry-run` and `npx mutek report` all work offline.
 
-Long runs are safe to interrupt: `tripwire run --resume` continues from the last finished mutant,
+Long runs are safe to interrupt: `mutek run --resume` continues from the last finished mutant,
 `--retry-errors` re-runs only mutants that hit a Kane service error, and `--redo <id>` re-runs
 named mutants. Kane service hiccups before a run starts are waited out automatically.
 
@@ -117,9 +117,9 @@ named mutants. Kane service hiccups before a run starts are waited out automatic
 
 Score = killed ÷ (killed + survived + masked). Kane errors and timeouts are retried and never
 counted. A survivor whose pages never showed anything different from the clean run is flagged as a
-*suspected equivalent*; it is excluded only when a person adds it to `.tripwire/equivalents.json`
+*suspected equivalent*; it is excluded only when a person adds it to `.mutek/equivalents.json`
 with a reason, and every exclusion is listed in the report. A gate can set flagged ones aside
-without changing the score: `tripwire check --allow-suspected-equivalents` (this repo's CI does).
+without changing the score: `mutek check --allow-suspected-equivalents` (this repo's CI does).
 
 ## The operators
 
@@ -148,7 +148,7 @@ and checkboxes. Links to other sites are never mutated.
 | interface | text-change | a heading or status shows the wrong words |
 | interface | wrong-link | a link points to a different page |
 | interface | missing-row-action | the first row loses its edit/delete/cancel action |
-| saboteur | agent-proposed | domain rules broken on purpose, proposed by your agent (`tripwire sabotage`) |
+| saboteur | agent-proposed | domain rules broken on purpose, proposed by your agent (`mutek sabotage`) |
 
 ## Use it in your agent
 
@@ -156,13 +156,13 @@ and checkboxes. Links to other sites are never mutated.
   changed since the last run or the score is below the threshold, and names the bugs that got past.
   Merge [hooks/claude-settings.json](hooks/claude-settings.json) into `.claude/settings.json`.
 - **Any agent**: copy [hooks/AGENTS.md](hooks/AGENTS.md).
-- **CI**: [hooks/tripwire.yml](hooks/tripwire.yml) runs incrementally (`--since`) on pull requests.
-- **Memory**: `.tripwire/lessons.md` records each bug with the exact step that was proven to catch
+- **CI**: [hooks/mutek.yml](hooks/mutek.yml) runs incrementally (`--since`) on pull requests.
+- **Memory**: `.mutek/lessons.md` records each bug with the exact step that was proven to catch
   it; the agent reads it before writing new tests (seen live in the hook session above).
 
 ## What Kane does here
 
-| Kane feature | Role in Tripwire |
+| Kane feature | Role in Mutek |
 |---|---|
 | `_test.md` replay | the suite runs once per mutant without re-authoring |
 | `--no-adaptive-heal` and heal events | strict verdicts; then a healing-on rerun detects masked bugs |
@@ -170,11 +170,11 @@ and checkboxes. Links to other sites are never mutated.
 | `metrics.tests_without_checks` | assertion-free tests are reported first |
 | Evidence packs | screenshots of the broken page for the report and for the agent |
 | NDJSON events, exit codes, failure triage | machine-readable verdicts; Kane's own triage is shown next to each planted bug |
-| Official skill | the test-writing agent uses TestMu's skill; Tripwire checks the result |
+| Official skill | the test-writing agent uses TestMu's skill; Mutek checks the result |
 
 ## Limits
 
-- Tripwire mutates traffic and the rendered page, not source code. It measures whether the suite
+- Mutek mutates traffic and the rendered page, not source code. It measures whether the suite
   notices breakage a user would see. It does not replace unit-level mutation testing.
 - JSON operators need a JSON API; the in-page operators and interface operators work on any page.
   Websockets and static assets pass through untouched.
@@ -190,11 +190,14 @@ and checkboxes. Links to other sites are never mutated.
 
 - Everything runs locally against the two demos; you only need a Kane login.
 - Both suites were written by separate Claude Code sessions in clean folders that never saw
-  Tripwire; transcripts are in `demo/*/agent-session.jsonl`, prompts and what happened in
+  Mutek; transcripts are in `demo/*/agent-session.jsonl`, prompts and what happened in
   `demo/*/WRITE_TESTS_PROMPT.md`.
 - `demo/shop/stop-hook-session.jsonl` is a real Claude Code session blocked by the Stop hook.
 - If you cannot run it: the committed reports, ledgers, fixes, lessons and screenshots in
-  `demo/*/.tripwire/` are the record of every run.
+  `demo/*/.mutek/` are the record of every run.
+- Mutek was called Tripwire until 23 Nov 2026 (npm `tripwire-e2e`, now replaced by `mutek`).
+  Raw logs recorded before the rename (agent prompts and transcripts, Kane output) keep the old name
+  and paths, exactly as they were captured.
 
 ## License
 

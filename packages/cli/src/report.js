@@ -1,4 +1,4 @@
-// Static HTML report and README badge, built from .tripwire/ state. No server, no external assets.
+// Static HTML report and README badge, built from .mutek/ state. No server, no external assets.
 import fs from 'node:fs';
 import path from 'node:path';
 import AdmZip from 'adm-zip';
@@ -27,7 +27,7 @@ export function lastScreenshot(pack) {
 export const imageExt = (buf) => (buf[0] === 0x89 && buf[1] === 0x50 ? 'png' : 'jpg');
 
 export function badge(scoreValue) {
-  const label = 'tripwire';
+  const label = 'mutek';
   const value = scoreValue === null || scoreValue === undefined ? 'n/a' : `${Math.round(scoreValue)}%`;
   const color = scoreValue === null || scoreValue === undefined ? '#9f9f9f' : scoreValue >= 80 ? '#2e7d32' : scoreValue >= 60 ? '#b26a00' : '#c62828';
   const lw = 58, vw = 8 + value.length * 7.5;
@@ -66,7 +66,7 @@ export function writeReport(dir) {
     return `<figure><img src="shots/${esc(name)}" alt="The broken page as the test left it" loading="lazy"><figcaption>The broken app at the end of ${esc(run.test)}. The test still passed.</figcaption></figure>`;
   };
 
-  // Kane triages each failed replay on its own. Tripwire knows the app was broken on purpose,
+  // Kane triages each failed replay on its own. Mutek knows the app was broken on purpose,
   // so it can show how that triage read a real product bug.
   const triage = (r) => {
     const t = r.runs?.find((x) => x.kaneTriage)?.kaneTriage;
@@ -85,10 +85,10 @@ export function writeReport(dir) {
       <h3>${esc(r.describe)}</h3>
       ${r.expect ? `<p class="expect">A good test would: ${esc(r.expect.charAt(0).toLowerCase() + r.expect.slice(1))}.</p>` : ''}
       <p class="meta">Tests that walked past it: ${(r.touches_tests || []).map((t) => `<code>${esc(t)}</code>`).join(' ')}</p>
-      ${r.suspectedEquivalent ? `<p class="warn">Suspected equivalent: ${esc(r.suspectedEquivalent)} If a person agrees, add it to <code>.tripwire/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>` : ''}
+      ${r.suspectedEquivalent ? `<p class="warn">Suspected equivalent: ${esc(r.suspectedEquivalent)} If a person agrees, add it to <code>.mutek/equivalents.json</code> with the reason; it then leaves the score and is listed below.</p>` : ''}
       ${r.status === 'masked' ? `<p class="warn">With healing off, <code>${esc(r.killed_by)}</code> failed. With Kane's default healing it re-authored its steps and <strong>passed on the broken app</strong>.</p>` : ''}
       ${triage(r)}
-      ${fixFor.has(r.id) ? `<p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (${esc(fixFor.get(r.id).proof?.clean?.session || '')} / ${esc(fixFor.get(r.id).proof?.mutant?.session || '')}).</p>` : ''}
+      ${fixFor.has(r.id) ? `<p class="fixed">Fixed by <code>mutek fix</code>: clean run passed, mutant run failed (${esc(fixFor.get(r.id).proof?.clean?.session || '')} / ${esc(fixFor.get(r.id).proof?.mutant?.session || '')}).</p>` : ''}
       ${withShot ? shot(r) : ''}
       <details><summary>Mutant id</summary><code>${esc(r.id)}</code></details>
     </article>`;
@@ -99,7 +99,7 @@ export function writeReport(dir) {
 
   const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tripwire report</title>
+<title>Mutek report</title>
 <style>
 :root{--bg:#f6f5f1;--surface:#fff;--ink:#1c1b19;--muted:#66625b;--line:#e2ded5;--killed:#2e7d32;--survived:#c62828;--masked:#8e24aa;--nr:#6d6d6d;--accent:#2f5d50}
 @media (prefers-color-scheme:dark){:root{--bg:#141412;--surface:#1d1c1a;--ink:#ecebe7;--muted:#a19d95;--line:#33312d;--killed:#66bb6a;--survived:#ef5350;--masked:#ce93d8;--nr:#9e9e9e;--accent:#7fb7a5}}
@@ -123,9 +123,9 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 .note{color:var(--muted);font-size:.9rem;max-width:70ch}
 </style></head><body><main>
 <section class="top">
-  <div><h1>Tripwire</h1><p class="sub">Would the tests fail if the app were broken? Run ${esc(runId || '–')}${summary.commit ? ` · commit ${esc(summary.commit)}` : ''}</p>
+  <div><h1>Mutek</h1><p class="sub">Would the tests fail if the app were broken? Run ${esc(runId || '–')}${summary.commit ? ` · commit ${esc(summary.commit)}` : ''}</p>
   <div class="score" aria-label="mutation score">${pct(s.score)}</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p>
-  ${fixedCount ? `<p class="sub"><strong>${pct(firstDraft.score)}</strong> for the first-draft suite → <strong>${pct(s.score)}</strong> after <code>tripwire fix</code> strengthened ${fixedCount} test${fixedCount > 1 ? 's' : ''}, each proven by Kane: pass on the real app, fail on the broken one.</p>` : ''}</div>
+  ${fixedCount ? `<p class="sub"><strong>${pct(firstDraft.score)}</strong> for the first-draft suite → <strong>${pct(s.score)}</strong> after <code>mutek fix</code> strengthened ${fixedCount} test${fixedCount > 1 ? 's' : ''}, each proven by Kane: pass on the real app, fail on the broken one.</p>` : ''}</div>
   <div class="counts">
     <div class="count killed"><b>${s.killed}</b>killed</div>
     <div class="count survived"><b>${s.survived}</b>survived</div>
@@ -148,10 +148,10 @@ ${s.masked ? `<div class="grid">${byStatus('masked').map((r) => card(r, false)).
 ${tests.map((t) => { const b = baseline.tests?.find((x) => x.test === t.test); return `<tr><td><code>${esc(t.test)}</code></td><td>${t.touched}</td><td>${t.killed}</td><td>${t.survivedPast + t.masked}</td><td><div class="bar" title="${t.score ?? '–'}%"><i style="width:${t.score ?? 0}%"></i></div>${t.score ?? '–'}%</td><td>${b?.testsWithoutChecks ? '<strong style="color:var(--survived)">none</strong>' : 'yes'}</td></tr>`; }).join('')}
 </tbody></table>
 
-${coverage ? `<h2>Acceptance criteria</h2><p class="note">Kane reports a criterion as proven or owed. Tripwire adds a third state: <b>proven but unguarded</b>, where the tests that check it pass on the real app but a bug that broke it got past them.</p><table><thead><tr><th>Criterion</th><th>Kane</th><th>Tripwire</th><th>Bugs that got past</th></tr></thead><tbody>${coverage.map((c) => `<tr><td>${esc(c.criterion)}</td><td>${esc(c.kane)}</td><td><strong class="${c.state === 'proven but unguarded' ? 'warn' : ''}">${esc(c.state)}</strong></td><td>${(c.escaped || []).map(esc).join('<br>')}</td></tr>`).join('')}</tbody></table>` : ''}
+${coverage ? `<h2>Acceptance criteria</h2><p class="note">Kane reports a criterion as proven or owed. Mutek adds a third state: <b>proven but unguarded</b>, where the tests that check it pass on the real app but a bug that broke it got past them.</p><table><thead><tr><th>Criterion</th><th>Kane</th><th>Mutek</th><th>Bugs that got past</th></tr></thead><tbody>${coverage.map((c) => `<tr><td>${esc(c.criterion)}</td><td>${esc(c.kane)}</td><td><strong class="${c.state === 'proven but unguarded' ? 'warn' : ''}">${esc(c.state)}</strong></td><td>${(c.escaped || []).map(esc).join('<br>')}</td></tr>`).join('')}</tbody></table>` : ''}
 
 ${triaged.length ? `<h2>How Kane's triage read the planted bugs</h2>
-<p class="note">Every mutant below was a real break in the app. Kane triaged ${triaged.length} of the failing runs; it attributed <strong>${triagedAsTest.length}</strong> of them to the test rather than the product (typically "locator rot": the page changed, so the recording looks stale). From inside a single run a broken app and an outdated test look alike; Tripwire is the outside reference that tells them apart. Treat a triage of "automation bug" on a release branch as a prompt to look, not as a reason to re-record.</p>` : ''}
+<p class="note">Every mutant below was a real break in the app. Kane triaged ${triaged.length} of the failing runs; it attributed <strong>${triagedAsTest.length}</strong> of them to the test rather than the product (typically "locator rot": the page changed, so the recording looks stale). From inside a single run a broken app and an outdated test look alike; Mutek is the outside reference that tells them apart. Treat a triage of "automation bug" on a release branch as a prompt to look, not as a reason to re-record.</p>` : ''}
 
 <h2>Caught (${s.killed})</h2>
 <details><summary>Show all ${s.killed} killed mutants</summary><div class="grid">${byStatus('killed').map((r) => card(r, false)).join('')}</div></details>
@@ -163,7 +163,7 @@ ${triaged.length ? `<h2>How Kane's triage read the planted bugs</h2>
 ${byStatus('error').length ? `<h2>Errors (${byStatus('error').length})</h2><p class="note">Kane exited 2 (error) or 3 (timeout) twice. Never counted as kills.</p><ul>${byStatus('error').map((r) => `<li>${esc(r.describe)}</li>`).join('')}</ul>` : ''}
 
 <h2>Excluded as equivalent (${equivalents.length})</h2>
-${equivalents.length ? `<ul>${equivalents.map((e) => `<li><code>${esc(e.id)}</code> – ${esc(e.reason)}${e.approvedBy ? ` (approved by ${esc(e.approvedBy)})` : ''}</li>`).join('')}</ul>` : '<p class="note">None. Mutants are excluded only with a human-approved reason in <code>.tripwire/equivalents.json</code>.</p>'}
+${equivalents.length ? `<ul>${equivalents.map((e) => `<li><code>${esc(e.id)}</code> – ${esc(e.reason)}${e.approvedBy ? ` (approved by ${esc(e.approvedBy)})` : ''}</li>`).join('')}</ul>` : '<p class="note">None. Mutants are excluded only with a human-approved reason in <code>.mutek/equivalents.json</code>.</p>'}
 
 ${fixes.length ? `<h2>Strengthened tests (${fixes.filter((f) => f.result === 'killed').length} of ${fixes.length} attempts)</h2><table><thead><tr><th>Mutant</th><th>Test</th><th>Result</th><th>Attempts</th></tr></thead><tbody>${fixes.map((f) => `<tr><td>${esc(f.describe)}</td><td><code>${esc(f.test || '')}</code></td><td>${esc(f.result)}</td><td>${f.attempts}</td></tr>`).join('')}</tbody></table>` : ''}
 
@@ -173,7 +173,7 @@ ${lessons ? `<h2>Lessons for the test-writing agent</h2><div class="lessons">${e
 <p>${rows.length} mutants · ${minutes} minutes of Kane runs (${perMutant}s per mutant)${summary.creditsUsed !== null && summary.creditsUsed !== undefined ? ` · ${summary.creditsUsed} credits` : ''}. Replays run from Kane's cache with healing off.</p>
 
 <h2>What this does not measure</h2>
-<p class="note">Tripwire mutates traffic and the rendered page, not source code. It tells you whether the suite notices breakage a user would see. It does not replace unit-level mutation testing, and it cannot see server-side effects that never reach the browser.</p>
+<p class="note">Mutek mutates traffic and the rendered page, not source code. It tells you whether the suite notices breakage a user would see. It does not replace unit-level mutation testing, and it cannot see server-side effects that never reach the browser.</p>
 </main></body></html>`;
 
   fs.writeFileSync(path.join(out, 'index.html'), html);

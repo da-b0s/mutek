@@ -1,20 +1,20 @@
-// Command-line entry. Subcommands are loaded lazily so `tripwire proxy` starts instantly.
+// Command-line entry. Subcommands are loaded lazily so `mutek proxy` starts instantly.
 import { parseArgs } from 'node:util';
 
-const HELP = `tripwire: break the app on purpose to find out whether a green Kane suite means anything
+const HELP = `mutek: break the app on purpose to find out whether a green Kane suite means anything
 
 Usage:
-  tripwire proxy   --target <url> [--port 8080]          run the fault-injecting proxy in front of an app
-  tripwire run     [--tests <glob>] [--max-mutants 40]   baseline, generate mutants, replay, score
-  tripwire fix     [--agent claude|codex] [--max-attempts 3]   strengthen tests for every survivor
-  tripwire sabotage [--agent claude|codex]                ask the agent for domain-specific mutants
-  tripwire report                                         rebuild the HTML report and badge
-  tripwire list                                           show the mutant catalogue for the last baseline
-  tripwire check   [--threshold 80]                      exit 1 if the score is below the threshold (for hooks)
-  tripwire coverage [--criteria ACCEPTANCE.md]            acceptance criteria: owed, proven, or proven but unguarded
-  tripwire doctor  [--kill]                              check kane-cli, login, and leftover Kane browsers
+  mutek proxy   --target <url> [--port 8080]          run the fault-injecting proxy in front of an app
+  mutek run     [--tests <glob>] [--max-mutants 40]   baseline, generate mutants, replay, score
+  mutek fix     [--agent claude|codex] [--max-attempts 3]   strengthen tests for every survivor
+  mutek sabotage [--agent claude|codex]                ask the agent for domain-specific mutants
+  mutek report                                         rebuild the HTML report and badge
+  mutek list                                           show the mutant catalogue for the last baseline
+  mutek check   [--threshold 80]                      exit 1 if the score is below the threshold (for hooks)
+  mutek coverage [--criteria ACCEPTANCE.md]            acceptance criteria: owed, proven, or proven but unguarded
+  mutek doctor  [--kill]                              check kane-cli, login, and leftover Kane browsers
 
-Run "tripwire <command> --help" for the options of one command.`;
+Run "mutek <command> --help" for the options of one command.`;
 
 export async function main(argv) {
   const [cmd, ...rest] = argv;

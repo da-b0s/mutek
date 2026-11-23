@@ -5,7 +5,7 @@
 # "Noticed" counts failed AND broken tests. When a replay assertion fails, Kane triages it; if the
 # triage calls it an automation bug (e.g. "locator rot" because the page text changed), the pack
 # records the test as broken, not failed. For a mutant run that still means the suite noticed.
-policy: tripwire-mutant-must-be-caught
+policy: mutek-mutant-must-be-caught
 gates:
   - id: someone-noticed
     expr: "totals.failed + totals.broken >= 1"

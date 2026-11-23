@@ -9,13 +9,13 @@ Kane CLI version: 0.10.5 (`npm install -g @testmuai/kane-cli`), Node 24, Windows
 | 1 | Replay cost | **measured** | First run (authoring): 131 s, ~51 credits. Replay: 39 s, ~2 credits. Replay is not free: each "analyze" check is re-evaluated live (~0.7 credits each). A replay that fails costs ~5 credits and ~130 s because Kane triages the failure. |
 | 2 | A replay that should fail, fails | **yes** | Changing the asserted "Your cart is empty." text: exit 1 at the asserting step, mutant fired. Replay re-checks asserted values; it does not skip them. |
 | 3 | Replay through the proxy | **yes** | Recorded and replayed at `http://localhost:8080`; no URL override needed. |
-| 4 | Heal behaviour | **visible** | NDJSON has `test_md_adaptive_heal` (shrink count, re-author boundary). Hiding the clicked Cart link: healing re-authored the step, still failed (not masked). Cost ~15 credits, 225 s. **A heal run rewrites `output-<stem>/` even when it fails**, so Tripwire restores the recording after every mutant run. |
+| 4 | Heal behaviour | **visible** | NDJSON has `test_md_adaptive_heal` (shrink count, re-author boundary). Hiding the clicked Cart link: healing re-authored the step, still failed (not masked). Cost ~15 credits, 225 s. **A heal run rewrites `output-<stem>/` even when it fails**, so Mutek restores the recording after every mutant run. |
 | 5 | Inverted policy | **works, with a fix** | A failed replay assertion was recorded in the pack as `broken` (not `failed`) because Kane's triage called it an automation bug (`locator_rot`). The mutant policy uses `expr: totals.failed + totals.broken >= 1`; the clean policy also requires `totals.broken == 0`. Verified on real packs both ways. |
 | 6 | Batch runs | not needed | Baseline runs one file at a time so the proxy can attribute traffic to each test. |
 | 7 | Evidence pack contents | **confirmed** | Zip with `run.yaml`, `tests/<id>/result.yaml`, per-step screenshots, HAR and console logs. `result.yaml` contains the account email: never commit raw packs; publish screenshots, verdicts and the report instead. Recordings (`output-*/.internal`) hold only numeric account ids. |
 
 Other observations:
-- Kane triages every failed replay (`test_md_bug_verdict`). For mutants it said "automation bug / locator rot" with 0.96 to 0.98 confidence: from inside one run, a broken app and an outdated test look the same. Tripwire knows which it was. The report shows Kane's triage next to the planted bug.
+- Kane triages every failed replay (`test_md_bug_verdict`). For mutants it said "automation bug / locator rot" with 0.96 to 0.98 confidence: from inside one run, a broken app and an outdated test look the same. Mutek knows which it was. The report shows Kane's triage next to the planted bug.
 - One run ended with exit 2, `TMS did not return an org_id` (transient, on a flaky connection). The runner retries exit 2 and 3 once and never counts them as kills.
 - Kane's optional Windows packages (~100 MB) failed to download silently on the first install. Fix: `npm install -g @testmuai/kane-cli-win-x64@0.10.5 @testmuai/kane-cli-node-win-x64@24.22.2 @testmuai/kane-cli-assurance-win-x64@0.10.5`.
 
@@ -33,21 +33,21 @@ duplicated. The evidence-pack screenshot shows four rows and "3 items left"; the
 assertion still passed. The log does not show what it extracted, so the cause is not known.
 
 **Triage is right sometimes and wrong sometimes.** On the hidden row it correctly said "product
-bug". On a changed confirmation text it said "automation bug / locator rot" (0.96). Tripwire is
+bug". On a changed confirmation text it said "automation bug / locator rot" (0.96). Mutek is
 the outside reference that knows which it was; the report shows each triage next to the bug.
 
 **Leftover Kane browsers corrupt shared state.** Kane's private headless Chrome
 (`kane-clean-*` profile) can outlive a run killed from outside. Three of them, up to two days old,
-added an item to the shop's shared cart and broke a green baseline. `tripwire doctor --kill`
-stops them; `tripwire run` warns about any older than two hours.
+added an item to the shop's shared cart and broke a green baseline. `mutek doctor --kill`
+stops them; `mutek run` warns about any older than two hours.
 
 **Kane service hiccups.** `TMS did not return an org_id` and `Token refresh failed` happen before
-any step runs (no browser, no credits). Twelve mutants errored in a row once. Tripwire now waits
+any step runs (no browser, no credits). Twelve mutants errored in a row once. Mutek now waits
 them out (15, 45, 90 s) and offers `--retry-errors`; errors are never counted.
 
 **Write-response mutants are often equivalent.** The saboteur put several bugs in write responses
 (coupon, quantity change, place order). The shop re-reads the data after every write, so the
-rewritten numbers never reach the screen and the tests are right to pass. Tripwire now keeps the
+rewritten numbers never reach the screen and the tests are right to pass. Mutek now keeps the
 recorder on during mutant runs and flags a survivor whose pages never showed anything new as a
 *suspected equivalent*; a person decides, and only then does it leave the score.
 
@@ -62,7 +62,7 @@ coupon test failed for that reason (the network log shows a stray item removed a
 | First-hour checks (probe) | ~75 |
 | Shop suite written and recorded by the fresh agent (incl. its reruns) | ~590 |
 | First shop run, 40 mutants with 10 heal checks | ~400 |
-| `tripwire fix`, 8 attempts across 7 survivors | ~200 |
+| `mutek fix`, 8 attempts across 7 survivors | ~200 |
 | TodoMVC suite recorded (6 tests) | ~440 |
 | TodoMVC run, 18 mutants | ~60 |
 | Measured re-run of the strengthened shop suite (50 mutants) | in progress |
@@ -73,7 +73,7 @@ a heal check 15 to 35; recording a new step about 15 to 25.
 ## Design decisions made while building
 
 - **Edits re-author everything after them.** Kane re-records the edited step and every later step
-  of the file. `tripwire fix` therefore appends a new final assertion step instead of editing an
+  of the file. `mutek fix` therefore appends a new final assertion step instead of editing an
   existing one, so only one step costs authoring credits.
 - **Masked means killed-strict, passed-with-heal.** A survivor already passed replay, so healing
   never triggers on it. The meaningful case is a mutant that strict replay catches but Kane's

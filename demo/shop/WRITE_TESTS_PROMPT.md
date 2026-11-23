@@ -3,7 +3,7 @@
 The first-draft suite was written by a separate, fresh Claude Code session (`claude -p`, with the
 official kane-cli skill installed via `kane-cli install skill`). It ran in a clean copy of this
 app (`server.js`, `public/`, a neutral `package.json`) outside this repository, so it could not
-see Tripwire, its config, or this file. The prompt does not mention Tripwire, mutation testing or
+see Mutek, its config, or this file. The prompt does not mention Mutek, mutation testing or
 test strength, so the suite is the honest first draft an agent writes by default. The tests and
 their recordings were then copied into `tests/` unchanged. The session transcript is in
 `agent-session.jsonl`.

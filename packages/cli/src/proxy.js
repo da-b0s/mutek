@@ -1,4 +1,4 @@
-// The Tripwire proxy: a reverse proxy in front of the app under test.
+// The Mutek proxy: a reverse proxy in front of the app under test.
 // Disarmed it passes everything through (and, in record mode, notes traffic and what the page showed).
 // Armed with one mutant it changes exactly one realistic thing about the app's behaviour.
 import http from 'node:http';
@@ -179,7 +179,7 @@ export function createProxy({ target, port = 8080, log = () => {} }) {
         up = await forward(req, reqBody);
       }
     } catch (err) {
-      return send(res, 502, { error: `tripwire proxy could not reach ${target}: ${err.message}` });
+      return send(res, 502, { error: `mutek proxy could not reach ${target}: ${err.message}` });
     }
 
     let status = up.status;
@@ -242,7 +242,7 @@ export function createProxy({ target, port = 8080, log = () => {} }) {
   const server = http.createServer((req, res) => {
     handle(req, res).catch((err) => {
       log(`error: ${err.stack || err}`);
-      if (!res.headersSent) send(res, 500, { error: 'tripwire proxy error', detail: String(err.message || err) });
+      if (!res.headersSent) send(res, 500, { error: 'mutek proxy error', detail: String(err.message || err) });
       else res.end();
     });
   });

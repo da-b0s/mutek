@@ -1,14 +1,14 @@
 # GitHub Action: score the Kane suite on every pull request that touches tests or the app.
-# Copy to .github/workflows/tripwire.yml. Needs repository secrets LT_USERNAME and LT_ACCESS_KEY
+# Copy to .github/workflows/mutek.yml. Needs repository secrets LT_USERNAME and LT_ACCESS_KEY
 # (TestMu AI basic auth) and a script that starts your app (APP_START below).
-name: tripwire
+name: mutek
 
 on:
   pull_request:
-    paths: ['**/*_test.md', 'src/**', 'app/**', 'tripwire.config.json']
+    paths: ['**/*_test.md', 'src/**', 'app/**', 'mutek.config.json']
 
 jobs:
-  tripwire:
+  mutek:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
@@ -21,7 +21,7 @@ jobs:
         with: { node-version: 22 }
       - uses: browser-actions/setup-chrome@v1
       - run: npm ci
-      - run: npm install -g @testmuai/kane-cli tripwire-e2e
+      - run: npm install -g @testmuai/kane-cli mutek
       - name: Log in to Kane
         run: kane-cli login --username "${{ secrets.LT_USERNAME }}" --access-key "${{ secrets.LT_ACCESS_KEY }}"
       - name: Start the app
@@ -31,15 +31,15 @@ jobs:
       - name: Restore the previous ledger (incremental mode trusts earlier kills)
         uses: actions/cache@v4
         with:
-          path: .tripwire
-          key: tripwire-${{ github.base_ref }}-${{ github.sha }}
-          restore-keys: tripwire-${{ github.base_ref }}-
-      - name: Run Tripwire on what changed
-        run: tripwire run --since origin/${{ github.base_ref }}
+          path: .mutek
+          key: mutek-${{ github.base_ref }}-${{ github.sha }}
+          restore-keys: mutek-${{ github.base_ref }}-
+      - name: Run Mutek on what changed
+        run: mutek run --since origin/${{ github.base_ref }}
       - name: Gate on the score
-        run: tripwire check
+        run: mutek check
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: tripwire-report
-          path: .tripwire/report/
+          name: mutek-report
+          path: .mutek/report/

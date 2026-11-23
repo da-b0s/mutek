@@ -21,10 +21,10 @@ before(async () => {
   work = fs.mkdtempSync(path.join(os.tmpdir(), 'tw-fix-'));
   cwd0 = process.cwd();
   process.chdir(work);
-  process.env.TRIPWIRE_KANE = `"${process.execPath}" "${path.join(here, 'fake-kane.mjs')}"`;
-  process.env.TRIPWIRE_AGENT_CMD = `"${process.execPath}" "${path.join(here, 'fake-agent.mjs')}"`;
+  process.env.MUTEK_KANE = `"${process.execPath}" "${path.join(here, 'fake-kane.mjs')}"`;
+  process.env.MUTEK_AGENT_CMD = `"${process.execPath}" "${path.join(here, 'fake-agent.mjs')}"`;
   process.env.FAKE_BASE = `http://localhost:${port}`;
-  fs.writeFileSync('tripwire.config.json', JSON.stringify({ app: shop.url, port, reset: { url: shop.url + '/api/__reset' }, healCheck: false, tests: 'tests/*_test.md' }));
+  fs.writeFileSync('mutek.config.json', JSON.stringify({ app: shop.url, port, reset: { url: shop.url + '/api/__reset' }, healCheck: false, tests: 'tests/*_test.md' }));
   fs.mkdirSync('tests');
   fs.writeFileSync('tests/cart_test.md', '## Add\nAdd the pour-over set to the cart.\n');
   fs.writeFileSync('tests/cart_test.fake.json', JSON.stringify({ expectTotal: 39.49, steps: [
@@ -34,10 +34,10 @@ before(async () => {
   assert.equal(await run(['--only', 'number-drift'], parseArgs), 0);
 });
 
-after(() => { process.chdir(cwd0); shop.stop(); delete process.env.TRIPWIRE_KANE; delete process.env.TRIPWIRE_AGENT_CMD; delete process.env.FAKE_AGENT_MODE; });
+after(() => { process.chdir(cwd0); shop.stop(); delete process.env.MUTEK_KANE; delete process.env.MUTEK_AGENT_CMD; delete process.env.FAKE_AGENT_MODE; });
 
-const rowFor = (id) => latest(readLedger('.tripwire'), lastRunId(readLedger('.tripwire'))).find((r) => r.id === id);
-const fixes = () => fs.readFileSync('.tripwire/fixes.jsonl', 'utf8').trim().split('\n').map((l) => JSON.parse(l));
+const rowFor = (id) => latest(readLedger('.mutek'), lastRunId(readLedger('.mutek'))).find((r) => r.id === id);
+const fixes = () => fs.readFileSync('.mutek/fixes.jsonl', 'utf8').trim().split('\n').map((l) => JSON.parse(l));
 
 test('appendOnly accepts one new step and nothing else', () => {
   const base = '---\nurl: x\n---\n## A\nDo a.\n';
@@ -85,11 +85,11 @@ test('a real assertion is proven: passes on the real app, fails on the broken on
   assert.equal(f.proof.clean.code, 0);
   assert.equal(f.proof.mutant.code, 1);
   assert.match(fs.readFileSync('tests/cart_test.md', 'utf8'), /## Check the total/);
-  assert.match(fs.readFileSync('.tripwire/lessons.md', 'utf8'), /displayed total/);
+  assert.match(fs.readFileSync('.mutek/lessons.md', 'utf8'), /displayed total/);
   const fixedRow = rowFor(TOTAL_ID);
   assert.equal(fixedRow.status, 'killed');
   assert.equal(fixedRow.fixed, true, 'the proven fix supersedes the survivor in the same run');
-  assert.match(fs.readFileSync('.tripwire/report/index.html', 'utf8'), /for the first-draft suite/);
+  assert.match(fs.readFileSync('.mutek/report/index.html', 'utf8'), /for the first-draft suite/);
   // and a fresh run now kills it
   assert.equal(await run(['--only', 'number-drift'], parseArgs), 0);
   assert.equal(rowFor(TOTAL_ID).status, 'killed');

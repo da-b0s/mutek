@@ -34,7 +34,7 @@ export function profileEntry(test, traffic, dom) {
   };
 }
 
-// Which baseline tests touched which routes and controls (written to .tripwire/traffic.json).
+// Which baseline tests touched which routes and controls (written to .mutek/traffic.json).
 export function summarize(profile) {
   return profile.tests.map((t) => ({
     test: t.test,

@@ -1,6 +1,6 @@
 // Saboteur: domain-specific mutants proposed by the coding agent from the acceptance criteria and
 // test files ("coupon stacks", "free shipping off by one", "past dates accepted"), expressed in the
-// same definition format as every other mutant. `tripwire sabotage` writes them to .tripwire/saboteur.json.
+// same definition format as every other mutant. `mutek sabotage` writes them to .mutek/saboteur.json.
 import fs from 'node:fs';
 import path from 'node:path';
 import { touchingRoute, touchingControl, mutant } from './_util.js';
@@ -26,7 +26,7 @@ export default {
   family: 'saboteur',
   summary: 'Domain rules from the acceptance criteria, broken on purpose and expressed as response rewrites.',
   generate(profile, ctx = {}) {
-    const { mutants } = loadSaboteur(ctx.dir || '.tripwire');
+    const { mutants } = loadSaboteur(ctx.dir || '.mutek');
     return mutants.map((m) => {
       let touches = m.touches_tests;
       if (!touches || !touches.length) {

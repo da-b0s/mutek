@@ -1,5 +1,5 @@
 {
-  "name": "tripwire-monorepo",
+  "name": "mutek-monorepo",
   "private": true,
   "version": "0.1.0",
   "description": "Mutation testing for Kane CLI browser suites: break the app on purpose, see whether the tests notice.",
@@ -10,8 +10,8 @@
   ],
   "scripts": {
     "shop": "npm --workspace demo/shop start",
-    "proxy": "node packages/cli/bin/tripwire.js proxy --target http://localhost:3000 --port 8080",
-    "demo": "node packages/cli/bin/tripwire.js demo",
+    "proxy": "node packages/cli/bin/mutek.js proxy --target http://localhost:3000 --port 8080",
+    "demo": "node packages/cli/bin/mutek.js demo",
     "test": "node --test \"packages/cli/test/*.test.js\"",
     "report:publish": "node site/publish.mjs"
   },

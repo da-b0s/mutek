@@ -1,4 +1,4 @@
-// Injected by the Tripwire proxy when an interface mutant is armed.
+// Injected by the Mutek proxy when an interface mutant is armed.
 // window.__TW_MUTANT = { id, op, target: { role, text, count? }, ... } is set just before this script.
 // The change is re-applied whenever the page re-renders, and the proxy is told once it really fired.
 (function () {

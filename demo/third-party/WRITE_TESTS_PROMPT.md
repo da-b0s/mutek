@@ -1,9 +1,9 @@
 # Prompt used to create the TodoMVC suite
 
 Written by a separate, fresh Claude Code session (`claude -p`, with the official kane-cli skill)
-in an empty folder outside this repository, so it could not see Tripwire or this file. The app is
+in an empty folder outside this repository, so it could not see Mutek or this file. The app is
 the unmodified TodoMVC "JavaScript ES5" example (github.com/tastejs/todomvc, MIT), served by
-`serve.js`. The prompt does not mention Tripwire, mutation testing or test strength. The tests and
+`serve.js`. The prompt does not mention Mutek, mutation testing or test strength. The tests and
 recordings were copied into `tests/` unchanged.
 
 Allowed tools: Read, Write, Edit, Glob, Grep, and Bash limited to `kane-cli` and `ls`.

@@ -1,12 +1,13 @@
 node_modules/
 **/.testmuai/evidence/
 **/.testmuai/sessions/
-**/.tripwire/runs/
+**/.mutek/runs/
 *.log
 .env
 .env.*
 !.env.example
 .DS_Store
-**/.tripwire/.stop-hook-blocks
+**/.mutek/.stop-hook-blocks
 **/.tw-snap-*/
 demo/video/shop/
+video-raw/

@@ -1,6 +1,6 @@
-// Tripwire demo shop: a small API-driven store (no build step, no dependencies).
+// Mutek demo shop: a small API-driven store (no build step, no dependencies).
 // The UI in public/ talks to the JSON API below, which is exactly the traffic
-// Tripwire mutates. State is in memory; POST /api/__reset restores the seed so
+// Mutek mutates. State is in memory; POST /api/__reset restores the seed so
 // every Kane run starts from the same place.
 import http from 'node:http';
 import fs from 'node:fs';

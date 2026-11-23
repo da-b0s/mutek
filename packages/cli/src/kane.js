@@ -7,7 +7,7 @@ const isWin = process.platform === 'win32';
 const quote = (a) => (/^[\w./:=@-]+$/.test(a) ? a : `"${String(a).replace(/"/g, '\\"')}"`);
 
 export function kaneBin() {
-  return process.env.TRIPWIRE_KANE || 'kane-cli';
+  return process.env.MUTEK_KANE || 'kane-cli';
 }
 
 // Run kane-cli with stdin closed (non-TTY => NDJSON, no prompts). Our own kill timer guards against
@@ -16,7 +16,7 @@ export function runKane(args, { cwd = process.cwd(), killAfterMs = 240000, logFi
   return new Promise((resolve) => {
     const started = Date.now();
     const bin = kaneBin();
-    // TRIPWIRE_KANE may be a whole command ("node fake-kane.mjs"); then it is used as written.
+    // MUTEK_KANE may be a whole command ("node fake-kane.mjs"); then it is used as written.
     const useShell = isWin || /\s/.test(bin);
     const cmd = [/\s/.test(bin) ? bin : quote(bin), ...args.map(quote)].join(' ');
     const child = useShell

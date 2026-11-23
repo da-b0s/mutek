@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tripwire report</title>
+<title>Mutek report</title>
 <style>
 :root{--bg:#f6f5f1;--surface:#fff;--ink:#1c1b19;--muted:#66625b;--line:#e2ded5;--killed:#2e7d32;--survived:#c62828;--masked:#8e24aa;--nr:#6d6d6d;--accent:#2f5d50}
 @media (prefers-color-scheme:dark){:root{--bg:#141412;--surface:#1d1c1a;--ink:#ecebe7;--muted:#a19d95;--line:#33312d;--killed:#66bb6a;--survived:#ef5350;--masked:#ce93d8;--nr:#9e9e9e;--accent:#7fb7a5}}
@@ -24,9 +24,9 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 .note{color:var(--muted);font-size:.9rem;max-width:70ch}
 </style></head><body><main>
 <section class="top">
-  <div><h1>Tripwire</h1><p class="sub">Would the tests fail if the app were broken? Run 2026-11-19T23-23-39 · commit 241681f</p>
+  <div><h1>Mutek</h1><p class="sub">Would the tests fail if the app were broken? Run 2026-11-19T23-23-39 · commit 241681f</p>
   <div class="score" aria-label="mutation score">100%</div><p class="sub">of reachable bugs caught (killed ÷ killed + survived + masked)</p>
-  <p class="sub"><strong>94.1%</strong> for the first-draft suite → <strong>100%</strong> after <code>tripwire fix</code> strengthened 1 test, each proven by Kane: pass on the real app, fail on the broken one.</p></div>
+  <p class="sub"><strong>94.1%</strong> for the first-draft suite → <strong>100%</strong> after <code>mutek fix</code> strengthened 1 test, each proven by Kane: pass on the real app, fail on the broken one.</p></div>
   <div class="counts">
     <div class="count killed"><b>17</b>killed</div>
     <div class="count survived"><b>0</b>survived</div>
@@ -52,7 +52,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 
 
 <h2>How Kane's triage read the planted bugs</h2>
-<p class="note">Every mutant below was a real break in the app. Kane triaged 14 of the failing runs; it attributed <strong>14</strong> of them to the test rather than the product (typically "locator rot": the page changed, so the recording looks stale). From inside a single run a broken app and an outdated test look alike; Tripwire is the outside reference that tells them apart. Treat a triage of "automation bug" on a release branch as a prompt to look, not as a reason to re-record.</p>
+<p class="note">Every mutant below was a real break in the app. Kane triaged 14 of the failing runs; it attributed <strong>14</strong> of them to the test rather than the product (typically "locator rot": the page changed, so the recording looks stale). From inside a single run a broken app and an outdated test look alike; Mutek is the outside reference that tells them apart. Treat a triage of "automation bug" on a release branch as a prompt to look, not as a reason to re-record.</p>
 
 <h2>Caught (17)</h2>
 <details><summary>Show all 17 killed mutants</summary><div class="grid">
@@ -88,7 +88,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (98%). The app really was broken: this was a product bug.</p>
-      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (0719fb32-4877-4a87-9ccb-a49efe60741c / ac779f32-fac6-49ef-a82a-04be015b4e51).</p>
+      <p class="fixed">Fixed by <code>mutek fix</code>: clean run passed, mutant run failed (0719fb32-4877-4a87-9ccb-a49efe60741c / ac779f32-fac6-49ef-a82a-04be015b4e51).</p>
       
       <details><summary>Mutant id</summary><code>rendered-item-drop:&quot;Buy milk&quot;</code></details>
     </article>
@@ -100,7 +100,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (98%). The app really was broken: this was a product bug.</p>
-      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (5daef828-0f2e-4d00-aec0-8a37a04ed519 / f8daa4ca-f366-4f0c-b17d-fa2d6fd52fdd).</p>
+      <p class="fixed">Fixed by <code>mutek fix</code>: clean run passed, mutant run failed (5daef828-0f2e-4d00-aec0-8a37a04ed519 / f8daa4ca-f366-4f0c-b17d-fa2d6fd52fdd).</p>
       
       <details><summary>Mutant id</summary><code>rendered-item-drop:&quot;Walk the dog&quot;</code></details>
     </article>
@@ -124,7 +124,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       
-      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (631bc2f7-5985-4b6a-ba41-21ec49dd0d85 / ea2d1a15-f92c-4fc2-8ce7-aceb21033692).</p>
+      <p class="fixed">Fixed by <code>mutek fix</code>: clean run passed, mutant run failed (631bc2f7-5985-4b6a-ba41-21ec49dd0d85 / ea2d1a15-f92c-4fc2-8ce7-aceb21033692).</p>
       
       <details><summary>Mutant id</summary><code>rendered-item-dup:&quot;Read a book&quot;</code></details>
     </article>
@@ -160,7 +160,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       
-      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (c13e82f8-8790-4466-a3cc-3e42080bc82d / 9a0240e8-bce2-42d3-8257-82f0cc0aaba3).</p>
+      <p class="fixed">Fixed by <code>mutek fix</code>: clean run passed, mutant run failed (c13e82f8-8790-4466-a3cc-3e42080bc82d / 9a0240e8-bce2-42d3-8257-82f0cc0aaba3).</p>
       
       <details><summary>Mutant id</summary><code>text-change:heading:&quot;todos&quot;</code></details>
     </article>
@@ -256,7 +256,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
       
       
       <p class="triage">Kane's triage of the failure: <strong>application issue</strong> / ui state mismatch (96%). The app really was broken: this was a product bug.</p>
-      <p class="fixed">Fixed by <code>tripwire fix</code>: clean run passed, mutant run failed (2c26e3f5-389a-43e7-8d02-0a585a0b7291 / 8374bf34-8fa4-408a-9d96-82639e7ca31f).</p>
+      <p class="fixed">Fixed by <code>mutek fix</code>: clean run passed, mutant run failed (2c26e3f5-389a-43e7-8d02-0a585a0b7291 / 8374bf34-8fa4-408a-9d96-82639e7ca31f).</p>
       
       <details><summary>Mutant id</summary><code>rendered-item-dup:&quot;Buy oat milk&quot;</code></details>
     </article></div></details>
@@ -268,7 +268,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 
 
 <h2>Excluded as equivalent (0)</h2>
-<p class="note">None. Mutants are excluded only with a human-approved reason in <code>.tripwire/equivalents.json</code>.</p>
+<p class="note">None. Mutants are excluded only with a human-approved reason in <code>.mutek/equivalents.json</code>.</p>
 
 <h2>Strengthened tests (5 of 5 attempts)</h2><table><thead><tr><th>Mutant</th><th>Test</th><th>Result</th><th>Attempts</th></tr></thead><tbody><tr><td>The &quot;Buy milk&quot; row is missing from the list</td><td><code>tests/add_todos_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>The &quot;Walk the dog&quot; row is missing from the list</td><td><code>tests/add_todos_test.md</code></td><td>killed</td><td>2</td></tr><tr><td>The &quot;Read a book&quot; row appears twice in the list</td><td><code>tests/add_todos_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>The &quot;Buy oat milk&quot; row appears twice in the list</td><td><code>tests/edit_todo_test.md</code></td><td>killed</td><td>1</td></tr><tr><td>The heading &quot;todos&quot; reads &quot;Something went wrong&quot;</td><td><code>tests/add_todos_test.md</code></td><td>killed</td><td>1</td></tr></tbody></table>
 
@@ -285,5 +285,5 @@ details{margin-top:8px;font-size:.8rem;color:var(--muted)}code{font-family:ui-mo
 <p>17 mutants · 46.19 minutes of Kane runs (163s per mutant). Replays run from Kane's cache with healing off.</p>
 
 <h2>What this does not measure</h2>
-<p class="note">Tripwire mutates traffic and the rendered page, not source code. It tells you whether the suite notices breakage a user would see. It does not replace unit-level mutation testing, and it cannot see server-side effects that never reach the browser.</p>
+<p class="note">Mutek mutates traffic and the rendered page, not source code. It tells you whether the suite notices breakage a user would see. It does not replace unit-level mutation testing, and it cannot see server-side effects that never reach the browser.</p>
 </main></body></html>

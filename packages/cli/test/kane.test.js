@@ -22,7 +22,7 @@ test('runTest retries a transient failure with backoff, then runs the test', asy
   fs.writeFileSync(path.join(dir, 'a_test.md'), '## A\nDo a.\n');
   fs.writeFileSync(path.join(dir, 'a_test.fake.json'), JSON.stringify({ steps: [] }));
   const counter = path.join(dir, 'count');
-  process.env.TRIPWIRE_KANE = `"${process.execPath}" "${path.join(here, 'fake-kane.mjs')}"`;
+  process.env.MUTEK_KANE = `"${process.execPath}" "${path.join(here, 'fake-kane.mjs')}"`;
   process.env.FAKE_TRANSIENT = `${counter}|2`;
   process.env.FAKE_BASE = 'http://127.0.0.1:9';
   const retries = [];
@@ -32,7 +32,7 @@ test('runTest retries a transient failure with backoff, then runs the test', asy
     assert.equal(r.code, 0);
     assert.equal(r.transient, false);
   } finally {
-    delete process.env.FAKE_TRANSIENT; delete process.env.TRIPWIRE_KANE;
+    delete process.env.FAKE_TRANSIENT; delete process.env.MUTEK_KANE;
   }
 });
 
