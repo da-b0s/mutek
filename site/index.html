@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mutek · Would your tests fail if the app were broken?</title>
 <meta name="description" content="Mutek breaks your app one realistic way at a time, replays your Kane CLI suite against each broken version, and proves every fix: pass on the real app, fail on the broken one.">
-<meta name="theme-color" content="#d8d8d6">
+<meta name="theme-color" content="#a8bf72">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Cpath d='M4 18h9m6 0h9' stroke='%23ddd' stroke-width='3'/%3E%3Cpath d='M13 18l3-5 3 5' fill='none' stroke='%23ddd' stroke-width='3'/%3E%3C/svg%3E">
 <style>
 :root {
-  --paper: #d8d8d6; --paper-2: #cbcbc8; --ink: #111111; --ink-2: #3a3a3a; --ink-3: #6a6a68;
+  --paper: #a8bf72; --paper-2: #97ae62; --ink: #111111; --ink-2: #29321b; --ink-3: #3f4b27;
   --night: #121212; --night-2: #1b1b1b; --night-line: #2e2e2e; --chalk: #e6e6e3; --chalk-2: #a3a3a0;
   --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
@@ -85,7 +85,7 @@ h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(32px, 4vw, 48
 .tg[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .tg::before { content: "○ "; font-family: var(--mono); }
 .tg[aria-pressed="true"]::before { content: "● "; }
-.cart { background: #fff; border: 1px solid #bdbdba; padding: 14px 16px; font-size: 14px; }
+.cart { background: #fff; border: 1px solid #7e9349; padding: 14px 16px; font-size: 14px; }
 .cart .t { font: 700 15px var(--serif); margin-bottom: 4px; }
 .cart .row { display: flex; gap: 10px; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed #c9c9c6; }
 .cart .row span:first-child { flex: 1; }
@@ -109,14 +109,14 @@ h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(32px, 4vw, 48
 .ev .n { font-family: var(--serif); font-size: 54px; line-height: 1; color: var(--chalk-2); }
 .ev h3 { font-family: var(--serif); font-weight: 500; font-size: 25px; line-height: 1.2; margin: 0 0 10px; }
 .ev p { margin: 0; color: var(--chalk-2); font-size: 16px; }
-.ev figure { margin: 0; background: #e9e9e7; padding: 12px; }
+.ev figure { margin: 0; background: #c3d29b; padding: 12px; }
 .ev figure img { filter: grayscale(1); margin: 0 auto; max-height: 230px; }
 .ev blockquote { margin: 0; border-left: 3px solid var(--chalk); padding: 6px 0 6px 18px; font: italic 19px/1.5 var(--serif); color: var(--chalk); }
 .ev blockquote cite { display: block; margin-top: 10px; font: normal 12px var(--mono); color: var(--chalk-2); letter-spacing: .04em; }
 
 /* method */
 .method { counter-reset: m; list-style: none; padding: 0; margin: 0; border-top: 2px solid var(--ink); }
-.method li { display: grid; grid-template-columns: 120px 260px 1fr; gap: 24px; padding: 20px 0; border-bottom: 1px solid #a9a9a6; align-items: baseline; }
+.method li { display: grid; grid-template-columns: 120px 260px 1fr; gap: 24px; padding: 20px 0; border-bottom: 1px solid #7e9349; align-items: baseline; }
 .method li::before { counter-increment: m; content: "step " counter(m); font: 600 13px var(--mono); color: var(--ink-3); text-transform: uppercase; letter-spacing: .1em; }
 .method b { font-family: var(--serif); font-weight: 600; font-size: 21px; }
 .method span { color: var(--ink-2); }
@@ -147,7 +147,7 @@ h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(32px, 4vw, 48
 .tables { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
 .tables h3 { font-family: var(--serif); font-weight: 600; font-size: 21px; margin: 0 0 10px; }
 table { width: 100%; border-collapse: collapse; font-size: 15px; }
-th, td { text-align: left; padding: 9px 4px; border-bottom: 1px solid #a9a9a6; }
+th, td { text-align: left; padding: 9px 4px; border-bottom: 1px solid #7e9349; }
 th { font: 600 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); border-bottom: 2px solid var(--ink); }
 td.n { font-variant-numeric: tabular-nums; font-family: var(--mono); white-space: nowrap; }
 .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
