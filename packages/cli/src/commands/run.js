@@ -7,7 +7,7 @@ import { createProxy, proxyClient, PROXY_CODE } from '../proxy.js';
 import { loadConfig, findTests } from '../config.js';
 import { runTest, verdict, metricFromVerdict, balance } from '../kane.js';
 import { profileEntry, summarize, lineCounts } from '../profile.js';
-import { generateAll, select } from '../../operators/index.js';
+import { generateAll, select, parseOnly } from '../../operators/index.js';
 import { appendLedger, readLedger, latest, lastRunId, score } from '../ledger.js';
 import { writeReport } from '../report.js';
 import { findOrphanKaneBrowsers } from '../orphans.js';
@@ -94,6 +94,7 @@ export default async function run(argv, parseArgs) {
   if (values.timeout) cfg.timeout = Number(values.timeout);
   if (values['heal-budget']) cfg.healBudget = Number(values['heal-budget']);
   if (values['no-heal-check']) cfg.healCheck = false;
+  const only = parseOnly(values.only);
   const dir = path.resolve(cfg.dir);
   fs.mkdirSync(dir, { recursive: true });
   // --retry-errors: re-run only the mutants that ended in a Kane error (exit 2/3) in the last run,
@@ -129,7 +130,7 @@ export default async function run(argv, parseArgs) {
 
   if (values['dry-run']) {
     const profile = JSON.parse(fs.readFileSync(path.join(dir, 'traffic.json'), 'utf8'));
-    const plan = plan_(profile, cfg, dir, values.only);
+    const plan = plan_(profile, cfg, dir, only);
     for (const m of plan.picked) console.log(`${m.family.padEnd(10)} ${m.operator.padEnd(19)} ${m.describe}  [${m.touches_tests.join(', ')}]`);
     console.log(`\n${plan.picked.length} of ${plan.candidates.length} candidates selected (${plan.excluded.length} excluded as equivalent)`);
     return 0;
@@ -172,7 +173,7 @@ export default async function run(argv, parseArgs) {
     if (noChecks.length) console.log(`\n${noChecks.length} test(s) assert nothing at all: ${noChecks.map((b) => b.test).join(', ')}`);
 
     // ---------- 2. generate ----------
-    const plan = plan_(profile, cfg, dir, values.only);
+    const plan = plan_(profile, cfg, dir, only);
     const { candidates, excluded, counts } = plan;
     // when resuming, replay exactly the mutants the interrupted run had picked
     const picked = resumeFrom ? resumeFrom.picked.map((id) => candidates.find((m) => m.id === id)).filter(Boolean) : plan.picked;
@@ -241,7 +242,7 @@ export default async function run(argv, parseArgs) {
 function plan_(profile, cfg, dir, only) {
   const eqFile = path.join(dir, 'equivalents.json');
   const excludedIds = new Set(fs.existsSync(eqFile) ? JSON.parse(fs.readFileSync(eqFile, 'utf8')).map((e) => e.id) : []);
-  const { candidates, excluded, counts } = generateAll(profile, { dir, only: only ? only.split(',') : undefined, excluded: excludedIds });
+  const { candidates, excluded, counts } = generateAll(profile, { dir, only, excluded: excludedIds });
   return { candidates, excluded, counts, picked: select(candidates, cfg.maxMutants) };
 }
 

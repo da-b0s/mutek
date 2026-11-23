@@ -28,6 +28,18 @@ export const OPERATORS = [
   agentProposed
 ];
 
+// --only: operator names or families, separated by commas or spaces. PowerShell turns an unquoted
+// a,b into a list that npm's launcher passes on as "a b", so both separators are accepted.
+// Unknown names throw, so a typo stops the run before the baseline instead of replaying nothing.
+export function parseOnly(only) {
+  if (only == null || only === '') return undefined;
+  const names = String(only).split(/[\s,]+/).filter(Boolean);
+  const known = new Set(OPERATORS.flatMap((op) => [op.name, op.family]));
+  const unknown = names.filter((n) => !known.has(n));
+  if (unknown.length) throw new Error(`--only: unknown operator or family "${unknown.join('", "')}". Run \`mutek list\` to see them.`);
+  return names;
+}
+
 // Generate every candidate, merge duplicates (same id from several tests), drop excluded equivalents.
 export function generateAll(profile, { dir = '.mutek', only, excluded = new Set() } = {}) {
   const byId = new Map();

@@ -119,6 +119,11 @@ export default async function fix(argv, parseArgs) {
   const only = values.only ? new Set(values.only.split(',')) : null;
   let todo = latest(rows, lastRunId(rows)).filter((r) => (r.status === 'survived' || r.status === 'masked') && (!only || only.has(r.id)));
   if (values.limit) todo = todo.slice(0, Number(values.limit));
+  if (!todo.length && only) {
+    const ids = latest(rows, lastRunId(rows)).filter((r) => r.status === 'survived' || r.status === 'masked').map((r) => r.id);
+    console.log(`Nothing matches --only ${[...only].join(',')}. Survivors in the latest run:${ids.length ? '\n  ' + ids.join('\n  ') : ' none'}`);
+    return ids.length ? 1 : 0;
+  }
   if (!todo.length) { console.log('Nothing to fix: no survivors in the latest run.'); return 0; }
   const fixDir = path.join(dir, 'fix');
   fs.mkdirSync(fixDir, { recursive: true });

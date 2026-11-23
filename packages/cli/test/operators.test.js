@@ -88,3 +88,12 @@ test('json ops', () => {
   assert.equal(applyJsonOps(body, [{ op: 'add', path: '$.nope', value: 1 }]).changed, false);
   assert.equal(body.total, 10, 'input is not modified');
 });
+
+test('--only accepts commas or spaces and rejects unknown names', async () => {
+  const { parseOnly } = await import('../operators/index.js');
+  assert.deepEqual(parseOnly('number-drift,wrong-owner'), ['number-drift', 'wrong-owner']);
+  assert.deepEqual(parseOnly('number-drift wrong-owner'), ['number-drift', 'wrong-owner']);
+  assert.deepEqual(parseOnly('data, interface'), ['data', 'interface']);
+  assert.equal(parseOnly(undefined), undefined);
+  assert.throws(() => parseOnly('number-drift,wrong-ownr'), /unknown operator or family "wrong-ownr"/);
+});
