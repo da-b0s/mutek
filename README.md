@@ -2,6 +2,8 @@
 
 **Break the app on purpose to find out whether a green Kane suite means anything.**
 
+▶ **[Watch the 3-minute demo](https://youtu.be/RoSAEA-Eu94)**
+
 Coding agents write the app and its tests, and they are very good at writing tests that pass.
 A passing end-to-end test only matters if it would have failed when the app was broken, and
 nobody checks that. Mutek does.
@@ -58,7 +60,7 @@ because it re-reads the data). They stay in the score: only a person can exclude
   4 *proven but unguarded* (tests check them, a bug that broke them got past), 3 untouched by any
   mutant, 7 owed (no test checks them).
 
-Website: https://da-b0s.github.io/mutek/ · Reports: [shop](https://da-b0s.github.io/mutek/shop/) · [TodoMVC](https://da-b0s.github.io/mutek/todomvc/)
+Website: https://da-b0s.github.io/mutek/ · Demo video: https://youtu.be/RoSAEA-Eu94 · Reports: [shop](https://da-b0s.github.io/mutek/shop/) · [TodoMVC](https://da-b0s.github.io/mutek/todomvc/)
 (each survivor with a screenshot of the broken page the suite passed on, Kane's triage of every
 failure, every fix and lesson). Full measurements and findings: [NOTES.md](NOTES.md).
 
